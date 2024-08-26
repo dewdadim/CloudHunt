@@ -11,6 +11,7 @@
     @inertiaHead
   </head>
   <body>
+    <div class="noise -z-50"></div>
     @inertia
   </body>
 </html>

@@ -1,5 +1,6 @@
 import './bootstrap'
 import '../css/app.css'
+import '../css/noise.css'
 
 import { createApp, DefineComponent, h } from 'vue'
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
@@ -19,5 +20,11 @@ createInertiaApp({
       .component('Head', Head)
       .component('Link', Link)
       .mount(el)
+  },
+  progress: {
+    delay: 250,
+    color: '#F9BF3B',
+    includeCSS: true,
+    showSpinner: false,
   },
 })
