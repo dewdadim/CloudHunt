@@ -18,9 +18,9 @@ import SocialLinkButton from '@/components/SocialAuth.vue'
 <template>
   <MaxWidthWrapper class="flex h-screen flex-col justify-start pt-10 md:pt-24">
     <main>
-      <div class="flex w-full justify-center py-8">
+      <Link :href="route('home')" class="flex w-full justify-center py-8">
         <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
-      </div>
+      </Link>
       <Card class="mx-auto max-w-lg shadow-none md:min-w-[500px]">
         <CardHeader class="items-center">
           <CardTitle class="text-xl"> Login to RunCloud Edu </CardTitle>
