@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Link } from '@inertiajs/vue3'
+import { route } from '../../../vendor/tightenco/ziggy/src/js'
 
 const add = (x: number, y: number) => {
   return x + y
@@ -81,7 +83,7 @@ const data = reactive({
         </CardContent>
         <CardFooter class="flex justify-between px-6 pb-6">
           <Button variant="outline"> Cancel </Button>
-          <Button>Deploy</Button>
+          <Link :href="route('register')"><Button>Deploy</Button></Link>
         </CardFooter>
       </Card>
       <div>
