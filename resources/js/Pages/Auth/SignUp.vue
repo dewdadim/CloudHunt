@@ -28,11 +28,13 @@ const submit = () => {
 </script>
 
 <template>
-  <MaxWidthWrapper class="flex h-screen flex-col justify-start pt-10 md:pt-24">
-    <main>
-      <Link :href="route('home')" class="flex w-full justify-center py-8">
-        <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
-      </Link>
+  <MaxWidthWrapper class="h-screen pt-10 md:pt-24">
+    <main class="flex flex-col items-center">
+      <div class="mb-6 w-fit">
+        <Link :href="route('home')">
+          <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
+        </Link>
+      </div>
       <Card class="mx-auto max-w-lg shadow-none md:min-w-[500px]">
         <CardHeader class="items-center">
           <CardTitle class="text-xl"> Sign Up to RunCloud Edu </CardTitle>

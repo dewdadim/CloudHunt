@@ -6,8 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Separator } from '@/components/ui/separator'
@@ -29,11 +27,13 @@ function submit() {
 </script>
 
 <template>
-  <MaxWidthWrapper class="flex h-screen flex-col justify-start pt-10 md:pt-24">
-    <main>
-      <Link :href="route('home')" class="flex w-full justify-center py-8">
-        <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
-      </Link>
+  <MaxWidthWrapper class="h-screen pt-10 md:pt-24">
+    <main class="flex flex-col items-center">
+      <div class="mb-6 w-fit">
+        <Link :href="route('home')">
+          <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
+        </Link>
+      </div>
       <Card class="mx-auto max-w-lg shadow-none md:min-w-[500px]">
         <CardHeader class="items-center">
           <CardTitle class="text-xl"> Login to RunCloud Edu </CardTitle>
