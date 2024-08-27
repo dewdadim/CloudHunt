@@ -13,6 +13,19 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Separator } from '@/components/ui/separator'
 import { route } from '../../../../vendor/tightenco/ziggy/src/js'
 import SocialLinkButton from '@/components/SocialAuth.vue'
+
+import { useForm } from '@inertiajs/vue3'
+import { Loader2 } from 'lucide-vue-next'
+import FormInput from '@/components/FormInput.vue'
+
+const form = useForm({
+  email: null,
+  password: null,
+})
+
+function submit() {
+  form.post(route('login'))
+}
 </script>
 
 <template>
@@ -30,27 +43,25 @@ import SocialLinkButton from '@/components/SocialAuth.vue'
           <div class="grid gap-8">
             <SocialLinkButton />
             <Separator label="OR" />
-            <div class="grid gap-4">
-              <div class="grid gap-2">
-                <Label for="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="john@example.com"
-                  required
-                />
-              </div>
-              <div class="grid gap-2">
-                <div class="flex items-center">
-                  <Label for="password">Password</Label>
-                  <a href="#" class="ml-auto inline-block text-sm underline">
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input id="password" type="password" placeholder="********" />
-              </div>
-              <Button type="submit" class="w-full"> Login </Button>
-            </div>
+            <form @submit.prevent="submit" class="grid gap-4">
+              <FormInput
+                name="Email"
+                placeholder="name@mail.com"
+                v-model="form.email"
+                :message="form.errors.email"
+              />
+              <FormInput
+                name="Password"
+                type="password"
+                placeholder="********"
+                v-model="form.password"
+                :message="form.errors.password"
+              />
+              <Button type="submit" class="w-full" :disabled="form.processing">
+                <Loader2 v-if="form.processing" class="mr-2 animate-spin" />
+                Login
+              </Button>
+            </form>
           </div>
           <div class="mt-4 text-center text-sm">
             Don't have an account?

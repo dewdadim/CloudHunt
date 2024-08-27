@@ -6,13 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Separator } from '@/components/ui/separator'
 import { route } from '../../../../vendor/tightenco/ziggy/src/js'
 import SocialLinkButton from '@/components/SocialAuth.vue'
+import { Loader2 } from 'lucide-vue-next'
+import FormInput from '@/components/FormInput.vue'
 
 import { useForm } from '@inertiajs/vue3'
 
@@ -22,8 +22,8 @@ const form = useForm({
   password: null,
 })
 
-function submit() {
-  form.post('/signup')
+const submit = () => {
+  form.post(route('signup'))
 }
 </script>
 
@@ -45,35 +45,30 @@ function submit() {
             <SocialLinkButton />
             <Separator label="OR" />
             <form @submit.prevent="submit" class="grid gap-4">
-              <div class="grid gap-2">
-                <Label for="username">Username</Label>
-                <Input
-                  id="username"
-                  v-model="form.username!"
-                  placeholder="johncena"
-                  required
-                />
-              </div>
-              <div class="grid gap-2">
-                <Label for="email">Email</Label>
-                <Input
-                  id="email"
-                  v-model="form.email!"
-                  type="email"
-                  placeholder="john@example.com"
-                  required
-                />
-              </div>
-              <div class="grid gap-2">
-                <Label for="password">Password</Label>
-                <Input
-                  id="password"
-                  v-model="form.password!"
-                  type="password"
-                  placeholder="********"
-                />
-              </div>
-              <Button type="submit" class="w-full"> Create an account </Button>
+              <FormInput
+                name="Username"
+                placeholder="username123"
+                v-model="form.username"
+                :message="form.errors.username"
+              />
+              <FormInput
+                name="Email"
+                type="email"
+                placeholder="name@mail.com"
+                v-model="form.email"
+                :message="form.errors.email"
+              />
+              <FormInput
+                name="Password"
+                type="password"
+                placeholder="********"
+                v-model="form.password"
+                :message="form.errors.password"
+              />
+              <Button type="submit" class="w-full" :disabled="form.processing">
+                <Loader2 v-if="form.processing" class="mr-2 animate-spin" />
+                Create an account
+              </Button>
             </form>
           </div>
           <div class="mt-4 text-center text-sm">

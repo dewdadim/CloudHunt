@@ -8,3 +8,4 @@ Route::inertia('/signup', 'Auth/SignUp')->name('signup');
 Route::inertia('/login', 'Auth/Login')->name('login');
 
 Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/login', [AuthController::class, 'login']);
