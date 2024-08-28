@@ -82,9 +82,9 @@ const data = reactive({
           </form>
         </CardContent>
         <CardFooter class="flex justify-between px-6 pb-6">
-          <Link :href="route('logout')" method="post" as="button"
-            ><Button variant="outline"> Cancel </Button></Link
-          >
+          <Link :href="route('logout')" method="post" as="button">
+            <Button variant="outline"> Cancel </Button>
+          </Link>
           <Link :href="route('signup')"><Button>Deploy</Button></Link>
         </CardFooter>
       </Card>
