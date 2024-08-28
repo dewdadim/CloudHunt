@@ -20,8 +20,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Link } from '@inertiajs/vue3'
-import { route } from '../../../vendor/tightenco/ziggy/src/js'
-
 const add = (x: number, y: number) => {
   return x + y
 }

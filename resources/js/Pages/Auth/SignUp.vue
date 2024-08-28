@@ -9,7 +9,6 @@ import {
 import { Button } from '@/components/ui/button'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Separator } from '@/components/ui/separator'
-import { route } from '../../../../vendor/tightenco/ziggy/src/js'
 import SocialLinkButton from '@/components/SocialAuth.vue'
 import { Loader2 } from 'lucide-vue-next'
 import FormInput from '@/components/FormInput.vue'
