@@ -22,7 +22,9 @@ const form = useForm({
 })
 
 const submit = () => {
-  form.post(route('signup'))
+  form.post(route('signup'), {
+    replace: true,
+  })
 }
 </script>
 

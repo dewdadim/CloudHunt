@@ -21,7 +21,10 @@ const form = useForm({
 })
 
 function submit() {
-  form.post(route('login'))
+  form.post(route('login'), {
+    replace: true,
+  })
+  // Inertia.post(route('login'))
 }
 </script>
 
