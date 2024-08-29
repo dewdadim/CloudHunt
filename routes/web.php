@@ -14,7 +14,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::middleware(EnsureUserIsOnboarded::class)->group(function () {
+    Route::middleware('onboarded')->group(function () {
         Route::inertia('/', 'Home')->name('home');
     });
     Route::inertia('/onboard', 'Onboard')->name('onboard');
