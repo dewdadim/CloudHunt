@@ -36,7 +36,7 @@ const submit = () => {
           <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
         </Link>
       </div>
-      <Card class="mx-auto max-w-lg shadow-none md:min-w-[500px]">
+      <Card class="mx-auto w-full max-w-lg md:max-w-[500px]">
         <CardHeader class="items-center">
           <CardTitle class="text-xl"> Sign Up to RunCloud Edu </CardTitle>
           <CardDescription>
