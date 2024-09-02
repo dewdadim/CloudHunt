@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function signup(Request $request){
-        sleep(1);
         //validate request
         $fields = $request->validate([
             'username' => ['required', 'min:4', 'max:20', 'unique:users'],
