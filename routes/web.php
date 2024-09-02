@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
 
 
@@ -18,5 +19,7 @@ Route::middleware('auth')->group(function () {
         Route::inertia('/', 'Home')->name('home');
     });
     Route::inertia('/onboard', 'Onboard')->name('onboard');
+    Route::post('/onboard', [UserController::class, 'onboard']);
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

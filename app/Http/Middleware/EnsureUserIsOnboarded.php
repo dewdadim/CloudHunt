@@ -17,7 +17,11 @@ class EnsureUserIsOnboarded
     {
         if($request->user()->full_name == null) {
             return redirect()->route('onboard');
-        }
+        } 
+
+        // if($request->user()->full_name != null) {
+        //     return redirect()->route('home');
+        // } 
 
         return $next($request);
     }

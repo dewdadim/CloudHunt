@@ -43,6 +43,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
                 :href="route('logout')"
                 method="post"
                 as="button"
+                replace
                 class="w-full py-2 hover:bg-slate-200"
               >
                 Logout
