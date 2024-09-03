@@ -45,6 +45,12 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+
+        /*
+        *   TODO:
+        *   1. Check if account exist. Return error if not exist
+        *   2. Check if password correct. Return error if password incorrect
+        */
     }
 
     public function logout(Request $request){
