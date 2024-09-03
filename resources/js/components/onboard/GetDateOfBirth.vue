@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from '../ui/button'
 import { Label } from '@/components/ui/label'
-import { Calendar } from '@/components/ui/calendar'
+// import { Calendar } from '@/components/ui/calendar'
 import {
   Popover,
   PopoverContent,
@@ -18,45 +18,51 @@ import {
   type DateValue,
   getLocalTimeZone,
 } from '@internationalized/date'
+import Calender from './Calender.vue'
+import FormInput from '../FormInput.vue'
+import { Input } from '../ui/input'
 
 // Define props with the FormData interface and errors type
-defineProps<{
-  form: FormData
+const props = defineProps<{
+  form: Onboard
   errors: FormErrors
 }>()
 
-const df = new DateFormatter('en-US', {
+const df = new DateFormatter('en-UK', {
   dateStyle: 'long',
 })
 
 const value = ref<DateValue>()
+
+props.form.date_of_birth = value.value?.toString()!
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-lg md:max-w-[500px]">
     <div class="space-y-1">
-      <Label>Enter your date of birth</Label>
+      <!-- <Label>Enter your date of birth</Label> -->
+      <!-- <FormInput
+        name="Enter date of birth"
+        placeholder="Pick a date"
+        :message="errors.date_of_birth as string"
+        v-model="form.date_of_birth"
+      /> -->
       <Popover>
         <PopoverTrigger as-child>
-          <Button
-            variant="outline"
-            :class="
-              cn(
-                'w-full justify-start text-left font-normal',
-                !value && 'text-muted-foreground',
-              )
-            "
-          >
-            <CalendarIcon class="mr-2 h-4 w-4" />
+          <Input v-model="form.date_of_birth as string" />
+          <!-- <CalendarIcon class="mr-2 h-4 w-4" />
             {{
               value
                 ? df.format(value.toDate(getLocalTimeZone()))
                 : 'Pick a date'
-            }}
-          </Button>
+            }} -->
         </PopoverTrigger>
+        <small class="text-destructive" v-if="errors.date_of_birth">{{
+          errors.date_of_birth
+        }}</small>
+
         <PopoverContent class="w-auto p-0">
-          <Calendar v-model="value" initial-focus />
+          <Calender v-model="value" initial-focus />
         </PopoverContent>
       </Popover>
     </div>

@@ -5,7 +5,7 @@ import type { FormData, FormErrors } from '@/Pages/Onboard.vue' // Import the Fo
 
 // Define props with the FormData interface and errors type
 defineProps<{
-  form: FormData
+  form: Onboard
   errors: FormErrors
 }>()
 </script>

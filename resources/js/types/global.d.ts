@@ -8,6 +8,12 @@ declare global {
     axios: AxiosInstance
   }
   const route: typeof ziggyRouteFunction
+  interface Onboard {
+    full_name: string
+    date_of_birth: Date | string
+    occupation: string
+    interest?: string
+  }
 }
 
 declare module '@inertiajs/core' {

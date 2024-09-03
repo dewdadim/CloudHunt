@@ -12,9 +12,10 @@ import { Progress } from '@/components/ui/progress'
 import { ChevronLeft } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import GetDateOfBirth from '@/components/onboard/GetDateOfBirth.vue'
+import { cn } from '@/lib/utils'
 
 export interface FormData {
   full_name: string
@@ -22,16 +23,23 @@ export interface FormData {
   occupation: string
 }
 
-const progress = ref(0)
-
-watchEffect((cleanupFn) => {
-  const timer = setTimeout(() => (progress.value = 25), 500)
-  cleanupFn(() => clearTimeout(timer))
-})
-
 const currentStep = ref(0)
 
-const form = useForm<FormData>({
+// Calculate the progress percentage based on the current step
+const progressPercentage = computed(() => {
+  return ((currentStep.value + 1) / steps.length) * 100
+})
+const progress = ref(progressPercentage)
+
+// watchEffect((cleanupFn) => {
+//   const timer = setTimeout(
+//     () => (progress.value = parseInt(progressPercentage.value.toFixed(0))),
+//     500,
+//   )
+//   cleanupFn(() => clearTimeout(timer))
+// })
+
+const form = useForm<Onboard>({
   full_name: '',
   date_of_birth: '',
   occupation: '',
@@ -40,33 +48,31 @@ const form = useForm<FormData>({
 const steps = [
   { title: 'What is your name?', form: GetFullName },
   { title: 'When is your birthday?', form: GetDateOfBirth },
+  { title: 'Just testt', form: GetFullName },
 ]
 
 const validateCurrentStep = (): boolean => {
   let isValid = true
   const errors: FormErrors = {}
 
-  if (currentStep.value === 0) {
-    if (!form.full_name) {
-      isValid = false
-      errors.full_name = 'First name is required'
-    }
-    if (!form.full_name) {
-      isValid = false
-      errors.full_name = 'Last name is required'
-    }
-  } else if (currentStep.value === 1) {
-    if (!form.date_of_birth) {
-      isValid = false
-      errors.date_of_birth = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(form.date_of_birth)) {
-      isValid = false
-      errors.date_of_birth = 'Email is invalid'
-    }
+  switch (currentStep.value) {
+    case 0:
+      if (!form.full_name) {
+        isValid = false
+        errors.full_name = 'Full name is required'
+      }
+      break
+
+    case 1:
+      if (!form.date_of_birth) {
+        isValid = false
+        errors.date_of_birth = 'Date of birth is required'
+      }
+      break
   }
 
   // Set the errors on the form object
-  form.errors = errors
+  form.errors = errors as Partial<Record<keyof FormData, string>>
 
   return isValid
 }
@@ -97,7 +103,17 @@ const submit = () => {
 <template>
   <MaxWidthWrapper class="h-screen pt-10">
     <div class="mb-16 flex items-center gap-4">
-      <ChevronLeft class="flex-none" :size="28" v-on:click="" />
+      <ChevronLeft
+        :class="
+          cn(
+            'flex-none',
+            !currentStep ? 'cursor-not-allowed' : 'cursor-pointer',
+          )
+        "
+        :size="28"
+        @click="prevStep"
+        :disabled="currentStep"
+      />
       <Progress v-model="progress" class="w-6 grow" />
     </div>
     <main class="flex flex-col items-center gap-2">
