@@ -17,12 +17,6 @@ import { useForm } from '@inertiajs/vue3'
 import GetDateOfBirth from '@/components/onboard/GetDateOfBirth.vue'
 import { cn } from '@/lib/utils'
 
-export interface FormData {
-  full_name: string
-  date_of_birth: string
-  occupation: string
-}
-
 const currentStep = ref(0)
 
 // Calculate the progress percentage based on the current step
@@ -31,17 +25,9 @@ const progressPercentage = computed(() => {
 })
 const progress = ref(progressPercentage)
 
-// watchEffect((cleanupFn) => {
-//   const timer = setTimeout(
-//     () => (progress.value = parseInt(progressPercentage.value.toFixed(0))),
-//     500,
-//   )
-//   cleanupFn(() => clearTimeout(timer))
-// })
-
 const form = useForm<Onboard>({
   full_name: '',
-  date_of_birth: '',
+  date_of_birth: undefined,
   occupation: '',
 })
 
@@ -72,7 +58,7 @@ const validateCurrentStep = (): boolean => {
   }
 
   // Set the errors on the form object
-  form.errors = errors as Partial<Record<keyof FormData, string>>
+  form.errors = errors as Partial<Record<keyof Onboard, string>>
 
   return isValid
 }
@@ -85,7 +71,7 @@ const nextStep = async () => {
   }
 }
 
-export type FormErrors = Partial<Record<keyof FormData, string | string[]>>
+export type FormErrors = Partial<Record<keyof Onboard, string | string[]>>
 
 const prevStep = () => {
   if (currentStep.value > 0) {
@@ -94,6 +80,7 @@ const prevStep = () => {
 }
 
 const submit = () => {
+  form.date_of_birth = new Date(form.date_of_birth).toISOString().split('T')[0]
   form.post(route('onboard'), {
     replace: true,
   })

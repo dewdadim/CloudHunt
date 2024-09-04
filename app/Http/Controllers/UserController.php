@@ -12,6 +12,7 @@ class UserController extends Controller
         //validate request
         $fields = $request->validate([
             'full_name' => ['required', 'min:4', 'max:20'],
+            'date_of_birth' => ['required'],
         ]);
 
         // Get current user

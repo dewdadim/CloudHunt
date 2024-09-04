@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormInput from '../FormInput.vue'
 import { defineProps } from 'vue'
-import type { FormData, FormErrors } from '@/Pages/Onboard.vue' // Import the FormData type
+import type { FormErrors } from '@/Pages/Onboard.vue' // Import the FormData type
 
 // Define props with the FormData interface and errors type
 defineProps<{
@@ -15,8 +15,8 @@ defineProps<{
     <FormInput
       name="Enter your name"
       placeholder="e.g. Nadim Hairi"
-      v-model="form.full_name!"
-      :message="errors.full_name as string"
+      v-model="form.full_name"
+      :message="errors.full_name?.toString()"
     />
   </div>
 </template>

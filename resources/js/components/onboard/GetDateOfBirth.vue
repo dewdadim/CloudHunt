@@ -10,8 +10,7 @@ import {
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 
 import { defineProps } from 'vue'
-import type { FormData, FormErrors } from '@/Pages/Onboard.vue'
-import { cn } from '@/lib/utils'
+import type { FormErrors } from '@/Pages/Onboard.vue'
 import { ref } from 'vue'
 import {
   DateFormatter,
@@ -31,38 +30,30 @@ const props = defineProps<{
 const df = new DateFormatter('en-UK', {
   dateStyle: 'long',
 })
-
-const value = ref<DateValue>()
-
-props.form.date_of_birth = value.value?.toString()!
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-lg md:max-w-[500px]">
     <div class="space-y-1">
-      <!-- <Label>Enter your date of birth</Label> -->
-      <!-- <FormInput
-        name="Enter date of birth"
-        placeholder="Pick a date"
-        :message="errors.date_of_birth as string"
-        v-model="form.date_of_birth"
-      /> -->
-      <Popover>
+      <Label>Enter your birthday</Label>
+      {{ new Date(form.date_of_birth) }}
+      <Popover :modal="true">
         <PopoverTrigger as-child>
-          <Input v-model="form.date_of_birth as string" />
-          <!-- <CalendarIcon class="mr-2 h-4 w-4" />
+          <Button variant="secondary" class="w-full justify-start">
+            <CalendarIcon class="mr-2 h-4 w-4" />
             {{
-              value
-                ? df.format(value.toDate(getLocalTimeZone()))
+              form.date_of_birth
+                ? df.format(form.date_of_birth.toDate(getLocalTimeZone()))
                 : 'Pick a date'
-            }} -->
+            }}
+          </Button>
         </PopoverTrigger>
         <small class="text-destructive" v-if="errors.date_of_birth">{{
           errors.date_of_birth
         }}</small>
 
         <PopoverContent class="w-auto p-0">
-          <Calender v-model="value" initial-focus />
+          <Calender v-model="form.date_of_birth" initial-focus />
         </PopoverContent>
       </Popover>
     </div>

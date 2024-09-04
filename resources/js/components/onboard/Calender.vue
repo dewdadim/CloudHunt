@@ -7,7 +7,7 @@ import {
   useDateFormatter,
   useForwardPropsEmits,
 } from 'radix-vue'
-import { createDecade, createYear, toDate } from 'radix-vue/date'
+import { createYear, toDate, createYearRange } from 'radix-vue/date'
 import {
   type DateValue,
   getLocalTimeZone,
@@ -114,10 +114,9 @@ const formatter = useDateFormatter('en')
           </SelectTrigger>
           <SelectContent class="max-h-[200px]">
             <SelectItem
-              v-for="yearValue in createDecade({
-                dateObj: date,
-                startIndex: -10,
-                endIndex: 10,
+              v-for="yearValue in createYearRange({
+                start: date.set({ year: date.year - 90 }),
+                end: date,
               })"
               :key="yearValue.toString()"
               :value="yearValue.year.toString()"
