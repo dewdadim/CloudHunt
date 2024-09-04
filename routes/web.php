@@ -12,6 +12,12 @@ Route::middleware('guest')->group(function () {
     
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/signup/github', [AuthController::class, 'github'])->name('auth.github');
+    Route::get('/signup/github/redirect', [AuthController::class, 'githubRedirect'])->name('auth.github.redirect');
+
+    Route::get('/signup/google', [AuthController::class, 'google'])->name('auth.google');
+    Route::get('/signup/google/redirect', [AuthController::class, 'googleRedirect'])->name('auth.google.redirect');
 });
 
 Route::middleware('auth')->group(function () {

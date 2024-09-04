@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+
 
 class AuthController extends Controller
 {
@@ -61,5 +65,45 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
  
         return redirect()->route('login');
+    }
+
+    public function github(){
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function githubRedirect(){
+        $user = Socialite::driver('github')->user();
+
+        $user = User::firstOrCreate([
+            'email' => $user->email
+        ], [
+            'full_name' => $user->name,
+            'username' => $user->nickname,
+            'password' => Hash::make(Str::random(24))
+        ]);
+
+        Auth::login($user, true);
+
+        return redirect()->route('home');
+    }
+
+    public function google(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleRedirect(){
+        $user = Socialite::driver('google')->user();
+
+        $user = User::firstOrCreate([
+            'email' => $user->email
+        ], [
+            'full_name' => $user->name,
+            'username' => $user->nickname,
+            'password' => Hash::make(Str::random(24))
+        ]);
+
+        Auth::login($user, true);
+
+        return redirect()->route('home');
     }
 }
