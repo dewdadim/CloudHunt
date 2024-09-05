@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('avatar')->default('/images/pfp.jpg');
             $table->string('full_name')->nullable();
             $table->string('prefer_name')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('interest')->nullable();
             //$table->string('role')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->timestamp('email_verified_at')->nullable();

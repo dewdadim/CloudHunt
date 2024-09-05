@@ -14,6 +14,8 @@ class UserController extends Controller
             'full_name' => ['required', 'min:4', 'max:255'],
             'prefer_name' => ['required', 'min:4', 'max:50'],
             'date_of_birth' => ['required'],
+            'occupation' => ['required'],
+            'interest' => ['required'],
         ]);
 
         // Get current user
@@ -27,6 +29,6 @@ class UserController extends Controller
         $user->save();
 
         // Redirect to route
-        return redirect()->route('home');
+        return;
     }
 }

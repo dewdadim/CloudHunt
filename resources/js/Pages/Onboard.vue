@@ -9,13 +9,18 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { ChevronLeft } from 'lucide-vue-next'
+import { ChevronLeft, Loader2 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 
 import { computed, ref, watchEffect } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import GetDateOfBirth from '@/components/onboard/GetDateOfBirth.vue'
 import { cn } from '@/lib/utils'
+import GetOccupation from '@/components/onboard/GetOccupation.vue'
+import GetInterest from '@/components/onboard/GetInterest.vue'
+import Complete from '@/components/onboard/Complete.vue'
+
+export type FormErrors = Partial<Record<keyof Onboard, string | string[]>>
 
 const currentStep = ref(0)
 
@@ -30,12 +35,15 @@ const form = useForm<Onboard>({
   prefer_name: undefined,
   date_of_birth: undefined,
   occupation: undefined,
+  interest: undefined,
 })
 
 const steps = [
   { title: 'What is your name?', form: GetFullName },
   { title: 'When is your birthday?', form: GetDateOfBirth },
-  { title: 'Just testt', form: GetFullName },
+  { title: 'What is your current occupation?', form: GetOccupation },
+  { title: 'What is your interest?', form: GetInterest },
+  { title: `All Set! Welcome ${form.full_name}`, form: Complete },
 ]
 
 const validateCurrentStep = (): boolean => {
@@ -46,23 +54,37 @@ const validateCurrentStep = (): boolean => {
     case 0:
       if (!form.full_name) {
         isValid = false
-        errors.full_name = 'Full name is required'
+        errors.full_name = 'The full name field is required'
       }
       if (!form.prefer_name) {
         isValid = false
-        errors.prefer_name = 'Preferred name is required'
+        errors.prefer_name = 'The preferred name field is required'
       }
 
       if (form.prefer_name?.includes(' ')) {
         isValid = false
-        errors.prefer_name = 'Preferred name cannot has any space'
+        errors.prefer_name = 'The preferred name can only be one word'
       }
       break
 
     case 1:
       if (!form.date_of_birth) {
         isValid = false
-        errors.date_of_birth = 'Date of birth is required'
+        errors.date_of_birth = 'The date of birth field is required'
+      }
+      break
+
+    case 2:
+      if (!form.occupation) {
+        isValid = false
+        errors.occupation = 'The occupation field is required'
+      }
+      break
+
+    case 3:
+      if (!form.interest) {
+        isValid = false
+        errors.interest = 'The interest field is required'
       }
       break
   }
@@ -74,14 +96,13 @@ const validateCurrentStep = (): boolean => {
 }
 
 const nextStep = async () => {
+  console.log(form.full_name)
   const isValid = await validateCurrentStep()
 
   if (isValid && currentStep.value < steps.length - 1) {
     currentStep.value++
   }
 }
-
-export type FormErrors = Partial<Record<keyof Onboard, string | string[]>>
 
 const prevStep = () => {
   if (currentStep.value > 0) {
@@ -93,13 +114,17 @@ const submit = () => {
   form.date_of_birth = new Date(form.date_of_birth).toISOString().split('T')[0]
   form.post(route('onboard'), {
     replace: true,
+    onFinish: () => currentStep.value++,
   })
 }
 </script>
 
 <template>
   <MaxWidthWrapper class="h-screen pt-10">
-    <div class="mb-16 flex items-center gap-4">
+    <div
+      class="mb-16 flex items-center gap-4"
+      v-if="currentStep < steps.length - 1"
+    >
       <ChevronLeft
         :class="
           cn(
@@ -128,11 +153,18 @@ const submit = () => {
               :errors="form.errors"
             />
           </CardContent>
-          <CardFooter class="flex justify-end">
+          <CardFooter
+            :class="
+              cn(
+                'justify-end',
+                currentStep == steps.length - 1 ? 'block w-full' : 'flex',
+              )
+            "
+          >
             <Button
               type="button"
               @click="nextStep"
-              v-if="currentStep < steps.length - 1"
+              v-if="currentStep < steps.length - 2"
             >
               Continue
             </Button>
@@ -140,11 +172,18 @@ const submit = () => {
               type="submit"
               class=""
               :disabled="form.processing"
-              v-if="currentStep === steps.length - 1"
+              v-if="currentStep === steps.length - 2"
             >
               <Loader2 v-if="form.processing" class="mr-2 animate-spin" />
               Submit
             </Button>
+            <Link
+              :href="route('home')"
+              replace
+              v-if="currentStep == steps.length - 1"
+            >
+              <Button class="w-full">Continue Journey!</Button>
+            </Link>
           </CardFooter>
         </form>
       </Card>
