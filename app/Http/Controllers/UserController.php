@@ -11,7 +11,7 @@ class UserController extends Controller
     public function onboard(Request $request){
         //validate request
         $fields = $request->validate([
-            'full_name' => ['required', 'min:4', 'max:20'],
+            'full_name' => ['required', 'min:4', 'max:255'],
             'date_of_birth' => ['required'],
         ]);
 
