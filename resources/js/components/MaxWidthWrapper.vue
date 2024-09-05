@@ -9,7 +9,12 @@ const props = defineProps<{
 
 <template>
   <div
-    :class="cn('mx-auto w-full max-w-screen-xl px-2.5 md:px-6', props.class)"
+    :class="
+      cn(
+        'mx-auto w-full px-4 md:max-w-screen-lg md:px-16 lg:max-w-screen-xl',
+        props.class,
+      )
+    "
   >
     <slot />
   </div>
