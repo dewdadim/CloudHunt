@@ -115,7 +115,7 @@ const formatter = useDateFormatter('en')
           <SelectContent class="max-h-[200px]">
             <SelectItem
               v-for="yearValue in createYearRange({
-                start: date.set({ year: date.year - 90 }),
+                start: date.subtract({ years: 90 }),
                 end: date,
               })"
               :key="yearValue.toString()"
