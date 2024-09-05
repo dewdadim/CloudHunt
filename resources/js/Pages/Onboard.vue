@@ -121,7 +121,7 @@ const submit = () => {
           </CardTitle>
         </CardHeader>
         <form @submit.prevent="submit">
-          <CardContent>
+          <CardContent v-auto-animate>
             <component
               :is="steps[currentStep].form"
               :form="form"

@@ -20,6 +20,7 @@
     "vite": "^5.0"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@inertiajs/vue3": "^1.2.0",
     "@internationalized/date": "^3.5.5",
     "@vitejs/plugin-vue": "^5.1.2",
