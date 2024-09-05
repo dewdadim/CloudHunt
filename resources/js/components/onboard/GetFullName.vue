@@ -13,7 +13,7 @@ defineProps<{
 <template>
   <div class="mx-auto w-full max-w-lg md:max-w-[500px]">
     <FormInput
-      name="Enter your name"
+      name="Full Name"
       placeholder="e.g. Nadim Hairi"
       v-model="form.full_name"
       :message="errors.full_name?.toString()"
