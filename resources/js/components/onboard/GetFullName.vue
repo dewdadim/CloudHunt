@@ -11,12 +11,18 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-lg md:max-w-[500px]">
+  <div class="mx-auto grid w-full max-w-lg gap-4 md:max-w-[500px]">
     <FormInput
       name="Full Name"
-      placeholder="e.g. Nadim Hairi"
+      placeholder="e.g. John Doe"
       v-model="form.full_name"
       :message="errors.full_name?.toString()"
+    />
+    <FormInput
+      name="Preffered Name"
+      :placeholder="'e.g. ' + (form.full_name?.split(' ', 1) ?? 'John')"
+      v-model="form.prefer_name"
+      :message="errors.prefer_name?.toString()"
     />
   </div>
 </template>

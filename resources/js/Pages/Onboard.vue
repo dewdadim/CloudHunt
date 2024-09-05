@@ -26,9 +26,10 @@ const progressPercentage = computed(() => {
 const progress = ref(progressPercentage)
 
 const form = useForm<Onboard>({
-  full_name: '',
+  full_name: undefined,
+  prefer_name: undefined,
   date_of_birth: undefined,
-  occupation: '',
+  occupation: undefined,
 })
 
 const steps = [
@@ -46,6 +47,15 @@ const validateCurrentStep = (): boolean => {
       if (!form.full_name) {
         isValid = false
         errors.full_name = 'Full name is required'
+      }
+      if (!form.prefer_name) {
+        isValid = false
+        errors.prefer_name = 'Preferred name is required'
+      }
+
+      if (form.prefer_name?.includes(' ')) {
+        isValid = false
+        errors.prefer_name = 'Preferred name cannot has any space'
       }
       break
 

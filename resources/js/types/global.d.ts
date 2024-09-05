@@ -9,10 +9,11 @@ declare global {
   }
   const route: typeof ziggyRouteFunction
   interface Onboard {
-    full_name: string
+    full_name: string | undefined
+    prefer_name: string | undefined
     date_of_birth: DateValue | DateValue[] | undefined
-    occupation: string
-    interest?: string
+    occupation: string | undefined
+    interest?: string | undefined
   }
 }
 

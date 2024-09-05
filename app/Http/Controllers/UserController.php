@@ -12,6 +12,7 @@ class UserController extends Controller
         //validate request
         $fields = $request->validate([
             'full_name' => ['required', 'min:4', 'max:255'],
+            'prefer_name' => ['required', 'min:4', 'max:50'],
             'date_of_birth' => ['required'],
         ]);
 
