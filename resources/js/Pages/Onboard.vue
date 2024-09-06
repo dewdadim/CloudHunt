@@ -12,7 +12,7 @@ import { Progress } from '@/components/ui/progress'
 import { ChevronLeft, Loader2 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref } from 'vue'
 import { Link, useForm } from '@inertiajs/vue3'
 import GetDateOfBirth from '@/components/onboard/GetDateOfBirth.vue'
 import { cn } from '@/lib/utils'
@@ -43,7 +43,10 @@ const steps = [
   { title: 'When is your birthday?', form: GetDateOfBirth },
   { title: 'What is your current occupation?', form: GetOccupation },
   { title: 'What is your interest?', form: GetInterest },
-  { title: `All Set! Welcome ${form.full_name}`, form: Complete },
+  {
+    title: `All Set! Welcome ${form.prefer_name ?? 'to RunCloud Edu'}`,
+    form: Complete,
+  },
 ]
 
 const validateCurrentStep = (): boolean => {
@@ -96,7 +99,6 @@ const validateCurrentStep = (): boolean => {
 }
 
 const nextStep = async () => {
-  console.log(form.full_name)
   const isValid = await validateCurrentStep()
 
   if (isValid && currentStep.value < steps.length - 1) {
@@ -114,17 +116,16 @@ const submit = () => {
   form.date_of_birth = new Date(form.date_of_birth).toISOString().split('T')[0]
   form.post(route('onboard'), {
     replace: true,
-    onFinish: () => currentStep.value++,
+    onSuccess: () => {
+      currentStep.value++
+    },
   })
 }
 </script>
 
 <template>
-  <MaxWidthWrapper class="h-screen pt-10">
-    <div
-      class="mb-16 flex items-center gap-4"
-      v-if="currentStep < steps.length - 1"
-    >
+  <MaxWidthWrapper class="pt-10">
+    <div class="flex items-center gap-4" v-if="currentStep < steps.length - 1">
       <ChevronLeft
         :class="
           cn(
@@ -138,7 +139,7 @@ const submit = () => {
       />
       <Progress v-model="progress" class="w-6 grow" />
     </div>
-    <main class="flex flex-col items-center gap-2">
+    <main class="my-16 flex flex-col items-center gap-2">
       <Card class="mx-auto w-full max-w-lg md:max-w-[500px]">
         <CardHeader class="justify-center text-center">
           <CardTitle>
@@ -182,7 +183,7 @@ const submit = () => {
               replace
               v-if="currentStep == steps.length - 1"
             >
-              <Button class="w-full">Continue Journey!</Button>
+              <Button class="w-full" size="lg">Continue Journey!</Button>
             </Link>
           </CardFooter>
         </form>

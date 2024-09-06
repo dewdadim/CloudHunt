@@ -77,7 +77,6 @@ class AuthController extends Controller
         $user = User::firstOrCreate([
             'email' => $user->email
         ], [
-            'full_name' => $user->name,
             'username' => $user->nickname,
             'password' => Hash::make(Str::random(24))
         ]);
@@ -98,7 +97,7 @@ class AuthController extends Controller
             'email' => $user->email
         ], [
             'full_name' => $user->name,
-            'username' => $user->nickname,
+            'username' => explode('@', $user->email)[0] . (string)rand(1, 999),
             'password' => Hash::make(Str::random(24))
         ]);
 

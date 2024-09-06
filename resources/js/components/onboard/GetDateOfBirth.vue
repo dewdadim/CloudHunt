@@ -51,7 +51,7 @@ const df = new DateFormatter('en-UK', {
           errors.date_of_birth
         }}</small>
 
-        <PopoverContent class="w-auto p-0">
+        <PopoverContent class="w-auto p-0" align="start">
           <Calendar2 v-model="form.date_of_birth" initial-focus />
         </PopoverContent>
       </Popover>
