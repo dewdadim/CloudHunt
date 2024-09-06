@@ -15,9 +15,15 @@ class EnsureUserIsOnboarded
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->full_name == null) {
+        if (
+            is_null($request->user()->full_name) || 
+            is_null($request->user()->username) || 
+            is_null($request->user()->date_of_birth) || 
+            is_null($request->user()->occupation) || 
+            is_null($request->user()->interest)
+        ) {
             return redirect()->route('onboard');
-        } 
+        }
 
         // if($request->user()->full_name != null) {
         //     return redirect()->route('home');
