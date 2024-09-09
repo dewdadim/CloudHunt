@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    public function profile(User $user){
+        $profile = User::find($user)->first();
+
+        if(!$profile){
+            return abort(404);
+        }
+
+        return Inertia::render('Profile', ['profile' => $profile]);
+    }
+
     public function onboard(Request $request){
         //validate request
         $fields = $request->validate([
