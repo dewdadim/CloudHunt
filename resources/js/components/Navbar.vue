@@ -6,7 +6,7 @@ import MaxWidthWrapper from './MaxWidthWrapper.vue'
 </script>
 
 <template>
-  <nav class="sticky top-0 z-10 mb-12 w-full border-b bg-background">
+  <nav class="sticky top-0 z-10 w-full border-b bg-background">
     <MaxWidthWrapper class="flex justify-between py-3 md:max-w-screen-xl">
       <div class="flex items-center gap-8">
         <Link :href="route('home')" class="hidden md:inline-flex">
@@ -31,10 +31,10 @@ import MaxWidthWrapper from './MaxWidthWrapper.vue'
         </ul>
       </div>
       <div class="flex items-center gap-2">
-        <Button class="w-48 justify-start gap-2 bg-white/50" variant="ghost">
+        <!-- <Button class="w-48 justify-start gap-2 bg-white/50" variant="ghost">
           <Search :size="20" />
           <p class="hidden md:inline">Search</p>
-        </Button>
+        </Button> -->
         <!-- <Button size="icon" variant="ghost">
           <Inbox :size="20" />
         </Button> -->
