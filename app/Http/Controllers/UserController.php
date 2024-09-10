@@ -33,6 +33,10 @@ class UserController extends Controller
         $userId = Auth::id();
         $user = User::findOrFail($userId);
 
+        // Format name
+        $fields['full_name'] = ucwords(strtolower($fields['full_name']));
+        $fields['prefer_name'] = ucwords(strtolower($fields['prefer_name']));
+
         // Fill user model
         $user->fill($fields);
 
