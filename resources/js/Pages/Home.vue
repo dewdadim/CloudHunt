@@ -71,21 +71,23 @@ const xp = ref(70)
           <CardTitle>Continue Course</CardTitle>
         </CardHeader>
         <CardContent>
-          <ScrollArea class="w-[400px]" :scroll-hide-delay="100">
-            <div class="flex w-max space-x-4 p-4">
-              <CourseCard />
-              <CourseCard />
-              <CourseCard />
-            </div>
-            <ScrollBar
-              orientation="horizontal"
-              class="transition-opacity ease-in-out"
-            />
-          </ScrollArea>
+          <div class="flex">
+            <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
+              <div class="flex w-max space-x-4">
+                <CourseCard />
+                <CourseCard />
+                <CourseCard />
+              </div>
+              <ScrollBar
+                orientation="horizontal"
+                class="transition-opacity ease-in-out"
+              />
+            </ScrollArea>
+          </div>
         </CardContent>
       </Card>
       <div
-        class="my-4 flex h-16 w-full items-center justify-between rounded-xl border bg-gradient-to-r from-cyan-500 via-amber-400 to-pink-500 p-8 text-white shadow-taper"
+        class="my-4 flex h-16 w-full items-center justify-between gap-4 rounded-xl border bg-gradient-to-r from-cyan-500 via-amber-400 to-pink-500 p-8 text-white shadow-taper"
       >
         <p class="font-semibold text-black">
           Some News that might be interesting...
