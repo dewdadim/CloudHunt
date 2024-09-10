@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { reactive } from 'vue'
-import Navbar from '@/components/Navbar.vue'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 
 const add = (x: number, y: number) => {
@@ -14,7 +13,7 @@ const data = reactive({
 </script>
 
 <template>
-  <Navbar />
+  <!-- <Navbar /> -->
   <div class="flex h-screen">
     <MaxWidthWrapper
       class="mt-28 max-w-[450px] md:max-w-screen-sm md:px-36 lg:max-w-screen-xl"
