@@ -7,13 +7,15 @@ import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
+import Layout from './Layouts/Layout.vue'
 
 createInertiaApp({
-  resolve: (name) =>
-    resolvePageComponent(
-      `./Pages/${name}.vue`,
-      import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
-    ),
+  resolve: (name) => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    let page: any = pages[`./Pages/${name}.vue`]
+    page.default.layout = page.default.layout || Layout
+    return page
+  },
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)
