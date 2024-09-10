@@ -3,15 +3,14 @@ import { Bell, Inbox, Search } from 'lucide-vue-next'
 import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import MaxWidthWrapper from './MaxWidthWrapper.vue'
-import { cn } from '@/lib/utils'
 </script>
 
 <template>
-  <nav class="fixed top-0 z-10 w-full border-b bg-background">
-    <MaxWidthWrapper class="flex justify-between py-3">
+  <nav class="sticky top-0 z-10 mb-12 w-full border-b bg-background">
+    <MaxWidthWrapper class="flex justify-between py-3 md:max-w-screen-xl">
       <div class="flex items-center gap-8">
         <Link :href="route('home')" class="hidden md:inline-flex">
-          <img :src="'images/RCEdu.svg'" alt="logo" class="w-28" />
+          <img :src="'../images/RCEdu.svg'" alt="logo" class="w-28" />
         </Link>
         <ul class="flex items-center gap-6">
           <li>
@@ -45,7 +44,7 @@ import { cn } from '@/lib/utils'
         <Popover>
           <PopoverTrigger as-child>
             <img
-              :src="'images/pfp.jpg'"
+              :src="'../images/pfp.jpg'"
               alt="avatar"
               class="size-10 cursor-pointer rounded-xl"
             />
