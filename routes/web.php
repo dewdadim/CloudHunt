@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
 
 // Route::inertia('/{user:username}', 'Profile', ['user' => User::findOrFail()])->name('profile');
-Route::get('/p/{user:username}', [UserController::class, 'profile']);
+Route::get('/p/{user:username}', [UserController::class, 'profile'])->name('profile');
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/signup', 'Auth/SignUp')->name('signup');
