@@ -9,11 +9,13 @@ import {
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
-import { StarsIcon } from 'lucide-vue-next'
+import { ArrowRight, StarsIcon } from 'lucide-vue-next'
 import Separator from '@/components/ui/separator/Separator.vue'
 import { Link } from '@inertiajs/vue3'
 
 import { ref } from 'vue'
+import CourseCard from '@/components/CourseCard.vue'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 const { auth } = defineProps<{
   auth: {
@@ -37,18 +39,18 @@ const xp = ref(70)
         <CardHeader>
           <CardTitle>Welcome, {{ auth.user.prefer_name }} 👋</CardTitle>
           <CardDescription>@{{ auth.user.username }}</CardDescription>
-          <Link :href="route('profile', [{ id: auth.user.username }])"
-            ><Button class="mt-4 w-full" variant="outline">
+          <Link :href="route('profile', [{ id: auth.user.username }])">
+            <Button class="mt-4 w-full" variant="outline">
               View Profile
-            </Button></Link
-          >
+            </Button>
+          </Link>
         </CardHeader>
         <CardContent class="grid gap-6 pb-10">
           <Separator />
           <div class="flex flex-col gap-2">
             <h3 class="font-semibold">Your XP</h3>
             <p class="flex items-center gap-2 text-3xl font-semibold">
-              <StarsIcon fill="#F9BF3B" class="text-primary" />
+              <StarsIcon fill="#F9BF3B" class="animate-pulse text-primary" />
               2324
             </p>
           </div>
@@ -64,29 +66,42 @@ const xp = ref(70)
       </Card>
     </div>
     <div class="flex w-full flex-col gap-3">
-      <div
-        class="flex h-16 w-full items-center rounded-xl border bg-pink-300 p-8"
-      >
-        Some News...
-      </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Continue Course</CardTitle>
         </CardHeader>
         <CardContent>
-          <div class="mt-4 flex gap-4 overflow-auto">
-            <div class="w-full border p-2">
-              <div class="mb-2 h-40 w-full max-w-40 bg-teal-500" />
-              <h3 class="font-medium">Cybersecurity</h3>
+          <ScrollArea class="w-[400px]" :scroll-hide-delay="100">
+            <div class="flex w-max space-x-4 p-4">
+              <CourseCard />
+              <CourseCard />
+              <CourseCard />
             </div>
-            <div class="w-full border p-2">
-              <div class="mb-2 size-full max-w-40 bg-teal-500" />
-              <h3 class="font-medium">Cybersecurity</h3>
-            </div>
-          </div>
+            <ScrollBar
+              orientation="horizontal"
+              class="transition-opacity ease-in-out"
+            />
+          </ScrollArea>
         </CardContent>
       </Card>
+      <div
+        class="my-4 flex h-16 w-full items-center justify-between rounded-xl border bg-gradient-to-r from-cyan-500 via-amber-400 to-pink-500 p-8 text-white shadow-taper"
+      >
+        <p class="font-semibold text-black">
+          Some News that might be interesting...
+        </p>
+        <Button
+          class="group gap-1 rounded-full border-none bg-black text-white hover:bg-black"
+          size="sm"
+          variant="secondary"
+        >
+          Register
+          <ArrowRight
+            :size="16"
+            class="transition ease-in-out group-hover:translate-x-1"
+          />
+        </Button>
+      </div>
       <Card class="h-96"><CardHeader></CardHeader></Card>
       <Card class="h-56"><CardHeader></CardHeader></Card>
       <Card class=""><CardHeader></CardHeader></Card>
