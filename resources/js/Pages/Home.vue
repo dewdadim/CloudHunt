@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -16,6 +15,8 @@ import { Link } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import CourseCard from '@/components/CourseCard.vue'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import MiniCloudHuntChallenge from '@/components/dashboard/MiniCloudHuntChallenge.vue'
+import News from '@/components/dashboard/News.vue'
 
 const { auth } = defineProps<{
   auth: {
@@ -51,7 +52,7 @@ const xp = ref(70)
             <h3 class="font-semibold">Your XP</h3>
             <p class="flex items-center gap-2 text-3xl font-semibold">
               <StarsIcon fill="#F9BF3B" class="animate-pulse text-primary" />
-              2324
+              {{ xp }}
             </p>
           </div>
           <div class="flex flex-col gap-2">
@@ -68,7 +69,7 @@ const xp = ref(70)
     <div class="flex w-full flex-col gap-3">
       <Card>
         <CardHeader>
-          <CardTitle>Continue Course</CardTitle>
+          <CardTitle>Continue Lesson</CardTitle>
         </CardHeader>
         <CardContent>
           <div class="flex">
@@ -86,25 +87,8 @@ const xp = ref(70)
           </div>
         </CardContent>
       </Card>
-      <div
-        class="my-4 flex h-16 w-full items-center justify-between gap-4 rounded-xl border bg-gradient-to-r from-cyan-500 via-amber-400 to-pink-500 p-8 text-white shadow-taper"
-      >
-        <p class="font-semibold text-black">
-          Some News that might be interesting...
-        </p>
-        <Button
-          class="group gap-1 rounded-full border-none bg-black text-white hover:bg-black"
-          size="sm"
-          variant="secondary"
-        >
-          Register
-          <ArrowRight
-            :size="16"
-            class="transition ease-in-out group-hover:translate-x-1"
-          />
-        </Button>
-      </div>
-      <Card class="h-96"><CardHeader></CardHeader></Card>
+      <News />
+      <MiniCloudHuntChallenge />
       <Card class="h-56"><CardHeader></CardHeader></Card>
       <Card class=""><CardHeader></CardHeader></Card>
     </div>
