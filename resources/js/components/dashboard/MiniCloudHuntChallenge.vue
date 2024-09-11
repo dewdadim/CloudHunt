@@ -9,6 +9,24 @@ import {
   CardContent,
   CardFooter,
 } from '../ui/card'
+
+const ranks = [
+  {
+    badge: '../badges/cloudhunt_rank-2.svg',
+    champion_user: 'nureeninsyirah',
+    time: '00:05:21',
+  },
+  {
+    badge: '../badges/cloudhunt_rank-1.svg',
+    champion_user: 'nadimhairi',
+    time: '00:04:23',
+  },
+  {
+    badge: '../badges/cloudhunt_rank-3.svg',
+    champion_user: 'anggun',
+    time: '00:05:45',
+  },
+]
 </script>
 
 <template>
@@ -21,33 +39,25 @@ import {
     </CardHeader>
     <CardContent class="mt-4 flex flex-col items-center gap-4">
       <h4 class="text-lg font-semibold">Previous Champion</h4>
-      <div class="flex gap-4">
-        <div class="relative flex h-44 w-32 flex-col items-center gap-2">
-          <img :src="'../badges/cloudhunt_rank-2.svg'" class="z-10 size-32" />
-          <p>@nadimhairi</p>
-          <div
-            class="absolute top-4 h-52 w-28 bg-gradient-to-b from-white/20 to-white/0"
-          />
-        </div>
-        <div class="relative flex h-44 w-32 flex-col items-center gap-1">
-          <img :src="'../badges/cloudhunt_rank-1.svg'" class="z-10 size-32" />
-          <p>@nadimhairi</p>
-          <p class="flex items-center gap-1 text-sm">
-            <Timer :size="16" /> 00:21:02
-          </p>
-          <div
-            class="absolute top-4 h-52 w-28 bg-gradient-to-b from-white/20 to-white/0"
-          />
-        </div>
-        <div class="relative flex h-44 w-32 flex-col items-center gap-2">
-          <img
-            :src="'../badges/cloudhunt_rank-3.svg'"
-            class="top-20 z-10 size-32"
-          />
-          <p>@nadimhairi</p>
-          <div
-            class="absolute top-4 h-52 w-28 bg-gradient-to-b from-white/20 to-white/0"
-          />
+      <div class="flex max-w-96 gap-2 md:gap-4">
+        <div v-for="rank in ranks">
+          <div class="flex min-w-20 flex-col items-center gap-2">
+            <img :src="rank.badge" class="z-10 size-full" />
+            <div
+              class="flex flex-col items-center gap-1 text-xs md:text-sm lg:text-base"
+            >
+              <div class="max-w-20 overflow-hidden md:max-w-full">
+                <p class="animate-to-left lg:animate-none">
+                  @{{ rank.champion_user }}
+                </p>
+              </div>
+              <p>{{ rank.time }}</p>
+            </div>
+
+            <!-- <div
+              class="absolute top-8 h-52 w-[100%-20] bg-gradient-to-b from-white/20 to-white/0 md:w-28"
+            /> -->
+          </div>
         </div>
       </div>
     </CardContent>

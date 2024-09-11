@@ -87,6 +87,10 @@ module.exports = {
           from: { opacity: 1 },
           to: { opacity: 0 },
         },
+        'to-left': {
+          from: { transform: 'translate(100%, 0)' },
+          to: { transform: 'translate(-100%, 0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -94,6 +98,7 @@ module.exports = {
         'collapsible-down': 'collapsible-down 0.2s ease-in-out',
         'collapsible-up': 'collapsible-up 0.2s ease-in-out',
         disappear: 'disappear 3s ease-in-out',
+        'to-left': 'to-left 5s linear infinite',
       },
     },
   },
