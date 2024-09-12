@@ -15,7 +15,7 @@ import { Button } from '../ui/button'
       size="sm"
       variant="secondary"
     >
-      Register
+      Button
       <ArrowRight
         :size="16"
         class="transition ease-in-out group-hover:translate-x-1"
