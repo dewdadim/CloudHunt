@@ -89,7 +89,7 @@ module.exports = {
         },
         'to-left': {
           from: { transform: 'translate(100%, 0)' },
-          to: { transform: 'translate(-100%, 0)' },
+          to: { transform: 'translate(-200%, 0)' },
         },
       },
       animation: {
