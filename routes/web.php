@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 // Route::inertia('/{user:username}', 'Profile', ['user' => User::findOrFail()])->name('profile');
 Route::get('/p/{user:username}', [UserController::class, 'profile'])->name('profile');
@@ -27,7 +29,12 @@ Route::middleware('auth')->group(function () {
         Route::inertia('/', 'Home')->name('home');
         Route::inertia('/courses', 'Courses')->name('courses');
     });
-    Route::inertia('/onboard', 'Onboard')->name('onboard');
+    Route::inertia('/onboard', 'Onboard', ['data' => function(){
+        $user = Auth::id();
+        $user = User::find($user)->first();
+
+        return $user;
+    }])->name('onboard');
     Route::post('/onboard', [UserController::class, 'onboard']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

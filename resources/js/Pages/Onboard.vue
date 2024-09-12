@@ -22,6 +22,12 @@ import Complete from '@/components/onboard/Complete.vue'
 
 export type FormErrors = Partial<Record<keyof Onboard, string | string[]>>
 
+const { data } = defineProps<{
+  data: {
+    full_name: string
+  }
+}>()
+
 const currentStep = ref(0)
 
 // Calculate the progress percentage based on the current step
@@ -31,7 +37,7 @@ const progressPercentage = computed(() => {
 const progress = ref(progressPercentage)
 
 const form = useForm<Onboard>({
-  full_name: undefined,
+  full_name: data.full_name ?? undefined,
   prefer_name: undefined,
   date_of_birth: undefined,
   occupation: undefined,
