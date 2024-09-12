@@ -17,7 +17,7 @@ import CourseCard from '@/components/CourseCard.vue'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import MiniCloudHuntChallenge from '@/components/dashboard/MiniCloudHuntChallenge.vue'
 import News from '@/components/dashboard/News.vue'
-import CourseSugestion from '@/components/dashboard/CourseSuggestion.vue'
+import CourseSuggestion from '@/components/dashboard/CourseSuggestion.vue'
 
 const { auth } = defineProps<{
   auth: {
