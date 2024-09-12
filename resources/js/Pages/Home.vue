@@ -17,6 +17,7 @@ import CourseCard from '@/components/CourseCard.vue'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import MiniCloudHuntChallenge from '@/components/dashboard/MiniCloudHuntChallenge.vue'
 import News from '@/components/dashboard/News.vue'
+import CourseSugestion from '@/components/dashboard/CourseSuggestion.vue'
 
 const { auth } = defineProps<{
   auth: {
@@ -32,8 +33,8 @@ const xp = ref(70)
 </script>
 
 <template>
-  <div
-    class="mx-auto mt-4 flex max-w-[400px] flex-col gap-4 overflow-x-visible md:mt-12 md:max-w-screen-lg md:flex-row lg:gap-8"
+  <main
+    class="mx-auto mb-12 mt-4 flex max-w-[400px] flex-col gap-4 overflow-x-visible md:mt-12 md:max-w-screen-lg md:flex-row lg:gap-8"
   >
     <div class="min-w-full md:min-w-[350px]">
       <Card class="sticky top-28 w-full md:w-[350px]">
@@ -89,8 +90,7 @@ const xp = ref(70)
       </Card>
       <News />
       <MiniCloudHuntChallenge />
-      <Card class="h-56"><CardHeader></CardHeader></Card>
-      <Card class=""><CardHeader></CardHeader></Card>
+      <CourseSuggestion />
     </div>
-  </div>
+  </main>
 </template>
