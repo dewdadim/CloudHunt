@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::inertia('/onboard', 'Onboard', ['data' => function(){
         $user = Auth::id();
-        $user = User::find($user)->first();
+        $user = User::findOrFail($user);
 
         return $user;
     }])->name('onboard');
