@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { AspectRatio } from './ui/aspect-ratio'
-import { Button } from './ui/button'
-import { Card, CardContent, CardFooter, CardHeader } from './ui/card'
 </script>
 
 <template>

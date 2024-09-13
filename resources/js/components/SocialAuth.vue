@@ -2,7 +2,6 @@
 import { Button } from './ui/button'
 import { FcGoogle, CoGithub } from 'oh-vue-icons/icons'
 import { OhVueIcon as Vicon, addIcons } from 'oh-vue-icons'
-import { Link } from '@inertiajs/vue3'
 
 addIcons(FcGoogle)
 addIcons(CoGithub)

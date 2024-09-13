@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, StarsIcon } from 'lucide-vue-next'
+import { StarsIcon } from 'lucide-vue-next'
 import Separator from '@/components/ui/separator/Separator.vue'
 import { Link } from '@inertiajs/vue3'
 
@@ -52,7 +52,7 @@ const xp = ref(70)
           <div class="flex flex-col gap-2">
             <h3 class="font-semibold">Your XP</h3>
             <p class="flex items-center gap-2 text-3xl font-semibold">
-              <StarsIcon fill="#F9BF3B" class="animate-pulse text-primary" />
+              <StarsIcon fill="#F9BF3B" class="text-primary" />
               {{ xp }}
             </p>
           </div>

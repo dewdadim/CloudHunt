@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import {
   Card,
@@ -8,11 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  DateFormatter,
-  DateValue,
-  getLocalTimeZone,
-} from '@internationalized/date'
 
 const { profile } = defineProps<{
   profile: {
