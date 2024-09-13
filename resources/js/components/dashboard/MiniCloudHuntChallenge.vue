@@ -38,7 +38,9 @@ const ranks = [
 </script>
 
 <template>
-  <Card class="bg-gradient-to-tr from-slate-600 to-slate-400 text-white">
+  <Card
+    class="bg-gradient-to-tr from-slate-600 from-10% via-slate-500 via-30% to-slate-300 text-white"
+  >
     <CardHeader class="justify-center text-center">
       <CardTitle class="font-pixel"> Mini CloudHunt Challenge </CardTitle>
       <CardDescription class="font-pixel text-inherit">
@@ -50,7 +52,7 @@ const ranks = [
       <div class="flex h-full max-w-96 items-end gap-2 lg:gap-6">
         <div
           v-for="rank in ranks"
-          class="rounded-t- h-fit bg-gradient-to-b from-slate-200/0 from-5% via-slate-200/20 to-slate-500/10 pt-2"
+          class="h-fit bg-gradient-to-b from-slate-200/0 from-5% via-slate-200/20 to-slate-500/0 pt-2"
         >
           <div
             :class="
