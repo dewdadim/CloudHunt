@@ -104,8 +104,6 @@ class AuthController extends Controller
     public function googleRedirect(){
         $user = Socialite::driver('google')->user();
 
-        dd($user);
-
         $user = User::firstOrCreate([
             'email' => $user->email
         ], [
