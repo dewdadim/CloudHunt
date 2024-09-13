@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
+/* 
+*  TODO (Problems):
+*
+*  Problem: The username might have been taken if user try to sign up with SSO.
+*
+*  Solution 1: Might need to ask user to create username during onboard instead of signing up
+*  Solution 2: Auto generate username then popup new user to create username (front-end)
+*
+*/
 
 class AuthController extends Controller
 {
@@ -78,7 +87,7 @@ class AuthController extends Controller
             'email' => $user->email
         ], [
             'avatar' => $user->avatar,
-            'username' => $user->nickname,
+            'username' => $user->nickname ?? explode('@', $user->email)[0] . (string)rand(1, 999),
             'full_name' => $user->name,
             'password' => Hash::make(Str::random(24))
         ]);
@@ -95,12 +104,14 @@ class AuthController extends Controller
     public function googleRedirect(){
         $user = Socialite::driver('google')->user();
 
+        dd($user);
+
         $user = User::firstOrCreate([
             'email' => $user->email
         ], [
             'avatar' => $user->avatar,
             'full_name' => $user->name,
-            'username' => explode('@', $user->email)[0] . (string)rand(1, 999),
+            'username' => $user->nickname ?? explode('@', $user->email)[0] . (string)rand(1, 999),
             'password' => Hash::make(Str::random(24))
         ]);
 
