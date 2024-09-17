@@ -2,19 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-// Route::inertia('/{user:username}', 'Profile', ['user' => User::findOrFail()])->name('profile');
-Route::get('/p/{user:username}', [UserController::class, 'profile'])->name('profile');
-
 Route::middleware('guest')->group(function () {
+    Route::inertia('/', 'Home')->name('home');
+
     Route::inertia('/signup', 'Auth/SignUp')->name('signup');
-    Route::inertia('/login', 'Auth/Login')->name('login');
-    
     Route::post('/signup', [AuthController::class, 'signup']);
+
+    Route::inertia('/login', 'Auth/Login')->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
     Route::get('/signup/github', [AuthController::class, 'github'])->name('auth.github');
@@ -26,16 +26,26 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::middleware('onboarded')->group(function () {
-        Route::inertia('/', 'Home')->name('home');
-        Route::inertia('/courses', 'Courses')->name('courses');
+        Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
+
+        Route::get('/courses', [CourseController::class, 'index'])->name('courses');
+
+        Route::get('/courses/{course:uri}', [CourseController::class, 'show'])->name('courses.show');
+
     });
+
     Route::inertia('/onboard', 'Onboard', ['data' => function(){
         $user = Auth::id();
         $user = User::findOrFail($user);
 
         return $user;
     }])->name('onboard');
+
     Route::post('/onboard', [UserController::class, 'onboard']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+
+// public routes
+Route::get('/{user:username}', [UserController::class, 'show'])->name('users.show');

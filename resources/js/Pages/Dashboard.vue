@@ -41,7 +41,7 @@ const xp = ref(70)
         <CardHeader>
           <CardTitle>Welcome, {{ auth.user.prefer_name }} 👋</CardTitle>
           <CardDescription>@{{ auth.user.username }}</CardDescription>
-          <Link :href="route('profile', [{ id: auth.user.username }])">
+          <Link :href="route('users.show', { id: auth.user.username })">
             <Button class="mt-4 w-full" variant="outline">
               View Profile
             </Button>
@@ -76,9 +76,10 @@ const xp = ref(70)
           <div class="flex">
             <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
               <div class="flex w-max space-x-4">
-                <CourseCard />
-                <CourseCard />
-                <CourseCard />
+                <CourseCard
+                  v-for="i in 3"
+                  uri="fundamental-of-cloud-computing"
+                />
               </div>
               <ScrollBar
                 orientation="horizontal"

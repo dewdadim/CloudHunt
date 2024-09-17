@@ -9,15 +9,15 @@ import MaxWidthWrapper from './MaxWidthWrapper.vue'
   <nav class="sticky top-0 z-10 w-full border-b bg-background">
     <MaxWidthWrapper class="flex justify-between py-3 md:max-w-screen-xl">
       <div class="flex items-center gap-8">
-        <Link :href="route('home')" class="hidden md:inline-flex">
+        <Link :href="route('dashboard')" class="hidden md:inline-flex">
           <img :src="'../images/RCEdu.svg'" alt="logo" class="w-28" />
         </Link>
         <ul class="flex items-center gap-6">
           <li>
             <Link
-              :href="route('home')"
-              :class="$page.url == '/' ? 'border-b-2 font-bold' : ''"
-              >Home</Link
+              :href="route('dashboard')"
+              :class="$page.url == '/dashboard' ? 'border-b-2 font-bold' : ''"
+              >Dashboard</Link
             >
           </li>
           <li>

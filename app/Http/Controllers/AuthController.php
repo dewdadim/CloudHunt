@@ -36,7 +36,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         //redirect
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
 
     }
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
         if (Auth::attempt($fields, $request->remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->route('dashboard');
         }
 
         // Return back if credentials fail
@@ -94,7 +94,7 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 
     public function google(){
@@ -115,6 +115,6 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 }
