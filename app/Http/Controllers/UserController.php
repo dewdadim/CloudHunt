@@ -9,14 +9,9 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function profile(User $user){
-        $profile = User::find($user)->first();
+    public function show(User $user){
 
-        if(!$profile){
-            return abort(404);
-        }
-
-        return Inertia::render('Profile', ['profile' => $profile]);
+        return Inertia::render('Profile', ['user' => $user]);
     }
 
     public function onboard(Request $request){
