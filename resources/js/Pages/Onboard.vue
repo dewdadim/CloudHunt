@@ -185,7 +185,7 @@ const submit = () => {
               Submit
             </Button>
             <Link
-              :href="route('home')"
+              :href="route('dashboard')"
               replace
               v-if="currentStep == steps.length - 1"
             >
