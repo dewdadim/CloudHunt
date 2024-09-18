@@ -22,9 +22,9 @@ import { Button } from '../ui/button'
       <div class="flex">
         <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
           <div class="flex w-max space-x-4">
-            <CourseCard />
-            <CourseCard />
-            <CourseCard />
+            <div v-for="i in 6">
+              <CourseCard class="w-60" uri="fundamental-of-cloud-computing" />
+            </div>
           </div>
           <ScrollBar
             orientation="horizontal"
