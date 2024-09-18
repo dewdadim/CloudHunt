@@ -78,7 +78,7 @@ const ranks = [
               />
               <div class="w-24 overflow-hidden text-center">
                 <Link
-                  :href="route('profile', { id: rank.champion_user })"
+                  :href="route('users.show', { id: rank.champion_user })"
                   class="group"
                 >
                   <p class="truncate text-sm group-hover:underline">

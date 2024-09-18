@@ -8,8 +8,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-const { profile } = defineProps<{
-  profile: {
+const { user } = defineProps<{
+  user: {
     username: string
     full_name: string
     avatar: string
@@ -44,14 +44,14 @@ const achievements = [
           <div class="w-40">
             <AspectRatio :ratio="1 / 1" class="rounded-xl bg-muted">
               <img
-                :src="profile.avatar"
+                :src="user.avatar"
                 class="h-full w-full rounded-2xl border shadow-taper"
               />
             </AspectRatio>
           </div>
           <div class="flex flex-col">
-            <CardTitle>{{ profile.full_name }}</CardTitle>
-            <CardDescription>@{{ profile.username }}</CardDescription>
+            <CardTitle>{{ user.full_name }}</CardTitle>
+            <CardDescription>@{{ user.username }}</CardDescription>
           </div>
         </div>
       </CardHeader>
