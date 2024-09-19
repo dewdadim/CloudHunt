@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 
 /* 
@@ -36,7 +37,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         //redirect
-        return redirect()->route('dashboard');
+        return Inertia::location(route('dashboard'));
 
     }
 
@@ -51,7 +52,7 @@ class AuthController extends Controller
         if (Auth::attempt($fields, $request->remember)) {
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            return Inertia::location(route('dashboard'));
         }
 
         // Return back if credentials fail
@@ -73,7 +74,7 @@ class AuthController extends Controller
  
         $request->session()->regenerateToken();
  
-        return redirect()->route('login');
+        return Inertia::location(route('login'));
     }
 
     public function github(){
@@ -94,7 +95,7 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('dashboard');
+        return Inertia::location(route('dashboard'));
     }
 
     public function google(){
@@ -115,6 +116,6 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('dashboard');
+        return Inertia::location(route('dashboard'));
     }
 }
