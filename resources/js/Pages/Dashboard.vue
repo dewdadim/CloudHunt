@@ -42,7 +42,7 @@ const xp = ref(70)
           <CardTitle>Welcome, {{ auth.user.prefer_name }} 👋</CardTitle>
           <CardDescription>@{{ auth.user.username }}</CardDescription>
           <Link :href="route('users.show', { id: auth.user.username })">
-            <Button class="mt-4 w-full" variant="outline">
+            <Button class="mt-4 w-full" variant="outline" size="lg">
               View Profile
             </Button>
           </Link>
