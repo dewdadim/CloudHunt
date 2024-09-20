@@ -7,10 +7,10 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
+import { Link } from '@inertiajs/vue3'
 
 const { course } = defineProps<{
   course: {
@@ -26,30 +26,23 @@ const { course } = defineProps<{
       class="flex items-center justify-between py-4 md:max-w-screen-2xl"
     >
       <div class="flex flex-wrap items-center gap-4">
-        <img
-          :src="'../images/RCEdu.svg'"
-          alt="logo"
-          class="hidden w-28 md:inline-flex"
-        />
+        <Link :href="route('dashboard')">
+          <img
+            :src="'../images/RCEdu.svg'"
+            alt="logo"
+            class="hidden w-28 md:inline-flex"
+          />
+        </Link>
         <Breadcrumb>
           <BreadcrumbList>
-            <!-- <BreadcrumbItem class="pr-4">
-              <BreadcrumbLink>
-                <img :src="'../images/RCEdu.svg'" alt="logo" class="w-28" />
-              </BreadcrumbLink>
-            </BreadcrumbItem> -->
             <BreadcrumbItem>
-              <BreadcrumbLink :href="route('dashboard')">
-                Dashboard
-              </BreadcrumbLink>
+              <Link :href="route('dashboard')"> Dashboard </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator class="hidden md:inline-flex">
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem class="hidden md:inline-flex">
-              <BreadcrumbLink :href="route('courses')">
-                Courses
-              </BreadcrumbLink>
+              <Link :href="route('courses')"> Courses </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <Slash />
