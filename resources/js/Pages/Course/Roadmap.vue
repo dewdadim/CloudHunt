@@ -13,6 +13,8 @@ import {
   CheckCheck,
   CheckCircle,
   CheckCircle2,
+  CheckSquare,
+  CheckSquare2,
   CornerDownLeft,
   CornerLeftDown,
   CornerRightDown,
@@ -83,7 +85,7 @@ const items = [
           class="mt-2 flex flex-col items-center p-0 lg:flex-row lg:justify-center"
         >
           <ScrollArea class="w-fit whitespace-nowrap lg:w-10/12">
-            <div class="flex flex-col p-0 md:p-6 lg:flex-row">
+            <div class="flex flex-col pt-6 md:p-6 lg:flex-row">
               <div
                 class="grid w-max grid-cols-2 lg:grid-cols-1"
                 v-for="i in items"
@@ -98,9 +100,9 @@ const items = [
                     )
                   "
                 >
-                  <CheckCircle2
+                  <CheckSquare
                     v-if="i.isDone"
-                    class="absolute -right-4 -top-4 size-16 text-primary"
+                    class="absolute right-3 top-3 size-10 text-primary"
                     fill="#fefce8"
                   />
 
@@ -131,7 +133,7 @@ const items = [
                     v-if="i.id !== items.length"
                     :class="
                       cn(
-                        '-z-10 h-2/3 w-1/2 rounded-bl-2xl border-b-4 border-l-4 border-dashed',
+                        '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed',
                         items.indexOf(i) % 2 !== 0
                           ? 'scale-y-[-1]'
                           : 'rotate-180 lg:rotate-0',
