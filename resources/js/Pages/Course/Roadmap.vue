@@ -9,6 +9,10 @@ import {
 import Navbar from './Navbar.vue'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import {
+  Check,
+  CheckCheck,
+  CheckCircle,
+  CheckCircle2,
   CornerDownLeft,
   CornerLeftDown,
   CornerRightDown,
@@ -87,15 +91,28 @@ const items = [
                 <div
                   :class="
                     cn(
-                      'flex h-56 items-center',
+                      'relative flex h-56 items-center',
                       items.indexOf(i) % 2 !== 0
                         ? 'order-last'
                         : 'order-first justify-end',
                     )
                   "
                 >
+                  <CheckCircle2
+                    v-if="i.isDone"
+                    class="absolute -right-4 -top-4 size-16 text-primary"
+                    fill="#fefce8"
+                  />
+
                   <div
-                    class="flex h-full w-48 items-center justify-center rounded-2xl border bg-card px-0 shadow-taper"
+                    :class="
+                      cn(
+                        'flex h-full w-48 items-center justify-center rounded-2xl bg-card px-0 shadow-taper',
+                        i.isDone
+                          ? 'border-4 border-primary bg-yellow-50 shadow-lg shadow-primary'
+                          : 'border',
+                      )
+                    "
                   >
                     {{ i.title }}
                   </div>
