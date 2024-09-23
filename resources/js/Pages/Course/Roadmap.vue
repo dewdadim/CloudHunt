@@ -102,14 +102,14 @@ const items = [
                 >
                   <CheckSquare
                     v-if="i.isDone"
-                    class="absolute right-3 top-3 size-10 text-primary"
+                    class="absolute right-4 top-4 size-10 text-primary"
                     fill="#fefce8"
                   />
 
                   <div
                     :class="
                       cn(
-                        'flex h-full w-48 items-center justify-center rounded-2xl bg-card px-0 shadow-taper',
+                        'flex h-full w-48 items-center justify-center rounded-3xl bg-card px-0 shadow-taper',
                         i.isDone
                           ? 'border-4 border-primary bg-yellow-50 shadow-lg shadow-primary'
                           : 'border',
