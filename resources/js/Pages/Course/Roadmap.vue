@@ -76,12 +76,12 @@ const items = [
           <CardTitle>Introduction to Cloud Computing</CardTitle>
         </CardHeader>
         <CardContent
-          class="mt-8 flex flex-col items-center p-0 md:mt-12 md:flex-row md:justify-center"
+          class="mt-2 flex flex-col items-center p-0 lg:flex-row lg:justify-center"
         >
-          <ScrollArea class="w-fit whitespace-nowrap md:w-full">
-            <div class="flex w-max flex-col p-4 md:flex-row">
+          <ScrollArea class="w-fit whitespace-nowrap lg:w-10/12">
+            <div class="flex flex-col p-0 md:p-6 lg:flex-row">
               <div
-                class="grid w-full grid-cols-2 md:grid-cols-1"
+                class="grid w-max grid-cols-2 lg:grid-cols-1"
                 v-for="i in items"
               >
                 <div
@@ -105,8 +105,8 @@ const items = [
                     cn(
                       'flex h-64 w-full items-end',
                       items.indexOf(i) % 2 !== 0
-                        ? 'justify-end md:justify-end'
-                        : 'justify-start md:items-start md:justify-end',
+                        ? 'justify-end lg:justify-end'
+                        : 'justify-start lg:items-start lg:justify-end',
                     )
                   "
                 >
@@ -117,7 +117,7 @@ const items = [
                         '-z-10 h-2/3 w-1/2 rounded-bl-2xl border-b-4 border-l-4 border-dashed',
                         items.indexOf(i) % 2 !== 0
                           ? 'scale-y-[-1]'
-                          : 'rotate-180 md:rotate-0',
+                          : 'rotate-180 lg:rotate-0',
                         i.isDone ? 'border-primary' : 'border-slate-400',
                       )
                     "
