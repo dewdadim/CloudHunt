@@ -29,8 +29,9 @@ Route::middleware('auth')->group(function () {
         Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
         Route::get('/courses', [CourseController::class, 'index'])->name('courses');
-
         Route::get('/courses/{course:uri}', [CourseController::class, 'show'])->name('courses.show');
+
+        Route::inertia('/courses/{course:uri}/1', 'Course/Module')->name('module');
 
     });
 
