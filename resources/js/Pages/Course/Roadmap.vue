@@ -9,18 +9,17 @@ import {
 import Navbar from './Navbar.vue'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import {
-  Check,
-  CheckCheck,
-  CheckCircle,
-  CheckCircle2,
   CheckSquare,
-  CheckSquare2,
-  CornerDownLeft,
-  CornerLeftDown,
-  CornerRightDown,
+  ChevronLeft,
+  ChevronRight,
+  Dumbbell,
+  MonitorPlay,
+  MousePointerClick,
+  Puzzle,
 } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { Link } from '@inertiajs/vue3'
 
 const { course } = defineProps<{
   course: {
@@ -36,37 +35,32 @@ const { course } = defineProps<{
 const items = [
   {
     id: 1,
-    title: 'Test Module 0',
+    type: 'video',
+    title: 'What is Cloud?',
+    isDone: true,
+  },
+  {
+    id: 2,
+    type: 'quiz',
+    title: 'Cloud Computing Services',
     isDone: true,
   },
   {
     id: 3,
-    title: 'Test Module 1',
-    isDone: true,
-  },
-  {
-    id: 3,
-    title: 'Test Module 2',
+    type: 'activity',
+    title: 'Type of Cloud Computing',
     isDone: false,
   },
   {
     id: 4,
-    title: 'Test Module 3',
+    type: 'activity',
+    title: 'Cloud Computing Deployment',
     isDone: false,
   },
   {
     id: 5,
-    title: 'Test Module 4',
-    isDone: false,
-  },
-  {
-    id: 6,
-    title: 'Test Module 5',
-    isDone: false,
-  },
-  {
-    id: 7,
-    title: 'Test Module 5',
+    type: 'quiz',
+    title: 'Advantages of Cloud Computing',
     isDone: false,
   },
 ]
@@ -77,48 +71,70 @@ const items = [
   <MaxWidthWrapper class="md:max-w-screen-xl">
     <div class="mt-6 flex w-full items-center justify-center md:mt-12">
       <Card class="shadow-0 w-full gap-4 border-none bg-white/0">
-        <CardHeader class="text-center">
-          <CardDescription>Chapter 1</CardDescription>
-          <CardTitle>Introduction to Cloud Computing</CardTitle>
+        <CardHeader
+          class="flex-row items-center justify-center gap-4 text-center md:gap-8"
+        >
+          <Link href="#">
+            <ChevronLeft />
+          </Link>
+          <div>
+            <CardDescription>Chapter 1</CardDescription>
+            <CardTitle>Introduction to Cloud Computing</CardTitle>
+          </div>
+          <Link :href="route('dashboard')" :data="{ chapter: 1 }">
+            <ChevronRight />
+          </Link>
         </CardHeader>
         <CardContent
-          class="mt-2 flex flex-col items-center p-0 lg:flex-row lg:justify-center"
+          class="mt-2 flex flex-col items-center p-0 md:mt-12 lg:flex-row lg:justify-center"
         >
           <ScrollArea class="w-fit whitespace-nowrap lg:w-10/12">
-            <div class="flex flex-col pt-6 md:p-6 lg:flex-row">
+            <div class="flex flex-col pt-6 md:p-6 md:pb-12 lg:flex-row">
               <div
                 class="grid w-max grid-cols-2 lg:grid-cols-1"
                 v-for="i in items"
               >
-                <div
+                <Link
+                  href="#"
                   :class="
                     cn(
-                      'relative flex h-56 items-center',
+                      'group relative flex h-56 items-center transition hover:-translate-y-2 hover:cursor-pointer',
                       items.indexOf(i) % 2 !== 0
                         ? 'order-last'
                         : 'order-first justify-end',
                     )
                   "
                 >
-                  <CheckSquare
+                  <!-- <CheckSquare
                     v-if="i.isDone"
                     class="absolute right-4 top-4 size-10 text-primary"
                     fill="#fefce8"
-                  />
+                  /> -->
 
                   <div
                     :class="
                       cn(
-                        'flex h-full w-48 items-center justify-center rounded-3xl bg-card px-0 shadow-taper',
+                        'flex h-full w-48 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-2 text-center transition',
                         i.isDone
-                          ? 'border-4 border-primary bg-yellow-50 shadow-lg shadow-primary'
-                          : 'border',
+                          ? 'border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary'
+                          : 'border text-slate-600 shadow-taper group-hover:bg-slate-50',
                       )
                     "
                   >
-                    {{ i.title }}
+                    <component
+                      :is="
+                        i.type.includes('video')
+                          ? MonitorPlay
+                          : i.type.includes('activity')
+                            ? MousePointerClick
+                            : Puzzle
+                      "
+                      class="size-14 stroke-[1.2px]"
+                    />
+                    <!-- <MonitorPlay :size="52" :stroke-width="1" /> -->
+                    <h3 class="text-wrap font-semibold">{{ i.title }}</h3>
                   </div>
-                </div>
+                </Link>
                 <div
                   :class="
                     cn(
@@ -143,7 +159,7 @@ const items = [
                   />
                 </div>
               </div>
-              <ScrollBar orientation="horizontal" />
+              <ScrollBar orientation="horizontal" class="h-1.5" />
             </div>
           </ScrollArea>
         </CardContent>
