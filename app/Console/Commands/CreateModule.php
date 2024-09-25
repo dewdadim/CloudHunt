@@ -119,13 +119,14 @@ class CreateModule extends Command
 
         $courses = Course::all();
 
-        $courseTitle = $this->choice('What course this module belongs to?', array_column(json_decode($courses), 'title'));
+        $course = $this->choice('What course this module belongs to?', array_column(json_decode($courses), 'title'));
+        $this->info($course);
 
-        $chapters = Chapter::where('id', $courseTitle);
+        $courseId = Course::where('title', $course)->pluck('id')->first();
+        $this->info($courseId);
 
-        print_r(json_decode($chapters));
-
-        $chapterId = $this->choice('Which chapter this module belongs to?', ['ss']);
+        $chapters = Chapter::where('course_id', $courseId)->limit(2);
+        $chapterId = $this->choice('Which chapter this module belongs to?', array_column(json_decode($chapters), 'create_at'));
 
         $title = $this->ask('What is the title for the Module?');
 
