@@ -37,53 +37,60 @@ class CreateModule extends Command
      *
      * @return string
      */
-    protected function getStub()
+    private function getStub()
     {
         return __DIR__ . '/../Stubs/module.stub';
     }
 
     /**
-     * Determine if the class already exists.
-     *
-     * @param  string  $rawName
-     * @return bool
-     */
-    protected function alreadyExists($rawName)
-    {
-        $name = class_basename(str_replace('\\', '/', $rawName));
-
-        $path = "{$this->laravel['path']}/../resources/js/components/modules/{$name}.vue";
-
-        return file_exists($path);
-    }
-
-    /**
-     * Replace the namespace for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $name
-     * @return $this
-     */
-    protected function replaceNamespace(&$stub, $name)
-    {
-        $name = class_basename(str_replace('\\', '/', $name));
-
-        $stub = str_replace('{Component}', $name, $stub);
-
-        return $this;
-    }
-
-    /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param  string  $course The title of the course
+     * @param  string  $chapter The title of the chapter 
+     * @param  string  $name The title of the module
      * @return string
      */
-    protected function getPath($name)
+    private function getPath($course, $chapter, $name)
     {
         $name = class_basename(str_replace('\\', '/', $name));
+        $course = Str::kebab($course);
+        $chapter = Str::kebab($chapter);
 
-        return "{$this->laravel['path']}/../resources/js/components/modules/{$name}.vue";
+        return "{$this->laravel['path']}/../resources/js/components/courses/{$course}/{$chapter}/{$name}.vue";
+    }
+
+    /**
+     * Generate the {module}.vue file in project
+     *
+     * @param  string  $name The title of the module 
+     * @param  string  $path The path directory of the module
+     * @return string
+     */
+    private function generateModuleFile($title, $path)
+    {
+        $filesystem = new Filesystem();
+        $stub = $filesystem->get($this->getStub());
+
+        $name = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
+        $name = Str::kebab($name);
+
+        // Replace placeholders in the stub
+        $stub = str_replace('{{ title }}', $title, $stub);
+        $stub = str_replace('{{ path }}', $path, $stub);
+
+        // Create the directory if it doesn't exist
+        if (!$filesystem->isDirectory(dirname($path))) {
+            $filesystem->makeDirectory(dirname($path), 0755, true);
+        }
+
+        // Check if the Module already exist
+        if(file_exists($path)){
+            $this->error("Module {$name} already exist!");
+            return 1;
+        }
+
+        // Write the Vue file
+        return $filesystem->put($path, $stub);
     }
 
     /**
@@ -91,11 +98,7 @@ class CreateModule extends Command
      */
     public function handle()
     {
-
-        // $name = $this->argument('name');
-        $filesystem = new Filesystem();
-        $stub = $filesystem->get($this->getStub());
-
+        
         // Prompt attributes to user
         $courses = Course::all();
         $course = $this->choice('What course this module belongs to?', array_column(json_decode($courses), 'title'));
@@ -107,25 +110,10 @@ class CreateModule extends Command
 
         $title = $this->ask('What is the title for this Module?');
 
-        $name = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
-        $name = Str::kebab($title);
+        $name = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
+        $name = Str::kebab($name);
 
-        $path = $this->getPath($name);
-
-        // Create the directory if it doesn't exist
-        if (!$filesystem->isDirectory(dirname($path))) {
-            $filesystem->makeDirectory(dirname($path), 0755, true);
-        }
-
-        // Check if the Module already exist
-        if($this->alreadyExists($name)){
-            $this->error("Module {$name} already exist!");
-            return 1;
-        }
-
-        // Replace placeholders in the stub
-        $stub = str_replace('{{ componentName }}', $title, $stub);
-
+        $path = $this->getPath($course, $chapter, $name);
         // $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Difficult']);
 
         // Save into database
@@ -134,11 +122,10 @@ class CreateModule extends Command
             'chapter_id' => $chapterId
         ]);
 
-        // Write the Vue file
-        $filesystem->put($path, $stub);
+        $this->generateModuleFile($title, $path); // Generate .vue file
 
         // Success message
-        $this->info("Vue component {$name}.vue created successfully! Located at: ../resources/js/components/modules/{$name}.vue");
+        $this->info("Vue component {$name}.vue created successfully! Located at: {$path}");
         $this->info("Module '{$name}' for '{$chapter}' created successfully!");
         $this->table(
             ['id', 'title'],

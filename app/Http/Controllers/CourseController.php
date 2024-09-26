@@ -28,4 +28,13 @@ class CourseController extends Controller
 
         return Inertia::render('Courses', ['courses' => $courses]);
     }
+
+    public function showModule(Course $course, Chapter $chapter, Module $module){
+
+        return Inertia::render('Course/Module', [
+            'course' => $course,
+            'chapter' => $chapter,
+            'module' => $module,
+        ]);
+    }
 }
