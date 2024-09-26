@@ -5,8 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/', 'Home')->name('home');
@@ -26,7 +28,11 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::middleware('onboarded')->group(function () {
-        Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
+
+        Route::get('/dashboard', function () {
+            $courses = Course::all();
+            return Inertia::render('Dashboard', ['courses' => $courses]);
+        })->name('dashboard');
 
         Route::get('/courses', [CourseController::class, 'index'])->name('courses');
         Route::get('/courses/{course:uri}', [CourseController::class, 'show'])->name('courses.show');

@@ -18,8 +18,9 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import MiniCloudHuntChallenge from '@/components/dashboard/MiniCloudHuntChallenge.vue'
 import News from '@/components/dashboard/News.vue'
 import CourseSuggestion from '@/components/dashboard/CourseSuggestion.vue'
+import ContinueLesson from '@/components/dashboard/ContinueLesson.vue'
 
-const { auth } = defineProps<{
+const { auth, courses } = defineProps<{
   auth: {
     user: {
       username: string
@@ -27,6 +28,7 @@ const { auth } = defineProps<{
       avatar: string
     }
   }
+  courses: Course[]
 }>()
 
 const xp = ref(70)
@@ -68,30 +70,10 @@ const xp = ref(70)
       </Card>
     </div>
     <div class="flex w-full flex-col gap-3">
-      <Card>
-        <CardHeader>
-          <CardTitle>Continue Lesson</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div class="flex">
-            <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
-              <div class="flex w-max space-x-4">
-                <CourseCard
-                  v-for="i in 3"
-                  uri="fundamental-of-cloud-computing"
-                />
-              </div>
-              <ScrollBar
-                orientation="horizontal"
-                class="transition-opacity ease-in-out"
-              />
-            </ScrollArea>
-          </div>
-        </CardContent>
-      </Card>
+      <ContinueLesson :courses="courses" />
       <News />
       <MiniCloudHuntChallenge />
-      <CourseSuggestion />
+      <CourseSuggestion :courses="courses" />
     </div>
   </main>
 </template>

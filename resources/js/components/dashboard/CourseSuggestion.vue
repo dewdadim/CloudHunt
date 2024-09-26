@@ -11,10 +11,15 @@ import {
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 import { ArrowRight } from 'lucide-vue-next'
 import { Button } from '../ui/button'
+
+defineProps<{
+  class?: string
+  courses: Course[]
+}>()
 </script>
 
 <template>
-  <Card>
+  <Card :class="class">
     <CardHeader>
       <CardTitle>Courses For You</CardTitle>
     </CardHeader>
@@ -22,8 +27,13 @@ import { Button } from '../ui/button'
       <div class="flex">
         <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
           <div class="flex w-max space-x-4">
-            <div v-for="i in 6">
-              <CourseCard class="w-60" uri="fundamental-of-cloud-computing" />
+            <div v-for="course in courses">
+              <CourseCard
+                class="w-60"
+                :key="course.id"
+                :title="course.title!"
+                :uri="course.uri!"
+              />
             </div>
           </div>
           <ScrollBar
@@ -34,7 +44,7 @@ import { Button } from '../ui/button'
       </div>
     </CardContent>
     <CardFooter class="justify-end">
-      <Link href="#" class="group">
+      <Link :href="route('courses')" class="group">
         <Button variant="link" class="font-medium">
           Explore more courses
           <ArrowRight
