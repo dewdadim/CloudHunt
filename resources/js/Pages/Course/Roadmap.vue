@@ -105,12 +105,6 @@ const items = [
                     )
                   "
                 >
-                  <!-- <CheckSquare
-                    v-if="i.isDone"
-                    class="absolute right-4 top-4 size-10 text-primary"
-                    fill="#fefce8"
-                  /> -->
-
                   <div
                     :class="
                       cn(
