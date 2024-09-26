@@ -14,7 +14,10 @@ const props = defineProps<{
 
 <template>
   <div :className="cn('w-72', props.class)">
-    <Link :href="route('courses.show', { id: props.uri })">
+    <Link
+      :href="route('courses.show', { id: props.uri })"
+      :data="{ chapter: 1 }"
+    >
       <AspectRatio :ratio="7 / 3" class="rounded-xl bg-muted">
         <img
           src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"

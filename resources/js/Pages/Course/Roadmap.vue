@@ -21,67 +21,46 @@ import { cn } from '@/lib/utils'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Link } from '@inertiajs/vue3'
 
-const { course } = defineProps<{
-  course: {
+const { course, chapter, modules } = defineProps<{
+  course: Course
+  chapter: {
     title: string
     id: number
   }
-  chapters: {
+  modules: {
     title: string
     id: number
-  }
+    type: string
+    isDone: false
+  }[]
 }>()
 
-const items = [
-  {
-    id: 1,
-    type: 'video',
-    title: 'What is Cloud?',
-    isDone: true,
-  },
-  {
-    id: 2,
-    type: 'quiz',
-    title: 'Cloud Computing Services',
-    isDone: true,
-  },
-  {
-    id: 3,
-    type: 'activity',
-    title: 'Type of Cloud Computing',
-    isDone: false,
-  },
-  {
-    id: 4,
-    type: 'activity',
-    title: 'Cloud Computing Deployment',
-    isDone: false,
-  },
-  {
-    id: 5,
-    type: 'quiz',
-    title: 'Advantages of Cloud Computing',
-    isDone: false,
-  },
-]
+const url = new URL(window.location.href)
+const chapterNumber = parseInt(url.searchParams.get('chapter')!)
 </script>
 
 <template>
-  <Navbar :course="course" />
+  <Navbar :course="course!" />
   <MaxWidthWrapper class="md:max-w-screen-xl">
     <div class="mt-6 flex w-full items-center justify-center md:mt-12">
       <Card class="shadow-0 w-full gap-4 border-none bg-white/0">
         <CardHeader
           class="flex-row items-center justify-center gap-4 text-center md:gap-8"
         >
-          <Link href="#">
+          <Link
+            :href="route('courses.show', { id: course.uri! })"
+            :data="{ chapter: chapterNumber! - 1 }"
+          >
             <ChevronLeft />
           </Link>
           <div>
-            <CardDescription>Chapter 1</CardDescription>
-            <CardTitle>Introduction to Cloud Computing</CardTitle>
+            <CardDescription>Chapter {{ chapterNumber }}</CardDescription>
+            <CardTitle>{{ chapter.title }}</CardTitle>
           </div>
-          <Link :href="route('dashboard')" :data="{ chapter: 1 }">
+          <Link
+            :href="route('courses.show', { id: course.uri! })"
+            :data="{ chapter: chapterNumber! + 1 }"
+          >
             <ChevronRight />
           </Link>
         </CardHeader>
@@ -92,14 +71,15 @@ const items = [
             <div class="flex flex-col pt-6 md:p-6 md:pb-12 lg:flex-row">
               <div
                 class="grid w-max grid-cols-2 lg:grid-cols-1"
-                v-for="i in items"
+                v-for="(i, index) in modules"
+                :key="i.id"
               >
                 <Link
                   href="#"
                   :class="
                     cn(
                       'group relative flex h-56 items-center transition hover:-translate-y-2 hover:cursor-pointer',
-                      items.indexOf(i) % 2 !== 0
+                      modules.indexOf(i) % 2 !== 0
                         ? 'order-last'
                         : 'order-first justify-end',
                     )
@@ -117,9 +97,9 @@ const items = [
                   >
                     <component
                       :is="
-                        i.type.includes('video')
+                        i.type == 'video'
                           ? MonitorPlay
-                          : i.type.includes('activity')
+                          : i.type == 'activity'
                             ? MousePointerClick
                             : Puzzle
                       "
@@ -133,18 +113,18 @@ const items = [
                   :class="
                     cn(
                       'flex h-64 w-full items-end',
-                      items.indexOf(i) % 2 !== 0
+                      modules.indexOf(i) % 2 !== 0
                         ? 'justify-end lg:justify-end'
                         : 'justify-start lg:items-start lg:justify-end',
                     )
                   "
                 >
                   <div
-                    v-if="i.id !== items.length"
+                    v-if="index + 1 !== modules.length"
                     :class="
                       cn(
                         '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed',
-                        items.indexOf(i) % 2 !== 0
+                        modules.indexOf(i) % 2 !== 0
                           ? 'scale-y-[-1]'
                           : 'rotate-180 lg:rotate-0',
                         i.isDone ? 'border-primary' : 'border-slate-400',
