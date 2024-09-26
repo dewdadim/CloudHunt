@@ -6,6 +6,8 @@ import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
+  courses?: Course[]
+  title: string
   uri: string
 }>()
 </script>
@@ -39,8 +41,8 @@ const props = defineProps<{
           class="h-full w-full rounded-t-xl border-x border-t object-cover"
         />
       </AspectRatio>
-      <div class="w-full rounded-b-xl border-x border-b p-4">
-        <h3 class="text-md font-semibold">Cybersecurity 2</h3>
+      <div class="h-16 w-full rounded-b-xl border-x border-b px-3 py-1.5">
+        <h3 class="text-md line-clamp-2 font-semibold">{{ props.title }}</h3>
       </div>
     </Link>
   </div>
