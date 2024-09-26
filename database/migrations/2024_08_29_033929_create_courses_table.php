@@ -20,12 +20,14 @@ return new class extends Migration
 
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->foreignId('course_id')->constrained('courses');
             $table->timestamps();
         });
 
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->foreignId('chapter_id')->constrained('chapters');
             $table->timestamps();
         });

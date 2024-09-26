@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Chapter extends Model
+class Module extends Model
 {
     use HasFactory;
 
@@ -16,6 +16,6 @@ class Chapter extends Model
      */
     protected $fillable = [
         'title',
-        'course_id',
+        'chapter_id',
     ];
 }

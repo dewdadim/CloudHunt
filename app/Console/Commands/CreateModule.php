@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Module;
+use App\Models\Chapter;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -14,14 +16,14 @@ class CreateModule extends Command
      *
      * @var string
      */
-    protected $signature = 'create:module {name}';
+    protected $signature = 'create:module';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a learn module for chapter';
+    protected $description = 'Create a learn module';
 
     /**
      * The type of class being generated.
@@ -90,11 +92,24 @@ class CreateModule extends Command
     public function handle()
     {
 
-        $name = $this->argument('name');
-        $chapter = Chapter::where('course_id', )->count();
+        // $name = $this->argument('name');
         $filesystem = new Filesystem();
+        $stub = $filesystem->get($this->getStub());
 
-        // Define the path for the Vue component
+        // Prompt attributes to user
+        $courses = Course::all();
+        $course = $this->choice('What course this module belongs to?', array_column(json_decode($courses), 'title'));
+        $courseId = Course::where('title', $course)->pluck('id')->first();
+
+        $chapters = Chapter::where('course_id', $courseId)->get();
+        $chapter = $this->choice('Which chapter this module belongs to?', array_column(json_decode($chapters), 'title'));
+        $chapterId = Chapter::where('title', $chapter)->pluck('id')->first();
+
+        $title = $this->ask('What is the title for this Module?');
+
+        $name = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
+        $name = Str::kebab($title);
+
         $path = $this->getPath($name);
 
         // Create the directory if it doesn't exist
@@ -108,34 +123,27 @@ class CreateModule extends Command
             return 1;
         }
 
-        // Load the stub template
-        $stub = $filesystem->get($this->getStub());
-
         // Replace placeholders in the stub
-        $stub = str_replace('{{ componentName }}', $name, $stub);
+        $stub = str_replace('{{ componentName }}', $title, $stub);
 
+        // $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Difficult']);
 
-        // Prompt attributes to user
-
-        $courses = Course::all();
-
-        $course = $this->choice('What course this module belongs to?', array_column(json_decode($courses), 'title'));
-        $this->info($course);
-
-        $courseId = Course::where('title', $course)->pluck('id')->first();
-        $this->info($courseId);
-
-        $chapters = Chapter::where('course_id', $courseId)->limit(2);
-        $chapterId = $this->choice('Which chapter this module belongs to?', array_column(json_decode($chapters), 'create_at'));
-
-        $title = $this->ask('What is the title for the Module?');
-
-        $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Difficult']);
+        // Save into database
+        Module::create([
+            'title' => $title,
+            'chapter_id' => $chapterId
+        ]);
 
         // Write the Vue file
         $filesystem->put($path, $stub);
 
-        $this->info("Vue component {$name}.vue created successfully!");
+        // Success message
+        $this->info("Vue component {$name}.vue created successfully! Located at: ../resources/js/components/modules/{$name}.vue");
+        $this->info("Module '{$name}' for '{$chapter}' created successfully!");
+        $this->table(
+            ['id', 'title'],
+            Module::select('id', 'title')->where('chapter_id', $chapterId)->get()
+        );
 
     }
 }
