@@ -13,10 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Link } from '@inertiajs/vue3'
 
 const { course } = defineProps<{
-  course: {
-    title: string
-    id: number
-  }
+  course: Course
 }>()
 </script>
 
