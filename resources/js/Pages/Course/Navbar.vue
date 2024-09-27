@@ -24,7 +24,7 @@ const { course } = defineProps<{
     >
       <div class="flex flex-wrap items-center gap-4">
         <Link :href="route('dashboard')">
-          <img :src="'../images/RCEdu.svg'" alt="logo" class="w-28" />
+          <img :src="'/images/RCEdu.svg'" alt="logo" class="w-28" />
         </Link>
         <Breadcrumb class="hidden md:inline-flex">
           <BreadcrumbList>
