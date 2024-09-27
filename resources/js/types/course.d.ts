@@ -8,6 +8,7 @@ interface Course {
 
 interface Chapter {
   id: number | undefined
+  uri: string | undefined
   title: string | undefined
   course_id: string | undefined
   created_at: Date | undefined
@@ -16,8 +17,11 @@ interface Chapter {
 
 interface Module {
   id: number | undefined
+  uri: string | undefined
   title: string | undefined
   chapter_id: string | undefined
+  category: 'video' | 'activity' | 'quiz' | undefined
+  difficulty: 'easy' | 'moderate' | 'hard' | undefined
   created_at: Date | undefined
   updated_at: Date | undefined
 }
