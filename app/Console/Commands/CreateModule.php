@@ -110,23 +110,29 @@ class CreateModule extends Command
 
         $title = $this->ask('What is the title for this Module?');
 
-        $name = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
-        $name = Str::kebab($name);
+        $uri = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
+        $uri = Str::kebab($uri);
 
-        $path = $this->getPath($course, $chapter, $name);
-        // $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Difficult']);
+        $path = $this->getPath($course, $chapter, $uri);
+        
+        $category = $this->choice('How difficult this module is?', ['Video', 'Activity', 'Quiz']);
+        
+        $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Hard']);
 
         // Save into database
         Module::create([
+            'uri' => $uri,
             'title' => $title,
-            'chapter_id' => $chapterId
+            'chapter_id' => $chapterId,
+            'category' => $category,
+            'difficulty' => $difficulty
         ]);
 
         $this->generateModuleFile($title, $path); // Generate .vue file
 
         // Success message
-        $this->info("Vue component {$name}.vue created successfully! Located at: {$path}");
-        $this->info("Module '{$name}' for '{$chapter}' created successfully!");
+        $this->info("Vue component {$uri}.vue created successfully! Located at: {$path}");
+        $this->info("Module '{$title}' for '{$chapter}' created successfully!");
         $this->table(
             ['id', 'title'],
             Module::select('id', 'title')->where('chapter_id', $chapterId)->get()

@@ -61,6 +61,7 @@ class CreateChapter extends Command
 
         // Save into database
         Chapter::create([
+            'uri' => $uri,
             'title' => $title,
             'course_id' => $courseId,
         ]);
