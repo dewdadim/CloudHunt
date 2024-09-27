@@ -11,10 +11,11 @@ class CourseController extends Controller
 {
 
     public function show(Course $course){
-        $chapter = Chapter::select('uri')->where('course_id', $course->id)->first();
+        $course->load('chapters.modules');
         
-        return to_route('chapters.show', [
-            'course' => $course, 'chapter'=> $chapter
+        return Inertia::render('Course/Roadmap', [
+            'course' => $course, 
+            'chapters'=> $course->chapters
         ]);
     }
 
