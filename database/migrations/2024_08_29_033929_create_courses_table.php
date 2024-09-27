@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('uri')->unique();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->timestamps();
         });
 
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
+            $table->string('uri');
             $table->string('title');
             $table->foreignId('course_id')->constrained('courses');
             $table->timestamps();
@@ -27,8 +28,11 @@ return new class extends Migration
 
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
+            $table->string('uri');
             $table->string('title');
             $table->foreignId('chapter_id')->constrained('chapters');
+            $table->enum('category', ['video', 'activity', 'quiz']);
+            $table->enum('difficulty', ['easy', 'moderate', 'hard']);
             $table->timestamps();
         });
     }
