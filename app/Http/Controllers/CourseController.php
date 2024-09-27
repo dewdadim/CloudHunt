@@ -9,17 +9,12 @@ use App\Models\Module;
 
 class CourseController extends Controller
 {
+
     public function show(Course $course){
-        $chapter = request()->chapter;
+        $chapter = Chapter::select('uri')->where('course_id', $course->id)->first();
         
-
-        $chapter = Chapter::find($chapter);
-        $modules = Module::where('chapter_id', $chapter->id)->get();
-
-        return Inertia::render('Course/Roadmap', [
-            'course' => $course,
-            'chapter' => $chapter,
-            'modules' => $modules
+        return to_route('chapters.show', [
+            'course' => $course, 'chapter'=> $chapter
         ]);
     }
 
