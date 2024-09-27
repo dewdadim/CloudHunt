@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Module extends Model
 {
@@ -15,7 +16,18 @@ class Module extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'uri',
         'title',
         'chapter_id',
+        'category',
+        'difficulty'
     ];
+
+    /**
+     * Get the chapter that owns the module.
+     */
+    public function chapter(): BelongsTo
+    {
+        return $this->belongsTo(Chapter::class);
+    }
 }
