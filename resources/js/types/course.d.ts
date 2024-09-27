@@ -1,27 +1,30 @@
 interface Course {
-  id: number | undefined
-  uri: string | undefined
-  title: string | undefined
-  created_at: Date | undefined
-  updated_at: Date | undefined
+  id: number
+  uri: string
+  chapters: Chapter[]
+  title: string
+  created_at: Date
+  updated_at: Date
 }
 
 interface Chapter {
-  id: number | undefined
-  uri: string | undefined
-  title: string | undefined
-  course_id: string | undefined
-  created_at: Date | undefined
-  updated_at: Date | undefined
+  id: number
+  uri: string
+  modules: Module[]
+  title: string
+  course_id: string
+  created_at: Date
+  updated_at: Date
 }
 
 interface Module {
-  id: number | undefined
-  uri: string | undefined
-  title: string | undefined
-  chapter_id: string | undefined
-  category: 'video' | 'activity' | 'quiz' | undefined
-  difficulty: 'easy' | 'moderate' | 'hard' | undefined
-  created_at: Date | undefined
-  updated_at: Date | undefined
+  id: number
+  uri: string
+  title: string
+  chapter_id: string
+  category: 'video' | 'activity' | 'quiz'
+  difficulty: 'easy' | 'moderate' | 'hard'
+  isDone: boolean
+  created_at: Date
+  updated_at: Date
 }
