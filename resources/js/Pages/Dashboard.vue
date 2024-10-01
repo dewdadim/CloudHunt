@@ -70,9 +70,14 @@ const xp = ref(70)
       </Card>
     </div>
     <div class="flex w-full flex-col gap-3">
-      <ContinueLesson :courses="courses" />
+      <CourseCard
+        :title="courses[0].title"
+        :uri="courses[0].uri"
+        class="w-full shadow-taper"
+      />
       <News />
       <MiniCloudHuntChallenge />
+      <ContinueLesson :courses="courses" />
       <CourseSuggestion :courses="courses" />
     </div>
   </main>
