@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
 use App\Models\Course;
@@ -39,6 +40,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/courses/{course:uri}',  [CourseController::class, 'show'])->name('courses.show');
 
         Route::get('/courses/{course:uri}/{chapter:uri}', [ChapterController::class, 'show'])->name('chapters.show');
+
+        Route::get('/courses/{course:uri}/{chapter:uri}/{module:uri}', [ModuleController::class, 'show'])->name('modules.show');
 
 
     });

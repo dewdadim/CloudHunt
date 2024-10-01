@@ -32,11 +32,6 @@ const currentChapter = ref(0)
         <CardHeader
           class="flex-row items-center justify-center gap-4 text-center md:gap-8"
         >
-          <Button
-            v-on:click="currentChapter -= 1"
-            :disabled="currentChapter === 0"
-            >Previous</Button
-          >
           <div>
             <CardDescription>
               Chapter
@@ -48,6 +43,11 @@ const currentChapter = ref(0)
             </CardDescription>
             <CardTitle>{{ chapters[currentChapter].title }}</CardTitle>
           </div>
+          <Button
+            v-on:click="currentChapter -= 1"
+            :disabled="currentChapter === 0"
+            >Previous</Button
+          >
           <Button
             v-on:click="currentChapter += 1"
             :disabled="currentChapter >= chapters.length - 1"
@@ -65,7 +65,13 @@ const currentChapter = ref(0)
                 :key="i.id"
               >
                 <Link
-                  href="#"
+                  :href="
+                    route('modules.show', {
+                      course: course.uri,
+                      chapter: chapters[currentChapter].uri,
+                      module: i.uri,
+                    })
+                  "
                   :class="
                     cn(
                       'group relative flex h-56 items-center transition hover:-translate-y-2 hover:cursor-pointer',
