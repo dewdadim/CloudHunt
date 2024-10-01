@@ -66,7 +66,7 @@ class CreateModule extends Command
      * @param  string  $path The path directory of the module
      * @return string
      */
-    private function generateModuleFile($title, $path)
+    private function generateModuleFile($courseTitle, $chapterTitle, $title, $path)
     {
         $filesystem = new Filesystem();
         $stub = $filesystem->get($this->getStub());
@@ -77,6 +77,9 @@ class CreateModule extends Command
         // Replace placeholders in the stub
         $stub = str_replace('{{ title }}', $title, $stub);
         $stub = str_replace('{{ path }}', $path, $stub);
+        $stub = str_replace('{{ course }}', $courseTitle, $stub);
+        $stub = str_replace('{{ chapter }}', $chapterTitle, $stub);
+
 
         // Create the directory if it doesn't exist
         if (!$filesystem->isDirectory(dirname($path))) {
@@ -128,7 +131,7 @@ class CreateModule extends Command
             'difficulty' => $difficulty
         ]);
 
-        $this->generateModuleFile($title, $path); // Generate .vue file
+        $this->generateModuleFile($course, $chapter, $title, $path); // Generate .vue file
 
         // Success message
         $this->info("Vue component {$uri}.vue created successfully! Located at: {$path}");
