@@ -52,7 +52,7 @@ const achievements = [
         <CardHeader class="flex flex-col md:flex-row md:justify-between">
           <div class="flex w-full flex-wrap items-center gap-4">
             <div class="w-48">
-              <AspectRatio :ratio="1 / 1" class="rounded-xl bg-muted">
+              <AspectRatio :ratio="1 / 1" class="rounded-2xl bg-muted">
                 <img
                   :src="user.avatar"
                   class="h-full w-full rounded-2xl border shadow-taper"
