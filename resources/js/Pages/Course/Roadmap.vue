@@ -74,7 +74,7 @@ const currentChapter = ref(0)
                   "
                   :class="
                     cn(
-                      'group relative flex h-56 items-center transition hover:-translate-y-2 hover:cursor-pointer',
+                      'group relative flex h-56 items-center transition hover:-translate-y-2',
                       chapters[currentChapter].modules.indexOf(i) % 2 !== 0
                         ? 'order-last'
                         : 'order-first justify-end',
@@ -84,7 +84,7 @@ const currentChapter = ref(0)
                   <div
                     :class="
                       cn(
-                        'flex h-full w-48 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-2 text-center transition',
+                        'flex h-full w-48 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-8 text-center transition',
                         i.isDone
                           ? 'border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary'
                           : 'border text-slate-600 shadow-taper group-hover:bg-slate-50',
