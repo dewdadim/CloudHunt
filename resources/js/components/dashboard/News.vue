@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { ArrowRight } from 'lucide-vue-next'
 import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
+
+const props = defineProps<{
+  class?: string
+}>()
 </script>
 
 <template>
   <div
-    class="my-4 flex h-16 w-full items-center justify-between gap-4 rounded-xl border bg-gradient-to-r from-cyan-500 via-amber-400 to-pink-500 p-8 text-white shadow-taper"
+    :class="
+      cn(
+        'my-4 flex h-16 w-full items-center justify-between gap-4 rounded-2xl border bg-gradient-to-r from-cyan-500 via-amber-400 to-pink-500 p-8 text-white shadow-taper',
+        props.class,
+      )
+    "
   >
     <p class="font-semibold text-black">
       Some News that might be interesting...
