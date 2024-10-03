@@ -14,6 +14,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Link } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { Button } from '@/components/ui/button'
+import ModuleCard from '@/components/ModuleCard.vue'
 
 const { course } = defineProps<{
   course: Course
@@ -64,51 +65,18 @@ const currentChapter = ref(0)
                 v-for="(i, index) in chapters[currentChapter].modules"
                 :key="i.id"
               >
-                <Link
-                  :href="
-                    route('modules.show', {
-                      course: course.uri,
-                      chapter: chapters[currentChapter].uri,
-                      module: i.uri,
-                    })
-                  "
-                  :class="
-                    cn(
-                      'group relative flex h-56 items-center transition hover:-translate-y-2',
-                      chapters[currentChapter].modules.indexOf(i) % 2 !== 0
-                        ? 'order-last'
-                        : 'order-first justify-end',
-                    )
-                  "
-                >
-                  <div
-                    :class="
-                      cn(
-                        'flex h-full w-48 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-8 text-center transition',
-                        i.isDone
-                          ? 'border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary'
-                          : 'border text-slate-600 shadow-taper group-hover:bg-slate-50',
-                      )
-                    "
-                  >
-                    <component
-                      :is="
-                        i.category == 'video'
-                          ? MonitorPlay
-                          : i.category == 'quiz'
-                            ? Puzzle
-                            : MousePointerClick
-                      "
-                      class="size-14 stroke-[1.2px]"
-                    />
-                    <h3 class="text-wrap font-semibold">{{ i.title }}</h3>
-                  </div>
-                </Link>
+                <ModuleCard
+                  :course="course"
+                  :chapters="chapters"
+                  :module="i"
+                  :current-chapter="currentChapter"
+                  :index="index"
+                />
                 <div
                   :class="
                     cn(
                       'flex h-64 w-full items-end',
-                      chapters[currentChapter].modules.indexOf(i) % 2 !== 0
+                      index % 2 !== 0
                         ? 'justify-end lg:justify-end'
                         : 'justify-start lg:items-start lg:justify-end',
                     )
@@ -119,7 +87,7 @@ const currentChapter = ref(0)
                     :class="
                       cn(
                         '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed',
-                        chapters[currentChapter].modules.indexOf(i) % 2 !== 0
+                        index % 2 !== 0
                           ? 'scale-y-[-1]'
                           : 'rotate-180 lg:rotate-0',
                         i.isDone ? 'border-primary' : 'border-slate-400',
