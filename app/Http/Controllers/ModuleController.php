@@ -6,16 +6,39 @@ use Inertia\Inertia;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\Chapter;
+use App\Models\Progress;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ModuleController extends Controller
 {
     public function show(Course $course, Chapter $chapter, Module $module){
+
+        $userId = Auth::id();
+
+        Progress::firstOrCreate([
+            'module_id' => $module->id
+        ],[
+            'module_id' => $module->id,
+            'user_id' => $userId
+        ]);
 
         return Inertia::render('Course/Module', [
             'course' => $course,
             'chapter' => $chapter,
             'module' => $module
         ]);
+    }
+
+    public function completeModule(Request $request, $moduleId){
+        $user = auth()->user;
+        $module = Module::findOrFail($moduleId);
+
+        $user->completedModules()->syncWithoutDetaching([
+            $module->id => ['completed' => true]
+        ]);
+
+        return response()->json(['message' => 'Module completed!'], 200);
     }
 }
