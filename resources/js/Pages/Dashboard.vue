@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -39,45 +40,55 @@ const xp = ref(70)
     class="mx-auto mb-12 mt-4 flex max-w-[400px] flex-col gap-4 overflow-x-visible md:mt-12 md:max-w-screen-lg md:flex-row lg:gap-8"
   >
     <div class="min-w-full md:min-w-[350px]">
-      <Card class="sticky top-28 w-full md:w-[350px]">
-        <CardHeader>
-          <CardTitle>Welcome, {{ auth.user.prefer_name }} 👋</CardTitle>
-          <CardDescription>@{{ auth.user.username }}</CardDescription>
-          <Link :href="route('users.show', { id: auth.user.username })">
-            <Button class="mt-4 w-full" variant="outline" size="lg">
-              View Profile
-            </Button>
-          </Link>
-        </CardHeader>
-        <CardContent class="grid gap-6 pb-10">
-          <Separator />
-          <div class="flex flex-col gap-2">
-            <h3 class="font-semibold">Your XP</h3>
-            <p class="flex items-center gap-2 text-3xl font-semibold">
-              <StarsIcon fill="#F9BF3B" class="text-primary" />
-              {{ xp }}
-            </p>
-          </div>
-          <div class="flex flex-col gap-2">
-            <h3 class="font-semibold">Total courses</h3>
-            <div class="flex justify-between">
-              <p>2 completed</p>
-              <p>5 enrolled</p>
+      <div class="sticky top-28 w-full md:w-[350px]">
+        <h2 class="mb-4 text-xl font-semibold">
+          Welcome, {{ auth.user.prefer_name }} 👋
+        </h2>
+
+        <Card class="w-full">
+          <CardContent class="grid gap-6 pb-10 pt-4">
+            <div class="flex flex-col gap-2">
+              <h3 class="font-semibold">Your XP</h3>
+              <p class="flex items-center gap-2 text-3xl font-semibold">
+                <StarsIcon fill="#F9BF3B" class="text-primary" />
+                {{ xp }}
+              </p>
             </div>
-            <Progress :model-value="(2 / 5) * 100" class="h-2 bg-primary/30" />
-          </div>
-        </CardContent>
-      </Card>
+            <div class="flex flex-col gap-2">
+              <h3 class="font-semibold">Total courses</h3>
+              <div class="flex justify-between">
+                <p>2 completed</p>
+                <p>5 enrolled</p>
+              </div>
+              <Progress
+                :model-value="(2 / 5) * 100"
+                class="h-2 bg-primary/30"
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Link
+              class="w-full"
+              :href="route('users.show', { id: auth.user.username })"
+            >
+              <Button class="mt-4 w-full" variant="outline" size="lg">
+                View Profile
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
-    <div class="flex w-full flex-col gap-3">
-      <CourseCard
+    <div class="flex w-full flex-col gap-8">
+      <!-- <News class="mb-2 mt-0" /> -->
+
+      <!-- <CourseCard
         :title="courses[0].title"
         :uri="courses[0].uri"
         class="w-full shadow-taper"
-      />
-      <News />
-      <MiniCloudHuntChallenge />
+      /> -->
       <ContinueLesson :courses="courses" />
+      <MiniCloudHuntChallenge />
       <CourseSuggestion :courses="courses" />
     </div>
   </main>

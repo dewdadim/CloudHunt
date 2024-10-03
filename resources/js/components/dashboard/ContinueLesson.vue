@@ -3,15 +3,26 @@ import { Link } from '@inertiajs/vue3'
 import CourseCard from '../CourseCard.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
+import { ref } from 'vue'
+import { Button } from '../ui/button'
+import { ChevronDown, ChevronsDown, ChevronUp } from 'lucide-vue-next'
+import { cn } from '@/lib/utils'
 
 defineProps<{
   class?: string
   courses: Course[]
 }>()
+
+const isOpen = ref(false)
 </script>
 
 <template>
-  <Card :class="class">
+  <!-- <Card :class="class">
     <CardHeader>
       <CardTitle>Continue Lesson</CardTitle>
     </CardHeader>
@@ -34,5 +45,43 @@ defineProps<{
         </ScrollArea>
       </div>
     </CardContent>
-  </Card>
+  </Card> -->
+  <Collapsible v-model:open="isOpen" class="space-y-4">
+    <h3 class="mb-4 text-xl font-semibold">Continue Lesson</h3>
+    <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+      <div v-for="course in courses.slice(0, 2)">
+        <CourseCard
+          :key="course.id"
+          :title="course.title!"
+          :uri="course.uri!"
+          class="w-full"
+        />
+      </div>
+    </div>
+    <CollapsibleContent class="p-1" v-if="courses.slice(2).length > 0">
+      <div class="grid w-full grid-cols-2 gap-3">
+        <div v-for="course in courses.slice(2)">
+          <CourseCard
+            :key="course.id"
+            :title="course.title!"
+            :uri="course.uri!"
+            class="w-full"
+          />
+        </div>
+      </div>
+    </CollapsibleContent>
+    <CollapsibleTrigger as-child v-if="courses.slice(2).length > 0">
+      <Button
+        class="w-full gap-2 rounded-full border-0 bg-card/60 py-6 font-medium"
+        variant="secondary"
+      >
+        Show {{ isOpen ? 'Less' : 'More' }}
+        <ChevronDown
+          :class="
+            cn('transition duration-500 ease-in-out', isOpen && '-rotate-180')
+          "
+        />
+      </Button>
+    </CollapsibleTrigger>
+  </Collapsible>
 </template>
