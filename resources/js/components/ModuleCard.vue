@@ -1,37 +1,26 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 import { MonitorPlay, MousePointerClick, Puzzle } from 'lucide-vue-next'
+import { HTMLAttributes, ref } from 'vue'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Button } from './ui/button'
+import { Link } from '@inertiajs/vue3'
 
-const { course } = defineProps<{
-  course: Course
-  chapters: Chapter[]
+const props = defineProps<{
   module: Module
-  index: number
-  currentChapter: number
+  courseUri: string
+  chapterUri: string
+  class?: HTMLAttributes['class']
 }>()
 </script>
 
 <template>
-  <Link
-    :href="
-      route('modules.show', {
-        course: course.uri,
-        chapter: chapters[currentChapter].uri,
-        module: module.uri,
-      })
-    "
-    :class="
-      cn(
-        'group relative flex h-56 items-center transition hover:-translate-y-2 hover:cursor-pointer',
-        index % 2 !== 0 ? 'order-last' : 'order-first justify-end',
-      )
-    "
-  >
-    <div
+  <Popover>
+    <PopoverTrigger
       :class="
         cn(
-          'flex h-full w-48 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-2 text-center transition',
-          module.isDone
+          'flex h-full w-40 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-6 text-center transition',
+          props.module.isDone
             ? 'border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary'
             : 'border text-slate-600 shadow-taper group-hover:bg-slate-50',
         )
@@ -39,15 +28,34 @@ const { course } = defineProps<{
     >
       <component
         :is="
-          module.category == 'video'
+          props.module.category == 'video'
             ? MonitorPlay
-            : module.category == 'quiz'
+            : props.module.category == 'quiz'
               ? Puzzle
               : MousePointerClick
         "
         class="size-14 stroke-[1.2px]"
       />
-      <h3 class="text-wrap font-semibold">{{ module.title }}</h3>
-    </div>
-  </Link>
+      <h3 class="text-wrap text-sm font-semibold">
+        {{ props.module.title }}
+      </h3>
+    </PopoverTrigger>
+    <PopoverContent side="bottom">
+      <div class="grid gap-4">
+        <h4 class="font-semibold">{{ module.title }}</h4>
+        <Link
+          :href="
+            route('modules.show', {
+              course: props.courseUri,
+              chapter: props.chapterUri,
+              module: module.uri,
+            })
+          "
+          class="w-full"
+        >
+          <Button class="w-full">Start Lesson</Button>
+        </Link>
+      </div>
+    </PopoverContent>
+  </Popover>
 </template>
