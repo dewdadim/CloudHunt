@@ -58,24 +58,34 @@ const currentChapter = ref(0)
         <CardContent
           class="mt-2 flex flex-col items-center p-0 md:mt-12 lg:flex-row lg:justify-center"
         >
-          <ScrollArea class="w-fit whitespace-nowrap lg:w-10/12">
+          <ScrollArea class="w-fit whitespace-nowrap lg:w-full">
             <div class="flex flex-col pt-6 md:p-6 md:pb-12 lg:flex-row">
               <div
-                class="grid w-max grid-cols-2 lg:grid-cols-1"
+                class="grid w-max grid-cols-2 md:place-items-start lg:grid-cols-1"
                 v-for="(i, index) in chapters[currentChapter].modules"
                 :key="i.id"
               >
-                <ModuleCard
-                  :course="course"
-                  :chapters="chapters"
-                  :module="i"
-                  :current-chapter="currentChapter"
-                  :index="index"
-                />
                 <div
                   :class="
                     cn(
-                      'flex h-64 w-full items-end',
+                      'group relative flex h-52 items-center transition hover:-translate-y-2',
+                      index % 2 !== 0
+                        ? 'order-last'
+                        : 'order-first justify-end',
+                    )
+                  "
+                >
+                  <ModuleCard
+                    :module="i"
+                    :course-uri="course.uri"
+                    :chapter-uri="chapters[currentChapter].uri"
+                  />
+                </div>
+                <div
+                  v-if="index + 1 !== chapters[currentChapter].modules.length"
+                  :class="
+                    cn(
+                      'flex h-80 w-full items-end lg:w-64',
                       index % 2 !== 0
                         ? 'justify-end lg:justify-end'
                         : 'justify-start lg:items-start lg:justify-end',
@@ -83,10 +93,9 @@ const currentChapter = ref(0)
                   "
                 >
                   <div
-                    v-if="index + 1 !== chapters[currentChapter].modules.length"
                     :class="
                       cn(
-                        '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed',
+                        '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed lg:w-2/3',
                         index % 2 !== 0
                           ? 'scale-y-[-1]'
                           : 'rotate-180 lg:rotate-0',
