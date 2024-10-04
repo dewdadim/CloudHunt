@@ -8,13 +8,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import { ref } from 'vue'
+import { HTMLAttributes, ref } from 'vue'
 import { Button } from '../ui/button'
 import { ChevronDown, ChevronsDown, ChevronUp } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
 defineProps<{
-  class?: string
+  class?: HTMLAttributes['class']
   courses: Course[]
 }>()
 
@@ -75,10 +75,10 @@ const isOpen = ref(false)
         class="w-full gap-2 rounded-full border-0 bg-card/60 py-6 font-medium"
         variant="secondary"
       >
-        Show {{ isOpen ? 'Less' : 'More' }}
+        Show {{ isOpen ? 'less' : 'more' }}
         <ChevronDown
           :class="
-            cn('transition duration-500 ease-in-out', isOpen && '-rotate-180')
+            cn('transition duration-300 ease-in-out', isOpen && '-rotate-180')
           "
         />
       </Button>
