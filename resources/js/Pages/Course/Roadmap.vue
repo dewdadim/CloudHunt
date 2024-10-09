@@ -82,10 +82,11 @@ const currentChapter = ref(0)
                   />
                 </div>
                 <div
-                  v-if="index + 1 !== chapters[currentChapter].modules.length"
                   :class="
                     cn(
                       'flex h-80 w-full items-end lg:w-64',
+                      index + 1 === chapters[currentChapter].modules.length &&
+                        'lg:w-full',
                       index % 2 !== 0
                         ? 'justify-end lg:justify-end'
                         : 'justify-start lg:items-start lg:justify-end',
@@ -93,13 +94,14 @@ const currentChapter = ref(0)
                   "
                 >
                   <div
+                    v-if="index + 1 !== chapters[currentChapter].modules.length"
                     :class="
                       cn(
                         '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed lg:w-2/3',
                         index % 2 !== 0
                           ? 'scale-y-[-1]'
                           : 'rotate-180 lg:rotate-0',
-                        i.isDone ? 'border-primary' : 'border-slate-400',
+                        i.completed ? 'border-primary' : 'border-slate-400',
                       )
                     "
                   />
