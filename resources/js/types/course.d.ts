@@ -24,7 +24,7 @@ interface Module {
   chapter_id: string
   category: 'video' | 'activity' | 'quiz'
   difficulty: 'easy' | 'moderate' | 'hard'
-  isDone: boolean
+  completed: boolean
   created_at: Date
   updated_at: Date
 }
