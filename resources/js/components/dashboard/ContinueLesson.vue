@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils'
 
 defineProps<{
   class?: HTMLAttributes['class']
-  courses: Course[]
+  lessons: Lesson[]
 }>()
 
 const isOpen = ref(false)
@@ -49,28 +49,28 @@ const isOpen = ref(false)
   <Collapsible v-model:open="isOpen" class="space-y-4">
     <h3 class="mb-4 text-xl font-semibold">Continue Lesson</h3>
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-      <div v-for="course in courses.slice(0, 2)">
+      <div v-for="lesson in lessons.slice(0, 2)">
         <CourseCard
-          :key="course.id"
-          :title="course.title!"
-          :uri="course.uri!"
+          :key="lesson.id"
+          :title="lesson.title!"
+          :uri="lesson.uri!"
           class="w-full"
         />
       </div>
     </div>
-    <CollapsibleContent class="p-1" v-if="courses.slice(2).length > 0">
+    <CollapsibleContent class="p-1" v-if="lessons.slice(2).length > 0">
       <div class="grid w-full grid-cols-2 gap-3">
-        <div v-for="course in courses.slice(2)">
+        <div v-for="lesson in lessons.slice(2)">
           <CourseCard
-            :key="course.id"
-            :title="course.title!"
-            :uri="course.uri!"
+            :key="lesson.id"
+            :title="lesson.title!"
+            :uri="lesson.uri!"
             class="w-full"
           />
         </div>
       </div>
     </CollapsibleContent>
-    <CollapsibleTrigger as-child v-if="courses.slice(2).length > 0">
+    <CollapsibleTrigger as-child v-if="lessons.slice(2).length > 0">
       <Button
         class="w-full gap-2 rounded-full border-0 bg-card/60 py-6 font-medium"
         variant="secondary"

@@ -13,7 +13,7 @@ const props = defineProps<{
 
 <template>
   <div :className="cn('w-72 rounded-3xl shadow-taper', props.class)">
-    <Link :href="route('courses.show', { id: props.uri })">
+    <Link :href="route('lessons.show', { id: props.uri })">
       <AspectRatio :ratio="7 / 3" class="rounded-3xl bg-muted">
         <img
           src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"

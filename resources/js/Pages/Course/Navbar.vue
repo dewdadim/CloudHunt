@@ -12,8 +12,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Link } from '@inertiajs/vue3'
 
-const { course } = defineProps<{
-  course: Course
+const { lesson } = defineProps<{
+  lesson: Lesson
 }>()
 </script>
 
@@ -35,14 +35,14 @@ const { course } = defineProps<{
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem class="hidden md:inline-flex">
-              <Link :href="route('courses')"> Courses </Link>
+              <Link :href="route('lessons')"> Courses </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
               <BreadcrumbPage class="max-w-48 truncate md:max-w-full">{{
-                course.title
+                lesson.title
               }}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>

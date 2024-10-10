@@ -7,6 +7,16 @@ interface Course {
   updated_at: Date
 }
 
+interface Lesson {
+  id: number
+  uri: string
+  modules: Module[]
+  title: string
+  description: string
+  created_at: Date
+  updated_at: Date
+}
+
 interface Chapter {
   id: number
   uri: string
@@ -21,10 +31,10 @@ interface Module {
   id: number
   uri: string
   title: string
-  chapter_id: string
-  category: 'video' | 'activity' | 'quiz'
+  description: string
+  lesson_id: string
+  category: 'learn' | 'test'
   difficulty: 'easy' | 'moderate' | 'hard'
-  completed: boolean
   created_at: Date
   updated_at: Date
 }

@@ -1,27 +1,17 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { StarsIcon } from 'lucide-vue-next'
-import Separator from '@/components/ui/separator/Separator.vue'
 import { Link } from '@inertiajs/vue3'
-
-import { ref } from 'vue'
-import CourseCard from '@/components/CourseCard.vue'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import MiniCloudHuntChallenge from '@/components/dashboard/MiniCloudHuntChallenge.vue'
 import News from '@/components/dashboard/News.vue'
 import CourseSuggestion from '@/components/dashboard/CourseSuggestion.vue'
 import ContinueLesson from '@/components/dashboard/ContinueLesson.vue'
 
-const { auth, courses } = defineProps<{
+import { ref } from 'vue'
+
+const { auth, lessons } = defineProps<{
   auth: {
     user: {
       username: string
@@ -29,7 +19,7 @@ const { auth, courses } = defineProps<{
       avatar: string
     }
   }
-  courses: Course[]
+  lessons: Lesson[]
 }>()
 
 const xp = ref(70)
@@ -87,9 +77,9 @@ const xp = ref(70)
         :uri="courses[0].uri"
         class="w-full shadow-taper"
       /> -->
-      <ContinueLesson :courses="courses" />
+      <ContinueLesson :lessons="lessons" />
       <MiniCloudHuntChallenge />
-      <CourseSuggestion :courses="courses" />
+      <CourseSuggestion :lessons="lessons" />
     </div>
   </main>
 </template>

@@ -16,21 +16,21 @@ import { computed, ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import ModuleCard from '@/components/ModuleCard.vue'
 
-const { course } = defineProps<{
-  course: Course
+const { lesson } = defineProps<{
+  lesson: Lesson
 }>()
 
-const chapters = computed<Chapter[]>(() => course.chapters!)
+// const chapters = computed<Chapter[]>(() => lesson.chapters!)
 
 const currentChapter = ref(0)
 </script>
 
 <template>
-  <Navbar :course="course!" />
+  <Navbar :lesson="lesson!" />
   <MaxWidthWrapper class="md:max-w-screen-xl">
     <div class="mt-6 flex w-full items-center justify-center md:mt-12">
       <Card class="shadow-0 w-full gap-4 border-none bg-white/0">
-        <CardHeader
+        <!-- <CardHeader
           class="flex-row items-center justify-center gap-4 text-center md:gap-8"
         >
           <div>
@@ -54,7 +54,7 @@ const currentChapter = ref(0)
             :disabled="currentChapter >= chapters.length - 1"
             >Next</Button
           >
-        </CardHeader>
+        </CardHeader> -->
         <CardContent
           class="mt-2 flex flex-col items-center p-0 md:mt-12 lg:flex-row lg:justify-center"
         >
@@ -62,7 +62,7 @@ const currentChapter = ref(0)
             <div class="flex flex-col pt-6 md:p-6 md:pb-12 lg:flex-row">
               <div
                 class="grid w-max grid-cols-2 md:place-items-start lg:grid-cols-1"
-                v-for="(i, index) in chapters[currentChapter].modules"
+                v-for="(i, index) in lesson.modules"
                 :key="i.id"
               >
                 <div
@@ -77,7 +77,7 @@ const currentChapter = ref(0)
                 >
                   <ModuleCard
                     :module="i"
-                    :course-uri="course.uri"
+                    :course-uri="lesson.uri"
                     :chapter-uri="chapters[currentChapter].uri"
                   />
                 </div>

@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -32,16 +34,19 @@ Route::middleware('auth')->group(function () {
     Route::middleware('onboarded')->group(function () {
 
         Route::get('/dashboard', function () {
-            $courses = Course::all();
-            return Inertia::render('Dashboard', ['courses' => $courses]);
+            $lessons = Lesson::all();
+            return Inertia::render('Dashboard', ['lessons' => $lessons]);
         })->name('dashboard');
 
-        Route::get('/courses', [CourseController::class, 'index'])->name('courses');
-        Route::get('/courses/{course:uri}',  [CourseController::class, 'show'])->name('courses.show');
+        Route::get('/lessons', [CourseController::class, 'index'])->name('lessons');
 
-        Route::get('/courses/{course:uri}/{chapter:uri}', [ChapterController::class, 'show'])->name('chapters.show');
+        Route::get('/lessons/{lesson:uri}',  [LessonController::class, 'show'])->name('lessons.show');
 
-        Route::get('/courses/{course:uri}/{chapter:uri}/{module:uri}', [ModuleController::class, 'show'])->name('modules.show');
+        // Route::get('/courses/{course:uri}',  [CourseController::class, 'show'])->name('courses.show');s
+
+        // Route::get('/courses/{course:uri}/{chapter:uri}', [ChapterController::class, 'show'])->name('chapters.show');
+
+        // Route::get('/courses/{course:uri}/{chapter:uri}/{module:uri}', [ModuleController::class, 'show'])->name('modules.show');
 
 
     });

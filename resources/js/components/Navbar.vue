@@ -38,10 +38,10 @@ const props = defineProps<{
           </li>
           <li>
             <Link
-              :href="route('courses')"
-              :class="$page.url == '/courses' ? 'border-b-2 font-bold' : ''"
+              :href="route('lessons')"
+              :class="$page.url == '/lessons' ? 'border-b-2 font-bold' : ''"
             >
-              Courses
+              Lessons
             </Link>
           </li>
         </ul>

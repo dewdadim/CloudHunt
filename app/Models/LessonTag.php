@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Tag;
+use App\Models\Lesson;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Module extends Model
+class LessonTag extends Model
 {
     use HasFactory;
 
@@ -17,12 +18,8 @@ class Module extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'uri',
-        'title',
-        'description',
         'lesson_id',
-        'category',
-        'difficulty'
+        'tag_id'
     ];
 
     /**
@@ -34,10 +31,10 @@ class Module extends Model
     }
 
     /**
-     * Get the progresses for the module.
+     * Get the tag that owns the module.
      */
-    public function progresses(): HasMany
+    public function tag(): BelongsTo
     {
-        return $this->hasMany(Progress::class);
+        return $this->belongsTo(Tag::class);
     }
 }

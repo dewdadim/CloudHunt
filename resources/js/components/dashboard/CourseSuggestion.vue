@@ -14,7 +14,7 @@ import { Button } from '../ui/button'
 
 defineProps<{
   class?: string
-  courses: Course[]
+  lessons: Lesson[]
 }>()
 </script>
 
@@ -27,12 +27,12 @@ defineProps<{
       <div class="flex">
         <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
           <div class="flex w-max space-x-4">
-            <div v-for="course in courses">
+            <div v-for="lesson in lessons">
               <CourseCard
                 class="w-60"
-                :key="course.id"
-                :title="course.title!"
-                :uri="course.uri!"
+                :key="lesson.id"
+                :title="lesson.title!"
+                :uri="lesson.uri!"
               />
             </div>
           </div>
@@ -44,7 +44,7 @@ defineProps<{
       </div>
     </CardContent>
     <CardFooter class="justify-end">
-      <Link :href="route('courses')" class="group">
+      <Link :href="route('lessons')" class="group">
         <Button variant="link" class="font-medium">
           Explore more courses
           <ArrowRight
