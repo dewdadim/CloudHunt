@@ -72,7 +72,7 @@ const xp = ref(70)
     <div class="flex w-full flex-col gap-8">
       <!-- <News class="mb-2 mt-0" /> -->
 
-      <!-- <CourseCard
+      <!-- <LessonCard
         :title="courses[0].title"
         :uri="courses[0].uri"
         class="w-full shadow-taper"

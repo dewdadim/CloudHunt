@@ -26,8 +26,8 @@ class CreateLesson extends Command
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
-     * The title of the course
+     * @param  string  $name The title of the lesson
+     * 
      * @return string
      */
     protected function getPath($name)
@@ -35,7 +35,7 @@ class CreateLesson extends Command
         $name = class_basename(str_replace('\\', '/', $name));
         $name = Str::kebab($name);
 
-        return resource_path("/js/components/courses/{$name}");
+        return resource_path("/js/components/lessons/{$name}");
     }
 
     /**
@@ -46,11 +46,11 @@ class CreateLesson extends Command
 
         $filesystem = new Filesystem();
 
-        $title = $this->ask('What is the title for this course?');
-        $uri = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
-        $uri = Str::kebab($uri); // Transform title to kebabcase format
+        $title = $this->ask('What is the title for this lesson?');
+        $title = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
+        $uri = Str::kebab($title); // Transform title to kebabcase format
 
-        $description = $this->ask('Description for this course', null);
+        $description = $this->ask('Description for this lesson', null);
 
         $path = $this->getPath($uri);
 

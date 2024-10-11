@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
-import { defineAsyncComponent, onMounted, ref, shallowRef } from 'vue'
+import { defineAsyncComponent, shallowRef } from 'vue'
 
-const { course, chapter, module } = defineProps<{
-  course: Course
-  chapter: Chapter
+const { lesson, module } = defineProps<{
+  lesson: Lesson
   module: Module
 }>()
 
@@ -14,10 +13,7 @@ const component = shallowRef<ReturnType<typeof defineAsyncComponent> | null>(
 
 try {
   component.value = defineAsyncComponent(
-    () =>
-      import(
-        `../../components/courses/${course.uri}/${chapter.uri}/${module.uri}.vue`
-      ),
+    () => import(`../../components/lessons/${lesson.uri}/${module.uri}.vue`),
   )
 } catch (error) {
   console.error('Error loading component: ', error)

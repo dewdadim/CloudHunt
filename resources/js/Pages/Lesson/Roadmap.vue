@@ -1,28 +1,16 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import Navbar from './Navbar.vue'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
-import { MonitorPlay, MousePointerClick, Puzzle } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Link } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
-import { Button } from '@/components/ui/button'
 import ModuleCard from '@/components/ModuleCard.vue'
 
 const { lesson } = defineProps<{
   lesson: Lesson
 }>()
 
-// const chapters = computed<Chapter[]>(() => lesson.chapters!)
-
-const currentChapter = ref(0)
+console.log(lesson)
 </script>
 
 <template>
@@ -30,31 +18,6 @@ const currentChapter = ref(0)
   <MaxWidthWrapper class="md:max-w-screen-xl">
     <div class="mt-6 flex w-full items-center justify-center md:mt-12">
       <Card class="shadow-0 w-full gap-4 border-none bg-white/0">
-        <!-- <CardHeader
-          class="flex-row items-center justify-center gap-4 text-center md:gap-8"
-        >
-          <div>
-            <CardDescription>
-              Chapter
-              {{
-                chapters
-                  .map((e) => e.uri)
-                  .indexOf(chapters[currentChapter].uri) + 1
-              }}
-            </CardDescription>
-            <CardTitle>{{ chapters[currentChapter].title }}</CardTitle>
-          </div>
-          <Button
-            v-on:click="currentChapter -= 1"
-            :disabled="currentChapter === 0"
-            >Previous</Button
-          >
-          <Button
-            v-on:click="currentChapter += 1"
-            :disabled="currentChapter >= chapters.length - 1"
-            >Next</Button
-          >
-        </CardHeader> -->
         <CardContent
           class="mt-2 flex flex-col items-center p-0 md:mt-12 lg:flex-row lg:justify-center"
         >
@@ -75,18 +38,13 @@ const currentChapter = ref(0)
                     )
                   "
                 >
-                  <ModuleCard
-                    :module="i"
-                    :course-uri="lesson.uri"
-                    :chapter-uri="chapters[currentChapter].uri"
-                  />
+                  <ModuleCard :module="i" :lesson-uri="lesson.uri" />
                 </div>
                 <div
                   :class="
                     cn(
                       'flex h-80 w-full items-end lg:w-64',
-                      index + 1 === chapters[currentChapter].modules.length &&
-                        'lg:w-full',
+                      index + 1 === lesson.modules.length && 'lg:w-full',
                       index % 2 !== 0
                         ? 'justify-end lg:justify-end'
                         : 'justify-start lg:items-start lg:justify-end',
@@ -94,7 +52,7 @@ const currentChapter = ref(0)
                   "
                 >
                   <div
-                    v-if="index + 1 !== chapters[currentChapter].modules.length"
+                    v-if="index + 1 !== lesson.modules.length"
                     :class="
                       cn(
                         '-z-10 h-2/3 w-1/2 rounded-bl-[52px] border-b-4 border-l-4 border-dashed lg:w-2/3',

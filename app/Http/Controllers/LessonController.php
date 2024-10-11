@@ -15,4 +15,12 @@ class LessonController extends Controller
             'lesson' => $lesson
         ]);
     }
+
+    public function index() {
+        $lessons = Lesson::all();
+
+        return Inertia::render('Lessons', [
+            'lessons' => $lessons
+        ]);
+    }
 }

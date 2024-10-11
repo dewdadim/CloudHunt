@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\Course;
 use App\Models\Module;
-use App\Models\Chapter;
+use App\Models\Lesson;
 use App\Models\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,20 +12,19 @@ use Illuminate\Support\Facades\Auth;
 
 class ModuleController extends Controller
 {
-    public function show(Course $course, Chapter $chapter, Module $module){
+    public function show(Lesson $lesson, Module $module){
 
-        $userId = Auth::id();
+        // $userId = Auth::id();
 
-        Progress::firstOrCreate([
-            'module_id' => $module->id
-        ],[
-            'module_id' => $module->id,
-            'user_id' => $userId
-        ]);
+        // Progress::firstOrCreate([
+        //     'module_id' => $module->id
+        // ],[
+        //     'module_id' => $module->id,
+        //     'user_id' => $userId
+        // ]);
 
-        return Inertia::render('Course/Module', [
-            'course' => $course,
-            'chapter' => $chapter,
+        return Inertia::render('Lesson/Module', [
+            'lesson' => $lesson,
             'module' => $module
         ]);
     }

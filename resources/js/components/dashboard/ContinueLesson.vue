@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import CourseCard from '../CourseCard.vue'
+import LessonCard from '../LessonCard.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 import {
@@ -22,35 +22,11 @@ const isOpen = ref(false)
 </script>
 
 <template>
-  <!-- <Card :class="class">
-    <CardHeader>
-      <CardTitle>Continue Lesson</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div class="flex">
-        <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
-          <div class="flex w-max space-x-4">
-            <div v-for="course in courses">
-              <CourseCard
-                :key="course.id"
-                :title="course.title!"
-                :uri="course.uri!"
-              />
-            </div>
-          </div>
-          <ScrollBar
-            orientation="horizontal"
-            class="transition-opacity ease-in-out"
-          />
-        </ScrollArea>
-      </div>
-    </CardContent>
-  </Card> -->
   <Collapsible v-model:open="isOpen" class="space-y-4">
     <h3 class="mb-4 text-xl font-semibold">Continue Lesson</h3>
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
       <div v-for="lesson in lessons.slice(0, 2)">
-        <CourseCard
+        <LessonCard
           :key="lesson.id"
           :title="lesson.title!"
           :uri="lesson.uri!"
@@ -61,7 +37,7 @@ const isOpen = ref(false)
     <CollapsibleContent class="p-1" v-if="lessons.slice(2).length > 0">
       <div class="grid w-full grid-cols-2 gap-3">
         <div v-for="lesson in lessons.slice(2)">
-          <CourseCard
+          <LessonCard
             :key="lesson.id"
             :title="lesson.title!"
             :uri="lesson.uri!"
