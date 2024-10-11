@@ -6,11 +6,13 @@ import { cn } from '@/lib/utils'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import ModuleCard from '@/components/ModuleCard.vue'
 
-const { lesson } = defineProps<{
+const { lesson, progress } = defineProps<{
   lesson: Lesson
+  progress: Progress
 }>()
 
 console.log(lesson)
+console.log(progress)
 </script>
 
 <template>
@@ -38,7 +40,11 @@ console.log(lesson)
                     )
                   "
                 >
-                  <ModuleCard :module="i" :lesson-uri="lesson.uri" />
+                  <ModuleCard
+                    :module="i"
+                    :lesson-uri="lesson.uri"
+                    :progress="progress"
+                  />
                 </div>
                 <div
                   :class="
@@ -59,7 +65,9 @@ console.log(lesson)
                         index % 2 !== 0
                           ? 'scale-y-[-1]'
                           : 'rotate-180 lg:rotate-0',
-                        i.completed ? 'border-primary' : 'border-slate-400',
+                        progress[i.id]?.completed
+                          ? 'border-primary'
+                          : 'border-slate-400',
                       )
                     "
                   />

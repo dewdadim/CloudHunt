@@ -8,6 +8,7 @@ import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
   module: Module
+  progress: Progress
   lessonUri: string
   class?: HTMLAttributes['class']
 }>()
@@ -19,7 +20,7 @@ const props = defineProps<{
       :class="
         cn(
           'flex h-full w-40 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-6 text-center transition',
-          props.module.completed
+          props?.progress[props.module.id]?.completed
             ? 'border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary'
             : 'border text-slate-600 shadow-taper group-hover:bg-slate-50',
         )

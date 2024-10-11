@@ -14,14 +14,16 @@ class ModuleController extends Controller
 {
     public function show(Lesson $lesson, Module $module){
 
-        // $userId = Auth::id();
+        $userId = Auth::id();
 
-        // Progress::firstOrCreate([
-        //     'module_id' => $module->id
-        // ],[
-        //     'module_id' => $module->id,
-        //     'user_id' => $userId
-        // ]);
+        Progress::firstOrCreate([
+            'module_id' => $module->id
+        ],[
+            'module_id' => $module->id,
+            'user_id' => $userId,
+            'lesson_id' => $lesson->id,
+            'completed' => true
+        ]);
 
         return Inertia::render('Lesson/Module', [
             'lesson' => $lesson,
