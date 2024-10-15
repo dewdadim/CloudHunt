@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Module extends Model
 {
@@ -36,8 +37,9 @@ class Module extends Model
     /**
      * Get the progresses for the module.
      */
-    public function progresses(): HasMany
+    public function progresses(): BelongsToMany
     {
-        return $this->hasMany(Progress::class);
+        return $this->belongsToMany(User::class, 'progress')->withPivot('completed')->withTimestamps();
+
     }
 }

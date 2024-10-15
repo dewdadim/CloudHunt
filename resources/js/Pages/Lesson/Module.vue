@@ -21,7 +21,7 @@ try {
 </script>
 <template>
   <MaxWidthWrapper class="pt-40">
-    <component :is="component" v-if="component" />
+    <component :is="component" v-if="component" v-bind="{ lesson, module }" />
     <p v-else>Component not found</p>
   </MaxWidthWrapper>
 </template>

@@ -22,6 +22,8 @@ const { auth, lessons } = defineProps<{
   lessons: Lesson[]
 }>()
 
+console.log(lessons)
+
 const xp = ref(70)
 </script>
 
@@ -79,7 +81,7 @@ const xp = ref(70)
       /> -->
       <ContinueLesson :lessons="lessons" />
       <MiniCloudHuntChallenge />
-      <CourseSuggestion :lessons="lessons" />
+      <!-- <CourseSuggestion :lessons="lessons" /> -->
     </div>
   </main>
 </template>

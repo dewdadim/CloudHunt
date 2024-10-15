@@ -1,19 +1,31 @@
 <script setup lang="ts">
-import { HTMLAttributes } from 'vue'
+import { computed, HTMLAttributes, ref } from 'vue'
 import { AspectRatio } from './ui/aspect-ratio'
 import { cn } from '@/lib/utils'
 import { Link } from '@inertiajs/vue3'
+import { Progress } from './ui/progress'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
-  title: string
-  uri: string
+  lesson: Lesson
 }>()
+
+// Calculate the progress percentage based on the current step
+const progressPercentage = computed(() => {
+  return (
+    (props.lesson.modules.filter((e) => e.completed == true).length /
+      props.lesson.modules.length) *
+    100
+  )
+})
+const progress = ref(progressPercentage)
+console.log(props.lesson.modules.length)
+console.log(props.lesson)
 </script>
 
 <template>
   <div :className="cn('w-72 rounded-3xl shadow-taper', props.class)">
-    <Link :href="route('lessons.show', { id: props.uri })">
+    <Link :href="route('lessons.show', { lesson: props.lesson?.uri })">
       <AspectRatio :ratio="7 / 3" class="rounded-3xl bg-muted">
         <img
           src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
@@ -21,11 +33,14 @@ const props = defineProps<{
           class="h-full w-full rounded-t-3xl border-x border-t object-cover"
         />
       </AspectRatio>
+      <div class="h-fit w-full border-l border-r">
+        <Progress :modelValue="progress" class="h-1 rounded-none" />
+      </div>
       <div
         class="h-16 w-full rounded-b-3xl border-x border-b bg-card px-3 py-1.5"
       >
         <h3 class="text-md line-clamp-2 text-wrap font-semibold">
-          {{ props.title }}
+          {{ props.lesson.title }}
         </h3>
       </div>
     </Link>

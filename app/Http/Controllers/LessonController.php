@@ -13,14 +13,27 @@ class LessonController extends Controller
 
         $user = Auth::user();
 
-        $progress = Progress::where('user_id', $user->id)
+        $modules = $lesson->modules()->get();
+
+        $progresses = Progress::where('user_id', $user->id)
                             ->where('lesson_id', $lesson->id)
                             ->get()
                             ->keyBy('module_id');
 
+        // Combine modules and progress into one structure
+        $modulesWithProgress = $modules->map(function($module) use ($progresses) {
+        return [
+                'id' => $module->id,
+                'title' => $module->title,
+                'description' => $module->description,
+                'uri' => $module->uri,
+                'completed' => optional($progresses->get($module->id))->completed ?? false,  // Include progress if exists, default to false    
+            ];
+        });
+
         return Inertia::render('Lesson/Roadmap', [
-            'lesson' => $lesson->load('modules'),
-            'progress' => $progress
+            'lesson' => $lesson,
+            'modules' => $modulesWithProgress,
         ]);
     }
 

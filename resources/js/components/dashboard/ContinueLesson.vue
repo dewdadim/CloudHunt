@@ -26,22 +26,14 @@ const isOpen = ref(false)
     <h3 class="mb-4 text-xl font-semibold">Continue Lesson</h3>
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
       <div v-for="lesson in lessons.slice(0, 2)">
-        <LessonCard
-          :key="lesson.id"
-          :title="lesson.title!"
-          :uri="lesson.uri!"
-          class="w-full"
-        />
+        <LessonCard :key="lesson.id" :lesson="lesson" class="w-full" />
       </div>
     </div>
     <CollapsibleContent class="p-1" v-if="lessons.slice(2).length > 0">
       <div class="grid w-full grid-cols-2 gap-3">
         <div v-for="lesson in lessons.slice(2)">
-          <LessonCard
-            :key="lesson.id"
-            :title="lesson.title!"
-            :uri="lesson.uri!"
-            class="w-full"
+          <LessonCard :key="lesson.id" :lesson="lesson" class="w-full" />
+
           />
         </div>
       </div>
