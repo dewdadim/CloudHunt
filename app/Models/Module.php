@@ -39,7 +39,7 @@ class Module extends Model
      */
     public function progresses(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'progress')->withPivot('completed')->withTimestamps();
+        return $this->belongsToMany(User::class, 'progresses')->withPivot('completed')->withTimestamps();
 
     }
 }

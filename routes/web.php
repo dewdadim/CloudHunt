@@ -2,14 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\UserController;
-use App\Models\Lesson;
-use App\Models\Progress;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/', 'Home')->name('home');
@@ -30,47 +28,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::middleware('onboarded')->group(function () {
 
-        Route::get('/dashboard', function () {
-            // $lessons = Lesson::all();
-            // return Inertia::render('Dashboard', ['lessons' => $lessons->load('modules')]);
-            $user = Auth::user();
-
-            // Fetch all lessons and their modules
-            $lessons = Lesson::with('modules')->get();  // Fetch lessons with their modules
-
-            // Fetch all progress for the user
-            $progresses = Progress::where('user_id', $user->id)
-                                ->get()
-                                ->groupBy('lesson_id');  // Group progress by lesson_id
-
-            // Combine lessons, modules, and progress into one structure
-            $lessonsWithProgress = $lessons->map(function($lesson) use ($progresses, $user) {
-                // Fetch the progress for this lesson
-                $lessonProgress = $progresses->get($lesson->id) ?? collect();
-
-                // Map over each module and inject progress (completed status)
-                $modulesWithProgress = $lesson->modules->map(function($module) use ($lessonProgress) {
-                    return [
-                        'id' => $module->id,
-                        'title' => $module->title,
-                        'completed' => optional($lessonProgress->firstWhere('module_id', $module->id))->completed ?? false,  // Include progress if exists
-                    ];
-                });
-
-                // Return the lesson structure with modules and progress
-                return [
-                    'id' => $lesson->id,
-                    'title' => $lesson->title,
-                    'uri' => $lesson->uri,
-                    'modules' => $modulesWithProgress->toArray(),  // Nested modules with progress
-                ];
-            });
-
-            // Pass the lessons array to the frontend
-            return Inertia::render('Dashboard', [
-                'lessons' => $lessonsWithProgress->toArray()  // Pass an array of lessons
-            ]);
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/lessons', [LessonController::class, 'index'])->name('lessons');
         Route::get('/lessons/{lesson:uri}',  [LessonController::class, 'show'])->name('lessons.show');
