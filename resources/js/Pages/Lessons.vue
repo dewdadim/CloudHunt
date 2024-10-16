@@ -2,6 +2,7 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { reactive } from 'vue'
 import LessonList from '@/components/LessonList.vue'
+import LessonCard from '@/components/LessonCard.vue'
 
 const { lessons } = defineProps<{
   lessons: Lesson[]
@@ -9,15 +10,12 @@ const { lessons } = defineProps<{
 </script>
 
 <template>
-  <main class="mt-16 grid gap-4">
-    <section class="my-8">
-      <LessonList title="Add text here" :lessons="lessons" :grid-cols="3" />
-    </section>
-    <section class="my-8">
-      <LessonList title="Add text here" :lessons="lessons" :grid-cols="3" />
-    </section>
-    <section class="my-8">
-      <LessonList title="Add text here" :lessons="lessons" :grid-cols="3" />
-    </section>
+  <main class="mt-10 grid gap-4">
+    <h2 class="mb-4 text-xl font-semibold">List of available courses</h2>
+    <div class="grid grid-cols-3 gap-4">
+      <div v-for="lesson in lessons">
+        <LessonCard class="w-full" :lesson="lesson" />
+      </div>
+    </div>
   </main>
 </template>
