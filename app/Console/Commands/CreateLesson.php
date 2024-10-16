@@ -47,8 +47,8 @@ class CreateLesson extends Command
         $filesystem = new Filesystem();
 
         $title = $this->ask('What is the title for this lesson?');
-        $title = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
-        $uri = Str::kebab($title); // Transform title to kebabcase format
+        $uri = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
+        $uri = Str::kebab($uri); // Transform title to kebabcase format
 
         $description = $this->ask('Description for this lesson', null);
 
