@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     /**
      * Run the migrations.
      */
@@ -56,45 +55,4 @@ return new class extends Migration
         Schema::dropIfExists('tags');
         Schema::dropIfExists('lessons_tags');
     }
-
-    /**
-     * Run the migrations.
-     */
-    // public function up(): void
-    // {
-    //     Schema::create('courses', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->string('uri')->unique();
-    //         $table->string('title')->unique();
-    //         $table->timestamps();
-    //     });
-
-    //     Schema::create('chapters', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->string('uri');
-    //         $table->string('title');
-    //         $table->foreignId('course_id')->constrained('courses');
-    //         $table->timestamps();
-    //     });
-
-    //     Schema::create('modules', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->string('uri');
-    //         $table->string('title');
-    //         $table->foreignId('chapter_id')->constrained('chapters');
-    //         $table->enum('category', ['video', 'activity', 'quiz']);
-    //         $table->enum('difficulty', ['easy', 'moderate', 'hard']);
-    //         $table->timestamps();
-    //     });
-    // }
-
-    // /**
-    //  * Reverse the migrations.
-    //  */
-    // public function down(): void
-    // {
-    //     Schema::dropIfExists('courses');
-    //     Schema::dropIfExists('chapters');
-    //     Schema::dropIfExists('modules');
-    // }
 };

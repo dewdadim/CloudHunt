@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -55,8 +56,8 @@ class User extends Authenticatable
     /**
      * Get the progresses for the user.
      */
-    public function progresses(): HasMany
+    public function progresses(): BelongsToMany
     {
-        return $this->hasMany(Progress::class);
+        return $this->belongsToMany(Module::class, 'progresses')->withPivot('completed')->withTimestamps();
     }
 }

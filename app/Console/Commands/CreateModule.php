@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Course;
 use App\Models\Module;
-use App\Models\Chapter;
+use App\Models\Lesson;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -45,18 +44,16 @@ class CreateModule extends Command
     /**
      * Get the destination class path.
      *
-     * @param  string  $course The title of the course
-     * @param  string  $chapter The title of the chapter 
+     * @param  string  $lesson The title of the lesson
      * @param  string  $name The title of the module
      * @return string
      */
-    private function getPath($course, $chapter, $name)
+    private function getPath($lesson, $name)
     {
         $name = class_basename(str_replace('\\', '/', $name));
-        $course = Str::kebab($course);
-        $chapter = Str::kebab($chapter);
+        $lesson = Str::kebab($lesson);
 
-        return "{$this->laravel['path']}/../resources/js/components/courses/{$course}/{$chapter}/{$name}.vue";
+        return "{$this->laravel['path']}/../resources/js/components/lessons/{$lesson}/{$name}.vue";
     }
 
     /**
@@ -66,7 +63,7 @@ class CreateModule extends Command
      * @param  string  $path The path directory of the module
      * @return string
      */
-    private function generateModuleFile($courseTitle, $chapterTitle, $title, $path)
+    private function generateModuleFile($lessonTitle, $title, $path)
     {
         $filesystem = new Filesystem();
         $stub = $filesystem->get($this->getStub());
@@ -77,8 +74,7 @@ class CreateModule extends Command
         // Replace placeholders in the stub
         $stub = str_replace('{{ title }}', $title, $stub);
         $stub = str_replace('{{ path }}', $path, $stub);
-        $stub = str_replace('{{ course }}', $courseTitle, $stub);
-        $stub = str_replace('{{ chapter }}', $chapterTitle, $stub);
+        $stub = str_replace('{{ lesson }}', $lessonTitle, $stub);
 
 
         // Create the directory if it doesn't exist
@@ -101,24 +97,21 @@ class CreateModule extends Command
      */
     public function handle()
     {
-        
-        // Prompt attributes to user
-        $courses = Course::all();
-        $course = $this->choice('What course this module belongs to?', array_column(json_decode($courses), 'title'));
-        $courseId = Course::where('title', $course)->pluck('id')->first();
 
-        $chapters = Chapter::where('course_id', $courseId)->get();
-        $chapter = $this->choice('Which chapter this module belongs to?', array_column(json_decode($chapters), 'title'));
-        $chapterId = Chapter::where('title', $chapter)->pluck('id')->first();
+        $lessons = Lesson::all();
+        $lesson = $this->choice('Which lesson this module belongs to?', array_column(json_decode($lessons), 'title'));
+        $lessonId = Lesson::where('title', $lesson)->pluck('id')->first();
 
-        $title = $this->ask('What is the title for this Module?');
+        $title = $this->ask('What is the title for this module?');
+
+        $description = $this->ask('Description for this module', null);
 
         $uri = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
         $uri = Str::kebab($uri);
 
-        $path = $this->getPath($course, $chapter, $uri);
+        $path = $this->getPath($lesson, $uri);
         
-        $category = $this->choice('How difficult this module is?', ['Video', 'Activity', 'Quiz']);
+        $category = $this->choice('How difficult this module is?', ['Learn', 'Test']);
         
         $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Hard']);
 
@@ -126,19 +119,20 @@ class CreateModule extends Command
         Module::create([
             'uri' => $uri,
             'title' => $title,
-            'chapter_id' => $chapterId,
+            'description' => $description,
+            'lesson_id' => $lessonId,
             'category' => $category,
             'difficulty' => $difficulty
         ]);
 
-        $this->generateModuleFile($course, $chapter, $title, $path); // Generate .vue file
+        $this->generateModuleFile($lesson, $title, $path); // Generate .vue file
 
         // Success message
         $this->info("Vue component {$uri}.vue created successfully! Located at: {$path}");
-        $this->info("Module '{$title}' for '{$chapter}' created successfully!");
+        $this->info("Module '{$title}' for '{$lesson}' created successfully!");
         $this->table(
             ['id', 'title'],
-            Module::select('id', 'title')->where('chapter_id', $chapterId)->get()
+            Module::select('id', 'title', 'description')->where('lesson_id', $lessonId)->get()
         );
 
     }

@@ -8,8 +8,7 @@ import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
   module: Module
-  courseUri: string
-  chapterUri: string
+  lessonUri: string
   class?: HTMLAttributes['class']
 }>()
 </script>
@@ -20,7 +19,7 @@ const props = defineProps<{
       :class="
         cn(
           'flex h-full w-40 flex-col items-center justify-center gap-3 rounded-3xl bg-card p-6 text-center transition',
-          props.module.isDone
+          props?.module.completed
             ? 'border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary'
             : 'border text-slate-600 shadow-taper group-hover:bg-slate-50',
         )
@@ -28,9 +27,9 @@ const props = defineProps<{
     >
       <component
         :is="
-          props.module.category == 'video'
+          props.module.category == 'learn'
             ? MonitorPlay
-            : props.module.category == 'quiz'
+            : props.module.category == 'test'
               ? Puzzle
               : MousePointerClick
         "
@@ -41,14 +40,14 @@ const props = defineProps<{
       </h3>
     </PopoverTrigger>
     <PopoverContent side="bottom">
-      <div class="grid gap-4">
-        <h4 class="font-semibold">{{ module.title }}</h4>
+      <div class="grid gap-2">
+        <h4 class="font-semibold">{{ props.module.title }}</h4>
+        <p class="mb-2 text-sm">{{ props.module.description }}</p>
         <Link
           :href="
             route('modules.show', {
-              course: props.courseUri,
-              chapter: props.chapterUri,
-              module: module.uri,
+              lesson: props.lessonUri,
+              module: props.module.uri,
             })
           "
           class="w-full"

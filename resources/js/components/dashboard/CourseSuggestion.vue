@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import CourseCard from '../CourseCard.vue'
+import LessonCard from '../LessonCard.vue'
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ defineProps<{
         <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
           <div class="flex w-max space-x-4">
             <div v-for="lesson in lessons">
-              <CourseCard
+              <LessonCard
                 class="w-60"
                 :key="lesson.id"
                 :title="lesson.title!"

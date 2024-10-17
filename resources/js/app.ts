@@ -15,7 +15,7 @@ createInertiaApp({
     let page: any = pages[`./Pages/${name}.vue`]
     page.default.layout =
       name.startsWith('Onboard') ||
-      name.startsWith('Course/') ||
+      name.startsWith('Lesson/') ||
       name.startsWith('Auth/')
         ? undefined
         : Layout

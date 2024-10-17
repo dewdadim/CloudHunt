@@ -10,6 +10,8 @@ import CourseSuggestion from '@/components/dashboard/CourseSuggestion.vue'
 import ContinueLesson from '@/components/dashboard/ContinueLesson.vue'
 
 import { ref } from 'vue'
+import LessonCard from '@/components/LessonCard.vue'
+import JumpBackIn from '@/components/dashboard/JumpBackIn.vue'
 
 const { auth, lessons } = defineProps<{
   auth: {
@@ -27,7 +29,7 @@ const xp = ref(70)
 
 <template>
   <main
-    class="mx-auto mb-12 mt-4 flex max-w-[400px] flex-col gap-4 overflow-x-visible md:mt-12 md:max-w-screen-lg md:flex-row lg:gap-8"
+    class="mx-auto mb-12 mt-4 flex max-w-[400px] flex-col gap-8 overflow-x-visible md:mt-12 md:max-w-screen-lg md:flex-row lg:gap-8"
   >
     <div class="min-w-full md:min-w-[350px]">
       <div class="sticky top-28 w-full md:w-[350px]">
@@ -72,14 +74,19 @@ const xp = ref(70)
     <div class="flex w-full flex-col gap-8">
       <!-- <News class="mb-2 mt-0" /> -->
 
-      <!-- <CourseCard
+      <!-- <LessonCard
         :title="courses[0].title"
         :uri="courses[0].uri"
         class="w-full shadow-taper"
       /> -->
-      <ContinueLesson :lessons="lessons" />
+      <JumpBackIn :lesson="lessons[0]" v-if="lessons.length" />
+      <!-- <div class="space-y-4">
+        <h3 class="text-xl font-semibold">Jump back in!</h3>
+        <LessonCard :lesson="lessons[0]" class="w-full" />
+      </div> -->
       <MiniCloudHuntChallenge />
-      <CourseSuggestion :lessons="lessons" />
+      <ContinueLesson :lessons="lessons" v-if="lessons.length" />
+      <!-- <CourseSuggestion :lessons="lessons" /> -->
     </div>
   </main>
 </template>

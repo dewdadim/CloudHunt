@@ -35,7 +35,7 @@ const { lesson } = defineProps<{
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem class="hidden md:inline-flex">
-              <Link :href="route('lessons')"> Courses </Link>
+              <Link :href="route('lessons')"> Lessons </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <Slash />

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import type { FormErrors } from '@/Pages/Onboard.vue'
 import { RadioGroup, RadioGroupItemCard } from '@/components/ui/radio-group'
 
