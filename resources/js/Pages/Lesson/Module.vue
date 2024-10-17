@@ -20,7 +20,7 @@ try {
 }
 </script>
 <template>
-  <MaxWidthWrapper class="pt-40">
+  <MaxWidthWrapper class="pt-10">
     <component :is="component" v-if="component" v-bind="{ lesson, module }" />
     <p v-else>Component not found</p>
   </MaxWidthWrapper>
