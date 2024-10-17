@@ -19,7 +19,8 @@ const progressPercentage = computed(() => {
     100
   )
 })
-const progress = ref(progressPercentage)
+
+const progress = ref(progressPercentage ?? 0)
 </script>
 
 <template>
@@ -42,7 +43,7 @@ const progress = ref(progressPercentage)
         />
         <div
           class="h-fit w-full border-l border-r"
-          v-if="progress < 100 || progress < 0"
+          v-if="progress < 100 && progress > 0"
         >
           <Progress :modelValue="progress" class="h-1 rounded-none" />
         </div>
