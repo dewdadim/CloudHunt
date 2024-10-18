@@ -21,13 +21,13 @@ const isOpen = ref(false)
 <template>
   <Collapsible v-model:open="isOpen" class="space-y-4">
     <h3 class="mb-4 text-xl font-semibold">Continue Lesson</h3>
-    <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="grid w-full grid-cols-1 gap-4 min-[950px]:grid-cols-2">
       <div v-for="lesson in props.lessons.slice(0, 2)">
         <LessonCard :key="lesson.id" :lesson="lesson" class="w-full" />
       </div>
     </div>
     <CollapsibleContent class="p-1" v-if="props.lessons.slice(2).length > 0">
-      <div class="grid w-full grid-cols-2 gap-3">
+      <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
         <div v-for="lesson in props.lessons.slice(2)">
           <LessonCard :key="lesson.id" :lesson="lesson" class="w-full" />
         </div>
