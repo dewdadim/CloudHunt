@@ -40,16 +40,14 @@ const progress = ref(progressPercentage)
           <Progress :modelValue="progress" class="h-1 rounded-none" />
         </div>
       </AspectRatio>
-      <div
-        class="h-fit w-full rounded-b-3xl border-x border-b bg-card px-3 py-6"
-      >
+      <div class="h-fit w-full rounded-b-3xl border-x border-b bg-card p-8">
         <h3
           class="mb-8 line-clamp-2 text-wrap text-center text-xl font-semibold"
         >
           {{ props.lesson.title }}
         </h3>
         <Link :href="route('lessons.show', { lesson: props.lesson?.uri })">
-          <Button class="w-full rounded-full">Continue</Button>
+          <Button class="w-full">Continue</Button>
         </Link>
       </div>
     </div>
