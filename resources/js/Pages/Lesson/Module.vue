@@ -2,6 +2,7 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
+import { Link } from '@inertiajs/vue3'
 import { X } from 'lucide-vue-next'
 import { computed, defineAsyncComponent, ref, shallowRef } from 'vue'
 
@@ -50,16 +51,13 @@ const progress = ref(progressPercentage)
   <main>
     <MaxWidthWrapper class="pt-10">
       <div class="flex items-center gap-4">
-        <X
-          :class="
-            cn(
-              'flex-none',
-              !currentTask ? 'cursor-not-allowed' : 'cursor-pointer',
-            )
-          "
-          :size="28"
-          :disabled="currentTask"
-        />
+        <Link
+          :href="route('lessons.show', { lesson: lesson.uri })"
+          method="get"
+          as="button"
+        >
+          <X :class="cn('flex-none', 'cursor-pointer')" :size="28" />
+        </Link>
         <Progress v-model="progress" class="w-6 grow" />
       </div>
       <component
