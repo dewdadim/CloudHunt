@@ -39,6 +39,7 @@ const progress = ref(progressPercentage)
 const form = useForm<Onboard>({
   full_name: data.full_name ?? undefined,
   prefer_name: undefined,
+  // username: undefined,
   date_of_birth: undefined,
   occupation: undefined,
   interest: undefined,
@@ -69,6 +70,10 @@ const validateCurrentStep = (): boolean => {
         isValid = false
         errors.prefer_name = 'The preferred name field is required'
       }
+      // if (!form.username) {
+      //   isValid = false
+      //   errors.username = 'The username field is required'
+      // }
 
       if (form.prefer_name?.includes(' ')) {
         isValid = false
@@ -177,7 +182,6 @@ const submit = () => {
             </Button>
             <Button
               type="submit"
-              class=""
               :disabled="form.processing"
               v-if="currentStep === steps.length - 2"
             >

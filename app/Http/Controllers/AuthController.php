@@ -25,13 +25,20 @@ class AuthController extends Controller
     public function signup(Request $request){
         //validate request
         $fields = $request->validate([
-            'username' => ['required', 'min:4', 'max:20', 'unique:users'],
+            // 'username' => ['required', 'min:4', 'max:20', 'unique:users'],
             'email' => ['required', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'min:8']
+            'password' => ['required', 'min:8', 'confirmed'],
         ]);
 
         //create user
-        $user = User::create($fields);
+        // $user = User::create($fields);
+
+        $user = User::firstOrCreate([
+            'email' => $fields['email']
+        ], [
+            'password' => $fields['password'],
+            'username' => $this->generateRandomUsername()
+        ]);
 
         //login
         Auth::login($user);
@@ -88,7 +95,8 @@ class AuthController extends Controller
             'email' => $user->email
         ], [
             'avatar' => $user->avatar,
-            'username' => $user->nickname ?? explode('@', $user->email)[0] . (string)rand(1, 999),
+            // 'username' => $user->nickname ?? explode('@', $user->email)[0] . (string)rand(1, 999),
+            'username' => $this->generateRandomUsername(),
             'full_name' => $user->name,
             'password' => Hash::make(Str::random(24))
         ]);
@@ -110,12 +118,27 @@ class AuthController extends Controller
         ], [
             'avatar' => $user->avatar,
             'full_name' => $user->name,
-            'username' => $user->nickname ?? explode('@', $user->email)[0] . (string)rand(1, 999),
+            // 'username' => $user->nickname ?? explode('@', $user->email)[0] . (string)rand(1, 999),
+            'username' => $this->generateRandomUsername(),
             'password' => Hash::make(Str::random(24))
         ]);
 
         Auth::login($user, true);
 
         return Inertia::location(route('dashboard'));
+    }
+
+    private function generateRandomUsername() {
+        $username = 'user' . mt_rand(1000000000, 9999999999);
+
+        if($this->getUsername($username)) {
+            return $this->generateRandomUsername();
+        }
+
+        return $username;
+    }
+
+    private function getUsername($username) {
+        return User::find($username);
     }
 }

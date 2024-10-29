@@ -38,7 +38,25 @@ class UserController extends Controller
         // Save user to database
         $user->save();
 
-        // Redirect to route
+        return;
+    }
+
+    public function createUsername(Request $request) {
+        // Validate request
+        $fields = $request->validate([
+            'username' => ['required', 'min:4', 'max:20', 'unique:users']
+        ]);
+
+        // Get current user
+        $userId = Auth::id();
+        $user = User::findOrFail($userId);
+
+        // Fill user model
+        $user->fill($fields);
+
+        // Save user to database
+        $user->save();
+
         return;
     }
 }

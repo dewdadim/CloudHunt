@@ -23,5 +23,11 @@ defineProps<{
       v-model="form.prefer_name"
       :message="errors.prefer_name?.toString()"
     />
+    <!-- <FormInput
+      name="Create Username"
+      :placeholder="'e.g. john123'"
+      v-model="form.username"
+      :message="errors.username?.toString()"
+    /> -->
   </div>
 </template>

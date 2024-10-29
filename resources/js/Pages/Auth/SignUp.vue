@@ -19,6 +19,7 @@ const form = useForm({
   username: null,
   email: null,
   password: null,
+  password_confirmation: null,
 })
 
 const submit = () => {
@@ -32,13 +33,14 @@ const submit = () => {
   <MaxWidthWrapper class="h-screen pt-10 md:pt-24">
     <main class="flex flex-col items-center">
       <div class="mb-6 w-fit">
-        <Link :href="route('home')">
-          <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
+        <Link :href="route('home')" class="text-3xl font-black">
+          <!-- <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" /> -->
+          CloudHunt
         </Link>
       </div>
       <Card class="mx-auto w-full max-w-lg md:max-w-[500px]">
         <CardHeader class="items-center">
-          <CardTitle class="text-xl"> Sign Up to RunCloud Edu </CardTitle>
+          <CardTitle class="text-xl"> Sign Up to CloudHunt </CardTitle>
           <CardDescription>
             Start your cloud computing adventure now!
           </CardDescription>
@@ -48,12 +50,12 @@ const submit = () => {
             <SocialLinkButton />
             <Separator label="OR" />
             <form @submit.prevent="submit" class="grid gap-4">
-              <FormInput
+              <!-- <FormInput
                 name="Username"
                 placeholder="username123"
                 v-model="form.username"
                 :message="form.errors.username"
-              />
+              /> -->
               <FormInput
                 name="Email"
                 type="email"
@@ -67,6 +69,13 @@ const submit = () => {
                 placeholder="********"
                 v-model="form.password"
                 :message="form.errors.password"
+              />
+              <FormInput
+                name="Confirm Password"
+                type="password"
+                placeholder="********"
+                v-model="form.password_confirmation"
+                :message="form.errors.password_confirmation"
               />
               <Button type="submit" class="w-full" :disabled="form.processing">
                 <Loader2 v-if="form.processing" class="mr-2 animate-spin" />

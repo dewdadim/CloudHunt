@@ -11,6 +11,7 @@ declare global {
   interface Onboard {
     full_name: string | undefined
     prefer_name: string | undefined
+    // username: string | undefined
     date_of_birth: DateValue | DateValue[] | undefined
     occupation: string | undefined
     interest?: string | undefined
