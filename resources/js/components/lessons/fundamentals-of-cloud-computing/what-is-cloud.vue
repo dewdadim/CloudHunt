@@ -49,8 +49,8 @@ const nextTask = async () => {
         Now I understand!
       </Button>
     </section>
-    <!-- <section>
+    <section>
       <ModuleFinishButton :lesson="props.lesson" :module="props.module" />
-    </section> -->
+    </section>
   </MaxWidthWrapper>
 </template>
