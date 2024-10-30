@@ -39,7 +39,7 @@ const props = defineProps<{
         {{ props.module.title }}
       </h3>
     </PopoverTrigger>
-    <PopoverContent side="bottom">
+    <PopoverContent side="right">
       <div class="grid gap-2">
         <h4 class="font-semibold">{{ props.module.title }}</h4>
         <p class="mb-2 text-sm">{{ props.module.description }}</p>
