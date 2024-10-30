@@ -6,7 +6,7 @@ import ConfettiExplosion from 'vue-confetti-explosion'
   <div class="flex flex-col items-center gap-2 overflow-visible text-center">
     <ConfettiExplosion
       class="animate-disappear"
-      :stageWidth="3000"
+      :stageWidth="800"
       :duration="3000"
     />
     <p class="mb-6 pl-8 text-9xl">🎉</p>
