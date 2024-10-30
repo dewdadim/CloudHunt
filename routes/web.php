@@ -10,7 +10,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 Route::middleware('guest')->group(function () {
-    Route::inertia('/', 'Home')->name('home');
+    Route::get('/', function (){
+        return to_route('login');
+    })->name('home');
 
     Route::inertia('/signup', 'Auth/SignUp')->name('signup');
     Route::post('/signup', [AuthController::class, 'signup']);
