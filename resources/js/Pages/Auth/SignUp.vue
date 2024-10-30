@@ -33,7 +33,7 @@ const submit = () => {
   <MaxWidthWrapper class="h-screen pt-10 md:pt-24">
     <main class="flex flex-col items-center">
       <div class="mb-6 w-fit">
-        <Link :href="route('home')" class="text-3xl font-black">
+        <Link :href="route('home')" class="text-3xl font-extrabold">
           <!-- <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" /> -->
           CloudHunt
         </Link>

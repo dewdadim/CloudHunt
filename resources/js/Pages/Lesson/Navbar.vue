@@ -23,8 +23,9 @@ const { lesson } = defineProps<{
       class="flex items-center justify-between py-4 md:max-w-screen-2xl"
     >
       <div class="flex flex-wrap items-center gap-4">
-        <Link :href="route('dashboard')">
-          <img :src="'/images/RCEdu.svg'" alt="logo" class="w-28" />
+        <Link :href="route('dashboard')" class="text-xl font-extrabold">
+          <!-- <img :src="'/images/RCEdu.svg'" alt="logo" class="w-28" /> -->
+          CloudHunt
         </Link>
         <Breadcrumb class="hidden md:inline-flex">
           <BreadcrumbList>

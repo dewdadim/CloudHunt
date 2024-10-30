@@ -32,13 +32,14 @@ function submit() {
   <MaxWidthWrapper class="h-screen pt-10 md:pt-24">
     <main class="flex flex-col items-center">
       <div class="mb-6 w-fit">
-        <Link :href="route('home')">
-          <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" />
+        <Link :href="route('home')" class="text-3xl font-extrabold">
+          CloudHunt
+          <!-- <img :src="'images/RCEdu.svg'" alt="logo" class="w-32" /> -->
         </Link>
       </div>
       <Card class="mx-auto w-full max-w-lg md:max-w-[500px]">
         <CardHeader class="items-center">
-          <CardTitle class="text-xl"> Login to RunCloud Edu </CardTitle>
+          <CardTitle class="text-xl"> Login to CloudHunt </CardTitle>
           <CardDescription> Look who is coming back! </CardDescription>
         </CardHeader>
         <CardContent>
