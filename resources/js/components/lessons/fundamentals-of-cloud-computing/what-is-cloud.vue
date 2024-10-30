@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
+import ModuleFinishButton from '@/components/ModuleFinishButton.vue'
 import { Button } from '@/components/ui/button'
+import { Link } from '@inertiajs/vue3'
 import { onMounted, ref } from 'vue'
+
+const props = defineProps<{
+  lesson: Lesson
+  module: Module
+}>()
 
 const emit = defineEmits(['total-tasks', 'current-task'])
 
@@ -21,19 +29,28 @@ const nextTask = async () => {
 </script>
 
 <template>
-  <section class="my-16 flex flex-col items-center gap-2">
-    <div class="flex flex-col justify-center gap-4 text-center">
-      <h3 class="text-6xl">🛠</h3>
-      <h2 class="text-xl font-bold">"What is Cloud?" Module Generated</h2>
-      <p class="break-all">
-        This vue file is auto generated, you can edit it at <br />
-        /Users/nadimhairi/Documents/RunCloudEducation/app/../resources/js/components/lessons/fundamentals-of-cloud-computing/what-is-cloud.vue
-      </p>
-      <p>
-        <span class="font-bold">Lesson: </span>Fundamentals of Cloud Computing
-      </p>
-      <p><span class="font-bold">Module: </span>What is Cloud?</p>
-    </div>
-    <Button @click="nextTask">Test</Button>
-  </section>
+  <MaxWidthWrapper class="md:max-w-screen-md">
+    <section class="space-y-6 py-20">
+      <div class="space-y-3">
+        <h3 class="text-xl font-semibold">Cloud? Computer in the sky?</h3>
+        <p>
+          Cloud computing is the delivery of computing services over the
+          internet. It allows users to access computing resources, such as
+          storage, databases, and software, on-demand, and pay only for what
+          they use.
+        </p>
+        <h4 class="pt-4 text-lg font-medium">Basically...</h4>
+        <p>
+          Cloud is an internet. Therefore, cloud computing is computing services
+          over the internet!
+        </p>
+      </div>
+      <Button @click="nextTask" variant="secondary" size="lg">
+        Now I understand!
+      </Button>
+    </section>
+    <!-- <section>
+      <ModuleFinishButton :lesson="props.lesson" :module="props.module" />
+    </section> -->
+  </MaxWidthWrapper>
 </template>
