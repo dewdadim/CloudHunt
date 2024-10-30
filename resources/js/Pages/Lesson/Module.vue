@@ -48,18 +48,20 @@ const progress = ref(progressPercentage)
 //////////////////////////////////////////////////////////////////////////////
 </script>
 <template>
-  <main>
-    <MaxWidthWrapper class="pt-10">
-      <div class="flex items-center gap-4">
-        <Link
-          :href="route('lessons.show', { lesson: lesson.uri })"
-          method="get"
-          as="button"
-        >
-          <X :class="cn('flex-none', 'cursor-pointer')" :size="28" />
-        </Link>
-        <Progress v-model="progress" class="w-6 grow" />
-      </div>
+  <div
+    class="fixed flex w-full items-center gap-4 bg-background px-2 py-4 md:px-56"
+  >
+    <Link
+      :href="route('lessons.show', { lesson: lesson.uri })"
+      method="get"
+      as="button"
+    >
+      <X :class="cn('flex-none', 'cursor-pointer')" :size="28" />
+    </Link>
+    <Progress v-model="progress" class="w-6 grow" />
+  </div>
+  <MaxWidthWrapper class="pt-10">
+    <main>
       <component
         :is="component"
         v-if="component"
@@ -68,6 +70,6 @@ const progress = ref(progressPercentage)
         @current-task="setCurrentTask"
       />
       <p v-else>Component not found</p>
-    </MaxWidthWrapper>
-  </main>
+    </main>
+  </MaxWidthWrapper>
 </template>
