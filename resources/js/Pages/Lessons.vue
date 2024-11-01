@@ -12,7 +12,7 @@ const { lessons } = defineProps<{
 <template>
   <main class="mt-10 grid gap-4">
     <h2 class="mb-4 text-xl font-semibold">List of available courses</h2>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
       <div v-for="lesson in lessons">
         <LessonCard class="w-full" :lesson="lesson" />
       </div>
