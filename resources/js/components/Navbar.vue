@@ -24,8 +24,12 @@ const props = defineProps<{
   <nav class="sticky top-0 z-10 w-full border-b bg-background">
     <MaxWidthWrapper class="flex justify-between py-3 md:max-w-screen-xl">
       <div class="flex items-center gap-8">
-        <Link :href="route('dashboard')" class="hidden md:inline-flex">
-          <img :src="'../images/RCEdu.svg'" alt="logo" class="w-28" />
+        <Link
+          :href="route('dashboard')"
+          class="hidden text-xl font-extrabold md:inline-flex"
+        >
+          <!-- <img :src="'../images/RCEdu.svg'" alt="logo" class="w-28" /> -->
+          CloudHunt
         </Link>
         <ul class="flex items-center gap-6">
           <li>
@@ -46,9 +50,12 @@ const props = defineProps<{
           </li>
         </ul>
       </div>
-      <div class="flex items-center gap-2">
-        <Button size="icon" variant="ghost" class="bg-white/50">
-          <Bell :size="20" />
+      <div class="flex items-center gap-3">
+        <Button size="icon" variant="ghost">
+          <Settings :size="24" />
+        </Button>
+        <Button size="icon" variant="ghost">
+          <Bell :size="24" />
         </Button>
         <Popover>
           <PopoverTrigger class="cursor-pointer" as-child>
