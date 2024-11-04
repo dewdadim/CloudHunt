@@ -38,7 +38,7 @@ class CreateModule extends Command
      */
     private function getStub()
     {
-        return __DIR__ . '/../Stubs/module.stub';
+        return __DIR__ . '/../Stubs/Module.stub';
     }
 
     /**
