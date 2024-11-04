@@ -12,7 +12,7 @@ import { Progress } from '@/components/ui/progress'
 import { ChevronLeft, Loader2 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Link, useForm } from '@inertiajs/vue3'
 import GetDateOfBirth from '@/components/onboard/GetDateOfBirth.vue'
 import { cn } from '@/lib/utils'
@@ -122,6 +122,20 @@ const prevStep = () => {
     currentStep.value--
   }
 }
+
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    nextStep()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyDown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+})
 
 const submit = () => {
   form.date_of_birth = new Date(form.date_of_birth).toISOString().split('T')[0]
