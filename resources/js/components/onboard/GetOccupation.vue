@@ -30,7 +30,12 @@ defineProps<{
         </RadioGroupItemCard>
         <RadioGroupItemCard id="Lecturer">
           <div class="flex">
-            <h4 class="text-lg font-semibold">👨🏻‍🏫 Lecturer/Teacher</h4>
+            <h4 class="text-lg font-semibold">👨🏻‍🏫 Lecturer / Teacher</h4>
+          </div>
+        </RadioGroupItemCard>
+        <RadioGroupItemCard id="Funder Or Business Owner">
+          <div class="flex">
+            <h4 class="text-lg font-semibold">👩🏻‍💼 Founder / Business Owner</h4>
           </div>
         </RadioGroupItemCard>
         <RadioGroupItemCard id="Freelancer">
