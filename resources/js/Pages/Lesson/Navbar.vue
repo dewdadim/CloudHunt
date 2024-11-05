@@ -42,9 +42,9 @@ const { lesson } = defineProps<{
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbPage class="max-w-48 truncate md:max-w-full">{{
-                lesson.title
-              }}</BreadcrumbPage>
+              <BreadcrumbPage class="max-w-48 truncate md:max-w-full">
+                {{ lesson.title }}
+              </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
