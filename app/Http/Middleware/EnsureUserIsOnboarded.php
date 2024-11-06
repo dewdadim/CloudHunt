@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsOnboarded
@@ -15,19 +16,26 @@ class EnsureUserIsOnboarded
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (
-            is_null($request->user()->full_name) || 
-            is_null($request->user()->username) || 
-            is_null($request->user()->date_of_birth) || 
-            is_null($request->user()->occupation) || 
-            is_null($request->user()->interest)
-        ) {
-            return redirect()->route('onboard');
+
+        $user = $request->user();
+
+        // Redirect guests to login
+        if (!$user) {
+            return redirect()->route('login');
         }
 
-        // if($request->user()->full_name != null) {
-        //     return redirect()->route('home');
-        // } 
+        // Check if any onboarding fields are missing
+        $requiresOnboarding = !$user->full_name || !$user->username || !$user->date_of_birth || !$user->occupation || !$user->interest;
+
+        // Redirect already onboarded users if they try to access the onboard route
+        if (!$requiresOnboarding && $request->routeIs('onboard')) {
+            return to_route('dashboard');
+        }
+
+        // Restrict access to other routes until onboarding is complete
+        if ($requiresOnboarding && !$request->routeIs('onboard') && $request->isMethod('GET')) {
+            return to_route('onboard');
+        }
 
         return $next($request);
     }
