@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
-import GetFullName from '@/components/onboard/GetFullName.vue'
 import {
   Card,
   CardContent,
@@ -16,6 +15,8 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Link, useForm } from '@inertiajs/vue3'
 import GetDateOfBirth from '@/components/onboard/GetDateOfBirth.vue'
 import { cn } from '@/lib/utils'
+
+import GetFullName from '@/components/onboard/GetFullName.vue'
 import GetOccupation from '@/components/onboard/GetOccupation.vue'
 import GetInterest from '@/components/onboard/GetInterest.vue'
 import Complete from '@/components/onboard/Complete.vue'

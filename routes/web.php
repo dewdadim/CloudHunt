@@ -29,12 +29,13 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth', 'onboarded'])->group(function () {
 
-    Route::inertia('/onboard', 'Onboard', ['data' => function(){
+    Route::inertia('/onboard', 'Onboard/Onboard', ['data' => function(){
         $user = Auth::id();
         $user = User::findOrFail($user);
         return $user;
     }])->name('onboard');
     Route::post('/onboard', [UserController::class, 'onboard']);
+    Route::inertia('/onboard-complete', 'Onboard/OnboardComplete')->name('onboard.complete');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
