@@ -27,9 +27,7 @@ const progress = ref(progressPercentage)
   <div class="space-y-4">
     <h3 class="text-xl font-semibold">Jump back in!</h3>
 
-    <div
-      :className="cn('w-full rounded-3xl shadow-taper relative', props.class)"
-    >
+    <div :class="cn('relative w-full rounded-3xl shadow-taper', props.class)">
       <AspectRatio :ratio="8 / 3" class="rounded-3xl bg-muted">
         <img
           src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"

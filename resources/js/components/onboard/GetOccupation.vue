@@ -12,7 +12,7 @@ defineProps<{
 <template>
   <div class="mx-auto grid w-full max-w-lg gap-4 md:max-w-[500px]">
     <RadioGroup defaultValue="{null}" v-model="form.occupation">
-      <div className="grid gap-3">
+      <div class="grid gap-3">
         <RadioGroupItemCard id="Software Engineer" class="justify-start">
           <div class="flex">
             <h4 class="text-lg font-semibold">👨‍💻 Software Engineer</h4>

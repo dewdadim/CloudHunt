@@ -24,7 +24,7 @@ const progress = ref(progressPercentage ?? 0)
 </script>
 
 <template>
-  <div :className="cn('w-72 rounded-3xl shadow-taper relative', props.class)">
+  <div :class="cn('relative w-72 rounded-3xl shadow-taper', props.class)">
     <Link :href="route('lessons.show', { lesson: props.lesson?.uri })">
       <!-- status badge -->
       <div
