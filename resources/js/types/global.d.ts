@@ -8,18 +8,14 @@ declare global {
     axios: AxiosInstance
   }
   const route: typeof ziggyRouteFunction
-  interface Onboard {
-    full_name: string | undefined
-    prefer_name: string | undefined
-    // username: string | undefined
-    date_of_birth: DateValue | DateValue[] | undefined
-    occupation: string | undefined
-    interest?: string | undefined
-  }
 }
 
 declare module '@inertiajs/core' {
-  interface PageProps extends InertiaPageProps, AppPageProps {}
+  interface PageProps extends InertiaPageProps, AppPageProps {
+    auth: {
+      user: AuthUser
+    }
+  }
 }
 
 declare module '@vue/runtime-core' {
