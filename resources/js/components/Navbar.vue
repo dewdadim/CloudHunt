@@ -6,7 +6,7 @@ import MaxWidthWrapper from './MaxWidthWrapper.vue'
 import { Separator } from './ui/separator'
 
 const props = defineProps<{
-  auth: AuthUser
+  authUser: AuthUser
 }>()
 </script>
 
@@ -50,7 +50,7 @@ const props = defineProps<{
         <Popover>
           <PopoverTrigger class="cursor-pointer" as-child>
             <img
-              :src="props.auth.avatar"
+              :src="props.authUser.avatar"
               alt="avatar"
               class="size-10 rounded-xl"
             />
@@ -59,20 +59,22 @@ const props = defineProps<{
             <div class="flex flex-col gap-2">
               <div class="flex items-center gap-4 py-4">
                 <img
-                  :src="props.auth.avatar"
+                  :src="props.authUser.avatar"
                   alt="avatar"
                   class="size-16 rounded-xl border"
                 />
                 <div>
-                  <h3 class="font-semibold">{{ props.auth.prefer_name }}</h3>
-                  <p class="text-xs">@{{ props.auth.username }}</p>
+                  <h3 class="font-semibold">
+                    {{ props.authUser.prefer_name }}
+                  </h3>
+                  <p class="text-xs">@{{ props.authUser.username }}</p>
                 </div>
               </div>
 
               <Separator />
 
               <Link
-                :href="route('users.show', { id: props.auth.username })"
+                :href="route('users.show', { id: props.authUser.username })"
                 class="flex items-center justify-start gap-2 rounded-md p-2 hover:bg-accent"
               >
                 <User :size="20" />

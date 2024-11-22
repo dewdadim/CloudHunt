@@ -2,15 +2,12 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import Navbar from '@/components/Navbar.vue'
 import { usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
 
-const page = usePage()
-
-const auth = computed(() => page.props.auth.user)
+const auth = usePage().props.auth.user
 </script>
 
 <template>
-  <Navbar :auth="auth" />
+  <Navbar :authUser="auth" />
   <MaxWidthWrapper>
     <slot />
   </MaxWidthWrapper>
