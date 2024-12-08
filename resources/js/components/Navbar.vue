@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import MaxWidthWrapper from './MaxWidthWrapper.vue'
 import { Separator } from './ui/separator'
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
   authUser: AuthUser
@@ -91,7 +92,7 @@ const props = defineProps<{
                 Help & Supports
               </Link>
               <Link
-                :href="'#'"
+                :href="route('settings')"
                 class="flex cursor-pointer items-center justify-start gap-2 rounded-md p-2 hover:bg-accent"
               >
                 <Settings :size="20" />
