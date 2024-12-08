@@ -1,15 +1,6 @@
 <script setup lang="ts">
 import ProfileCard from '@/components/profile/ProfileCard.vue'
-import { AspectRatio } from '@/components/ui/aspect-ratio'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { Building, Mail, School } from 'lucide-vue-next'
+import { Card, CardHeader } from '@/components/ui/card'
 
 const { user } = defineProps<{
   user: User
