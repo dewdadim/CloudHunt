@@ -45,6 +45,13 @@ Route::middleware(['auth', 'onboarded'])->group(function () {
     Route::get('/lessons/{lesson:uri}/{module:uri}',  [ModuleController::class, 'show'])->name('modules.show');
     Route::patch('/lessons/{lesson:uri}/{module:uri}',  [ModuleController::class, 'completeModule'])->name('modules.complete');
 
+    Route::group(['prefix' => 'settings', 'as' => 'settings'], function () {
+        Route::get('/', function () {
+            return to_route('settings.profile');
+        });
+        Route::inertia('/profile', 'Setting/Profile')->name('.profile');
+    });
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
