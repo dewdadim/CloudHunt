@@ -93,47 +93,86 @@ class CreateModule extends Command
     }
 
     /**
+     * Update the ModuleSeeder.php file in project
+     *
+     * @param  array  $moduleData The data of the module
+     * @return void
+     */
+    protected function updateSeeder($moduleData)
+    {
+        $seederPath = database_path('seeders/ModuleSeeder.php');
+        $content = file_get_contents($seederPath);
+        
+        // Find the position where we want to insert the new module
+        $insertPosition = strpos($content, 'public function run(): void');
+        $insertPosition = strpos($content, '{', $insertPosition) + 1;
+        
+        // Prepare the new module code
+        $newModule = "\n        \\App\\Models\\Module::firstOrCreate(\n";
+        $newModule .= "            ['uri' => '" . addslashes($moduleData['uri']) . "'],\n";
+        $newModule .= "            [\n";
+        $newModule .= "                'uri' => '" . addslashes($moduleData['uri']) . "',\n";
+        $newModule .= "                'title' => '" . addslashes($moduleData['title']) . "',\n";
+        $newModule .= "                'description' => '" . addslashes($moduleData['description']) . "',\n";
+        $newModule .= "                'lesson_id' => " . $moduleData['lesson_id'] . ",\n";
+        $newModule .= "                'category' => '" . addslashes($moduleData['category']) . "',\n";
+        $newModule .= "                'difficulty' => '" . addslashes($moduleData['difficulty']) . "'\n";
+        $newModule .= "            ]\n";
+        $newModule .= "        );\n";
+        
+        // Insert the new module code after the opening brace of run() method
+        $content = substr_replace($content, $newModule, $insertPosition, 0);
+        
+        file_put_contents($seederPath, $content);
+    }
+
+    /**
      * Execute the console command.
      */
     public function handle()
     {
-
         $lessons = Lesson::all();
         $lesson = $this->choice('Which lesson this module belongs to?', array_column(json_decode($lessons), 'title'));
         $lessonId = Lesson::where('title', $lesson)->pluck('id')->first();
 
         $title = $this->ask('What is the title for this module?');
-
         $description = $this->ask('Description for this module', null);
 
         $uri = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
         $uri = Str::kebab($uri);
 
-        $path = $this->getPath($lesson, $uri);
-        
         $category = $this->choice('How difficult this module is?', ['Learn', 'Test']);
-        
         $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Hard']);
 
-        // Save into database
-        Module::create([
+        $path = $this->getPath($lesson, $uri);
+
+        // Collect all data in one array
+        $moduleData = [
             'uri' => $uri,
             'title' => $title,
             'description' => $description,
             'lesson_id' => $lessonId,
             'category' => $category,
-            'difficulty' => $difficulty
-        ]);
+            'difficulty' => $difficulty,
+            'lesson_title' => $lesson,
+            'path' => $path
+        ];
 
-        $this->generateModuleFile($lesson, $title, $path); // Generate .vue file
+        // Save into database
+        Module::create($moduleData);
+
+        // Generate .vue file
+        $this->generateModuleFile($moduleData['lesson_title'], $moduleData['title'], $moduleData['path']); 
+
+        // Update the seeder
+        $this->updateSeeder($moduleData);
 
         // Success message
-        $this->info("Vue component {$uri}.vue created successfully! Located at: {$path}");
-        $this->info("Module '{$title}' for '{$lesson}' created successfully!");
+        $this->info("Vue component {$moduleData['uri']}.vue created successfully! Located at: {$moduleData['path']}");
+        $this->info("Module '{$moduleData['title']}' for '{$moduleData['lesson_title']}' created successfully!");
         $this->table(
-            ['id', 'title'],
-            Module::select('id', 'title', 'description')->where('lesson_id', $lessonId)->get()
+            ['id', 'title', 'uri', 'lesson_id', 'category', 'difficulty'],
+            Module::select('id', 'title', 'uri', 'lesson_id', 'category', 'difficulty')->where('lesson_id', $moduleData['lesson_id'])->get()
         );
-
     }
 }

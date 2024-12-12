@@ -39,11 +39,41 @@ class CreateLesson extends Command
     }
 
     /**
+     * Update the LessonSeeder.php file in project
+     *
+     * @param  array  $lessonData The data of the lesson
+     * @return void
+     */
+    protected function updateSeeder($lessonData)
+    {
+        $seederPath = database_path('seeders/LessonSeeder.php');
+        $content = file_get_contents($seederPath);
+        
+        // Find the position where we want to insert the new lesson
+        $insertPosition = strpos($content, 'public function run(): void');
+        $insertPosition = strpos($content, '{', $insertPosition) + 1;
+        
+        // Prepare the new lesson code
+        $newLesson = "\n        \\App\\Models\\Lesson::firstOrCreate(\n";
+        $newLesson .= "            ['uri' => '" . addslashes($lessonData['uri']) . "'],\n";
+        $newLesson .= "            [\n";
+        $newLesson .= "                'uri' => '" . addslashes($lessonData['uri']) . "',\n";
+        $newLesson .= "                'title' => '" . addslashes($lessonData['title']) . "',\n";
+        $newLesson .= "                'description' => '" . addslashes($lessonData['description']) . "'\n";
+        $newLesson .= "            ]\n";
+        $newLesson .= "        );\n";
+        
+        // Insert the new lesson code after the opening brace of run() method
+        $content = substr_replace($content, $newLesson, $insertPosition, 0);
+        
+        file_put_contents($seederPath, $content);
+    }
+
+    /**
      * Execute the console command.
      */
     public function handle()
     {
-
         $filesystem = new Filesystem();
 
         $title = $this->ask('What is the title for this lesson?');
@@ -54,17 +84,22 @@ class CreateLesson extends Command
 
         $path = $this->getPath($uri);
 
-        // Save into database
-        Lesson::create([
+        $lessonData = [
             'uri' => $uri,
             'title' => $title,
             'description' => $description
-        ]);
+        ];
+
+        // Save into database
+        Lesson::create($lessonData);
 
         // Create the directory if it doesn't exist
         if (!file_exists($path)) {
             $filesystem->makeDirectory($path, 0755, true);
         }
+
+        // Update the seeder
+        $this->updateSeeder($lessonData);
 
         // Success message
         $this->info("Lesson created successfully!");

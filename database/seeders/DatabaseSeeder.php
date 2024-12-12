@@ -15,20 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        Lesson::factory()->create([
-            'uri' => 'fundamentals-of-cloud-computing',
-            'title' => 'Fundamentals of Cloud Computing',
-            'description' => null,
-        ]);
-
-        Module::factory()->create([
-            'uri' => 'what-is-cloud',
-            'title' => 'What is Cloud?',
-            'description' => null,
-            'lesson_id' => 1,
-            'category' => 'learn',
-            'difficulty' => 'easy'
+        $this->call([
+            LessonSeeder::class,
+            ModuleSeeder::class
         ]);
     }
-}
+}   
