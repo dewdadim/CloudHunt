@@ -2,6 +2,7 @@ interface Lesson {
   id: number
   uri: string
   modules: Module[]
+  thumbnail: string
   title: string
   description: string
   completed: boolean
