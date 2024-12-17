@@ -16,7 +16,6 @@ class LessonController extends Controller
         $modules = $lesson->modules()->get();
 
         $progresses = Progress::where('user_id', $user->id)
-                            ->where('lesson_id', $lesson->id)
                             ->get()
                             ->keyBy('module_id');
 
@@ -40,39 +39,37 @@ class LessonController extends Controller
     public function index() {
         $user = Auth::user();
 
-            // Fetch all lessons and their modules
-            $lessons = Lesson::with('modules')->get();  // Fetch lessons with their modules
+        // Fetch all lessons with their modules
+        $lessons = Lesson::with(['modules' => function($query) {
+            $query->select('id', 'lesson_id', 'title', 'uri');
+        }])->get();
 
-            // Fetch all progress for the user
-            $progresses = Progress::where('user_id', $user->id)
-                                ->get()
-                                ->groupBy('lesson_id');  // Group progress by lesson_id
+        // Get progress for the current user
+        $progresses = Progress::where('user_id', $user->id)
+            ->get()
+            ->keyBy('module_id');
 
-            // Combine lessons, modules, and progress into one structure
-            $lessonsWithProgress = $lessons->map(function($lesson) use ($progresses, $user) {
-                // Fetch the progress for this lesson
-                $lessonProgress = $progresses->get($lesson->id) ?? collect();
-
-                // Map over each module and inject progress (completed status)
-                $modulesWithProgress = $lesson->modules->map(function($module) use ($lessonProgress) {
-                    return [
-                        'id' => $module->id,
-                        'title' => $module->title,
-                        'completed' => optional($lessonProgress->firstWhere('module_id', $module->id))->completed ?? false,  // Include progress if exists
-                    ];
-                });
-
-                // Return the lesson structure with modules and progress
+        // Transform lessons data
+        $lessonsWithProgress = $lessons->map(function($lesson) use ($progresses) {
+            $modulesWithProgress = $lesson->modules->map(function($module) use ($progresses) {
                 return [
-                    'id' => $lesson->id,
-                    'title' => $lesson->title,
-                    'uri' => $lesson->uri,
-                    'modules' => $modulesWithProgress->toArray(),  // Nested modules with progress
+                    'id' => $module->id,
+                    'title' => $module->title,
+                    'uri' => $module->uri,
+                    'completed' => optional($progresses->get($module->id))->completed ?? false,
                 ];
             });
 
+            return [
+                'id' => $lesson->id,
+                'title' => $lesson->title,
+                'uri' => $lesson->uri,
+                'modules' => $modulesWithProgress,
+            ];
+        });
+
         return Inertia::render('Lessons', [
-            'lessons' => $lessonsWithProgress->toArray()
+            'lessons' => $lessonsWithProgress
         ]);
     }
 }
