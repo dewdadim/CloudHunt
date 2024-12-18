@@ -2,15 +2,20 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import ModuleFinishButton from '@/components/ModuleFinishButton.vue'
 import { Button } from '@/components/ui/button'
-import TaskExample from './TaskExample.vue'
 import { onMounted, ref } from 'vue'
+
+// Import task component here
+import TaskExample from './TaskExample.vue'
+import TaskTestIfworking from './TaskTestIfworking.vue'
+import TaskTestTwo from './TaskTestTwo.vue'
+
+// Add imported tasks here
+const tasks = [TaskTestTwo, TaskTestIfworking, TaskExample]
 
 const props = defineProps<{
   lesson: Lesson
   module: Module
 }>()
-
-const tasks = [TaskExample]
 
 const emit = defineEmits<{
   (event: 'update-progress', current: number, total: number): void
