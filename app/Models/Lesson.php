@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Models\Module;
 use App\Models\LessonTag;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Lesson extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     /**
      * The attributes that are mass assignable.

@@ -55,9 +55,9 @@ class CreateLesson extends Command
         
         // Prepare the new lesson code
         $newLesson = "\n        \\App\\Models\\Lesson::firstOrCreate(\n" .
-            "            ['id' => " . $lessonId . "],\n" .
+            "            ['id' => '" . addslashes($lessonId) . "'],\n" .
             "            [\n" .
-            "                'id' => " . $lessonId . ",\n" .
+            "                'id' => '" . addslashes($lessonId) . "',\n" .
             "                'uri' => '" . addslashes($lessonData['uri']) . "',\n" .
             "                'title' => '" . addslashes($lessonData['title']) . "',\n" .
             "                'description' => '" . addslashes($lessonData['description']) . "'\n" .

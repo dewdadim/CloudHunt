@@ -97,13 +97,13 @@ class CreateModule extends Command
         
         // Prepare the new module code
         $newModule = "\n        \\App\\Models\\Module::firstOrCreate(\n" .
-            "            ['id' => " . $moduleId . "],\n" .
+            "            ['id' => '" . addslashes($moduleId) . "'],\n" .
             "            [\n" .
-            "                'id' => " . $moduleId . ",\n" .
+            "                'id' => '" . addslashes($moduleId) . "',\n" .
             "                'uri' => '" . addslashes($moduleData['uri']) . "',\n" .
             "                'title' => '" . addslashes($moduleData['title']) . "',\n" .
             "                'description' => '" . addslashes($moduleData['description']) . "',\n" .
-            "                'lesson_id' => " . $moduleData['lesson_id'] . ",\n" .
+            "                'lesson_id' => '" . addslashes($moduleData['lesson_id']) . "',\n" .
             "                'category' => '" . addslashes($moduleData['category']) . "',\n" .
             "                'difficulty' => '" . addslashes($moduleData['difficulty']) . "'\n" .
             "            ]\n" .
