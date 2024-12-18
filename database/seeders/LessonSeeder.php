@@ -12,16 +12,6 @@ class LessonSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Lesson::firstOrCreate(
-            ['uri' => 'test-lesson2'],
-            [
-                'id' => 0,
-                'uri' => 'test-lesson2',
-                'title' => 'Test Lesson 2',
-                'description' => ''
-            ]
-        );
-
         
     }
 }
