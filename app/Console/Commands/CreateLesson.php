@@ -32,10 +32,7 @@ class CreateLesson extends Command
      */
     protected function getPath($name)
     {
-        $name = class_basename(str_replace('\\', '/', $name));
-        $name = Str::kebab($name);
-
-        return resource_path("/js/components/lessons/{$name}");
+        return resource_path('/js/components/lessons/' . Str::kebab(class_basename($name)));
     }
 
     /**
@@ -49,24 +46,21 @@ class CreateLesson extends Command
         $seederPath = database_path('seeders/LessonSeeder.php');
         $content = file_get_contents($seederPath);
         
-        // Find the position where we want to insert the new lesson
+        // Find position after run() method opening brace
         $insertPosition = strpos($content, 'public function run(): void');
         $insertPosition = strpos($content, '{', $insertPosition) + 1;
         
         // Prepare the new lesson code
-        $newLesson = "\n        \\App\\Models\\Lesson::firstOrCreate(\n";
-        $newLesson .= "            ['uri' => '" . addslashes($lessonData['uri']) . "'],\n";
-        $newLesson .= "            [\n";
-        $newLesson .= "                'uri' => '" . addslashes($lessonData['uri']) . "',\n";
-        $newLesson .= "                'title' => '" . addslashes($lessonData['title']) . "',\n";
-        $newLesson .= "                'description' => '" . addslashes($lessonData['description']) . "'\n";
-        $newLesson .= "            ]\n";
-        $newLesson .= "        );\n";
+        $newLesson = "\n        \\App\\Models\\Lesson::firstOrCreate(\n" .
+            "            ['uri' => '" . addslashes($lessonData['uri']) . "'],\n" .
+            "            [\n" .
+            "                'uri' => '" . addslashes($lessonData['uri']) . "',\n" .
+            "                'title' => '" . addslashes($lessonData['title']) . "',\n" .
+            "                'description' => '" . addslashes($lessonData['description']) . "'\n" .
+            "            ]\n" .
+            "        );\n";
         
-        // Insert the new lesson code after the opening brace of run() method
-        $content = substr_replace($content, $newLesson, $insertPosition, 0);
-        
-        file_put_contents($seederPath, $content);
+        file_put_contents($seederPath, substr_replace($content, $newLesson, $insertPosition, 0));
     }
 
     /**
@@ -74,14 +68,9 @@ class CreateLesson extends Command
      */
     public function handle()
     {
-        $filesystem = new Filesystem();
-
         $title = $this->ask('What is the title for this lesson?');
-        $uri = preg_replace('/[^\p{L}\p{N}\s]/u', '', $title); // Remove symbols from title
-        $uri = Str::kebab($uri); // Transform title to kebabcase format
-
+        $uri = Str::kebab(preg_replace('/[^\p{L}\p{N}\s]/u', '', $title));
         $description = $this->ask('Description for this lesson', null);
-
         $path = $this->getPath($uri);
 
         $lessonData = [
@@ -94,6 +83,7 @@ class CreateLesson extends Command
         Lesson::create($lessonData);
 
         // Create the directory if it doesn't exist
+        $filesystem = new Filesystem();
         if (!file_exists($path)) {
             $filesystem->makeDirectory($path, 0755, true);
         }

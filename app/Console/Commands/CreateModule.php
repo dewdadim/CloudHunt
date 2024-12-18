@@ -32,16 +32,6 @@ class CreateModule extends Command
     protected $type = 'Vue template';
 
     /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    private function getStub()
-    {
-        return __DIR__ . '/../Stubs/Module.stub';
-    }
-
-    /**
      * Get the destination class path.
      *
      * @param  string  $lesson The title of the lesson
@@ -53,7 +43,7 @@ class CreateModule extends Command
         $name = class_basename(str_replace('\\', '/', $name));
         $lesson = Str::kebab($lesson);
 
-        return "{$this->laravel['path']}/../resources/js/components/lessons/{$lesson}/{$name}.vue";
+        return "{$this->laravel['path']}/../resources/js/components/lessons/{$lesson}/{$name}";
     }
 
     /**
@@ -66,30 +56,25 @@ class CreateModule extends Command
     private function generateModuleFile($lessonTitle, $title, $path)
     {
         $filesystem = new Filesystem();
-        $stub = $filesystem->get($this->getStub());
-
-        $name = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
-        $name = Str::kebab($name);
-
-        // Replace placeholders in the stub
-        $stub = str_replace('{{ title }}', $title, $stub);
-        $stub = str_replace('{{ path }}', $path, $stub);
-        $stub = str_replace('{{ lesson }}', $lessonTitle, $stub);
-
-
-        // Create the directory if it doesn't exist
-        if (!$filesystem->isDirectory(dirname($path))) {
-            $filesystem->makeDirectory(dirname($path), 0755, true);
+        
+        if (!$filesystem->isDirectory($path)) {
+            $filesystem->makeDirectory($path, 0755, true);
         }
 
-        // Check if the Module already exist
-        if(file_exists($path)){
-            $this->error("Module {$name} already exist!");
-            return 1;
-        }
+        // Generate index.vue
+        $indexStub = $filesystem->get(__DIR__ . '/../Stubs/Module.stub');
+        $indexStub = str_replace(
+            ['{{ title }}', '{{ path }}', '{{ lesson }}'],
+            [$title, $path, $lessonTitle],
+            $indexStub
+        );
+        $filesystem->put($path . '/index.vue', $indexStub);
 
-        // Write the Vue file
-        return $filesystem->put($path, $stub);
+        // Generate TaskExample.vue in the tasks directory
+        $taskStub = $filesystem->get(__DIR__ . '/../Stubs/Task.stub');
+        $filesystem->put($path . '/TaskExample.vue', $taskStub);
+
+        return true;
     }
 
     /**
@@ -108,22 +93,19 @@ class CreateModule extends Command
         $insertPosition = strpos($content, '{', $insertPosition) + 1;
         
         // Prepare the new module code
-        $newModule = "\n        \\App\\Models\\Module::firstOrCreate(\n";
-        $newModule .= "            ['uri' => '" . addslashes($moduleData['uri']) . "'],\n";
-        $newModule .= "            [\n";
-        $newModule .= "                'uri' => '" . addslashes($moduleData['uri']) . "',\n";
-        $newModule .= "                'title' => '" . addslashes($moduleData['title']) . "',\n";
-        $newModule .= "                'description' => '" . addslashes($moduleData['description']) . "',\n";
-        $newModule .= "                'lesson_id' => " . $moduleData['lesson_id'] . ",\n";
-        $newModule .= "                'category' => '" . addslashes($moduleData['category']) . "',\n";
-        $newModule .= "                'difficulty' => '" . addslashes($moduleData['difficulty']) . "'\n";
-        $newModule .= "            ]\n";
-        $newModule .= "        );\n";
+        $newModule = "\n        \\App\\Models\\Module::firstOrCreate(\n" .
+            "            ['uri' => '" . addslashes($moduleData['uri']) . "'],\n" .
+            "            [\n" .
+            "                'uri' => '" . addslashes($moduleData['uri']) . "',\n" .
+            "                'title' => '" . addslashes($moduleData['title']) . "',\n" .
+            "                'description' => '" . addslashes($moduleData['description']) . "',\n" .
+            "                'lesson_id' => " . $moduleData['lesson_id'] . ",\n" .
+            "                'category' => '" . addslashes($moduleData['category']) . "',\n" .
+            "                'difficulty' => '" . addslashes($moduleData['difficulty']) . "'\n" .
+            "            ]\n" .
+            "        );\n";
         
-        // Insert the new module code after the opening brace of run() method
-        $content = substr_replace($content, $newModule, $insertPosition, 0);
-        
-        file_put_contents($seederPath, $content);
+        file_put_contents($seederPath, substr_replace($content, $newModule, $insertPosition, 0));
     }
 
     /**
@@ -172,7 +154,9 @@ class CreateModule extends Command
         $this->info("Module '{$moduleData['title']}' for '{$moduleData['lesson_title']}' created successfully!");
         $this->table(
             ['id', 'title', 'uri', 'lesson_id', 'category', 'difficulty'],
-            Module::select('id', 'title', 'uri', 'lesson_id', 'category', 'difficulty')->where('lesson_id', $moduleData['lesson_id'])->get()
+            Module::select('id', 'title', 'uri', 'lesson_id', 'category', 'difficulty')
+                ->where('lesson_id', $moduleData['lesson_id'])
+                ->get()
         );
     }
 }
