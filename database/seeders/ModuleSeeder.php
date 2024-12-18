@@ -13,13 +13,13 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Module::firstOrCreate(
-            ['id' => 18],
+            ['id' => '9dc0ce06-58d4-496e-8953-73ad406fed9d'],
             [
-                'id' => 18,
+                'id' => '9dc0ce06-58d4-496e-8953-73ad406fed9d',
                 'uri' => 'what-is-cloud',
                 'title' => 'What is Cloud?',
                 'description' => '',
-                'lesson_id' => 12,
+                'lesson_id' => '9dc0cdf3-abd6-4113-8361-3a72b5bcd327',
                 'category' => 'Learn',
                 'difficulty' => 'Easy'
             ]

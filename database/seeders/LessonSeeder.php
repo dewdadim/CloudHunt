@@ -13,11 +13,11 @@ class LessonSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Lesson::firstOrCreate(
-            ['id' => 12],
+            ['id' => '9dc0cdf3-abd6-4113-8361-3a72b5bcd327'],
             [
-                'id' => 12,
-                'uri' => 'fundamental-of-cloud-computing',
-                'title' => 'Fundamental of Cloud Computing',
+                'id' => '9dc0cdf3-abd6-4113-8361-3a72b5bcd327',
+                'uri' => 'fundamentals-of-cloud-computing',
+                'title' => 'Fundamentals of Cloud Computing',
                 'description' => ''
             ]
         );
