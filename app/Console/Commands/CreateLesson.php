@@ -50,10 +50,14 @@ class CreateLesson extends Command
         $insertPosition = strpos($content, 'public function run(): void');
         $insertPosition = strpos($content, '{', $insertPosition) + 1;
         
+        // Get the lesson's ID from the database
+        $lessonId = Lesson::where('uri', $lessonData['uri'])->first()->id;
+        
         // Prepare the new lesson code
         $newLesson = "\n        \\App\\Models\\Lesson::firstOrCreate(\n" .
-            "            ['uri' => '" . addslashes($lessonData['uri']) . "'],\n" .
+            "            ['id' => " . $lessonId . "],\n" .
             "            [\n" .
+            "                'id' => " . $lessonId . ",\n" .
             "                'uri' => '" . addslashes($lessonData['uri']) . "',\n" .
             "                'title' => '" . addslashes($lessonData['title']) . "',\n" .
             "                'description' => '" . addslashes($lessonData['description']) . "'\n" .

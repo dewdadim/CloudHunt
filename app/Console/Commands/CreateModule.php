@@ -92,10 +92,14 @@ class CreateModule extends Command
         $insertPosition = strpos($content, 'public function run(): void');
         $insertPosition = strpos($content, '{', $insertPosition) + 1;
         
+        // Get the module's ID from the database
+        $moduleId = Module::where('uri', $moduleData['uri'])->first()->id;
+        
         // Prepare the new module code
         $newModule = "\n        \\App\\Models\\Module::firstOrCreate(\n" .
-            "            ['uri' => '" . addslashes($moduleData['uri']) . "'],\n" .
+            "            ['id' => " . $moduleId . "],\n" .
             "            [\n" .
+            "                'id' => " . $moduleId . ",\n" .
             "                'uri' => '" . addslashes($moduleData['uri']) . "',\n" .
             "                'title' => '" . addslashes($moduleData['title']) . "',\n" .
             "                'description' => '" . addslashes($moduleData['description']) . "',\n" .
