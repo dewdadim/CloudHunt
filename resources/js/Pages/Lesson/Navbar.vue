@@ -18,7 +18,7 @@ const { lesson } = defineProps<{
 </script>
 
 <template>
-  <nav class="sticky top-0 z-10 w-full">
+  <nav class="sticky top-0 z-10 w-full bg-background/95 backdrop-blur">
     <MaxWidthWrapper
       class="flex items-center justify-between py-4 md:max-w-screen-2xl"
     >

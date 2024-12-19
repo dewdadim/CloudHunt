@@ -66,7 +66,7 @@ const progressText = computed(() => {
       </div>
     </div>
   </div>
-  <MaxWidthWrapper class="pt-20">
+  <MaxWidthWrapper class="pt-20 md:max-w-screen-md">
     <main>
       <component
         :is="component"
