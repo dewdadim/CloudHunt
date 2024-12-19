@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('uri');
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('uri');
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->foreignUuid('lesson_id')->constrained('lessons');
             $table->enum('category', ['learn', 'test']);
             $table->enum('difficulty', ['easy', 'moderate', 'hard']);
