@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import ModuleFinishButton from '@/components/ModuleFinishButton.vue'
-import { Button } from '@/components/ui/button'
 import { onMounted, ref } from 'vue'
 
 // Import task component here
@@ -9,7 +7,6 @@ import TaskExample from './TaskExample.vue'
 
 // Add imported tasks here
 const tasks = [TaskExample]
-
 
 const props = defineProps<{
   lesson: Lesson
@@ -43,31 +40,21 @@ const handleTaskComplete = () => {
 </script>
 
 <template>
-  <MaxWidthWrapper class="md:max-w-screen-md">
-    <div class="space-y-10">
-      <section
-        id="task-container"
-        v-for="(task, index) in tasks.slice(0, visibleSections)"
-        :key="index"
-        class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-20"
-      >
-        <component :is="task" :onComplete="handleTaskComplete" />
-        <div class="mt-6">
-          <Button
-            v-if="index === visibleSections - 1 && index < tasks.length - 1"
-            @click="handleTaskComplete"
-            variant="secondary"
-            size="lg"
-          >
-            Now I understand
-          </Button>
-          <ModuleFinishButton
-            v-if="index === visibleSections - 1 && index === tasks.length - 1"
-            :lesson="props.lesson"
-            :module="props.module"
-          />
-        </div>
-      </section>
-    </div>
-  </MaxWidthWrapper>
+  <div class="space-y-10">
+    <section
+      id="task-container"
+      v-for="(task, index) in tasks.slice(0, visibleSections)"
+      :key="index"
+      class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-20"
+    >
+      <component :is="task" :onComplete="handleTaskComplete" />
+      <div class="mt-6">
+        <ModuleFinishButton
+          v-if="index === visibleSections - 1 && index === tasks.length - 1"
+          :lesson="props.lesson"
+          :module="props.module"
+        />
+      </div>
+    </section>
+  </div>
 </template>
