@@ -26,6 +26,7 @@ class LessonController extends Controller
                 'title' => $module->title,
                 'description' => $module->description,
                 'uri' => $module->uri,
+                'category' => $module->category,
                 'completed' => optional($progresses->get($module->id))->completed ?? false,  // Include progress if exists, default to false    
             ];
         });

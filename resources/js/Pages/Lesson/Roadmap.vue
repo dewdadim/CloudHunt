@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { Card, CardContent } from '@/components/ui/card'
 import Navbar from './Navbar.vue'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
-import { cn } from '@/lib/utils'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import ModuleCard from '@/components/ModuleCard.vue'
 import { computed, ref } from 'vue'
-import { AspectRatio } from '@/components/ui/aspect-ratio'
-import { Progress } from '@/components/ui/progress'
-import { BrainCircuit, CheckCircle2 } from 'lucide-vue-next'
-import { Link } from '@inertiajs/vue3'
+import LessonOverview from './LessonOverview.vue'
+import LessonAllModules from './LessonAllModules.vue'
 
 const props = defineProps<{
   lesson: Lesson
@@ -24,7 +18,7 @@ const progressPercentage = computed(() => {
     100
   )
 })
-
+console.log(props.modules)
 const progress = ref(progressPercentage ?? 0)
 </script>
 
@@ -97,70 +91,16 @@ const progress = ref(progressPercentage ?? 0)
       <div class="min-w-full md:min-w-[350px]">
         <div class="sticky top-28 w-full md:w-[350px]">
           <div class="sticky top-28">
-            <div class="relative rounded-3xl shadow-taper">
-              <!-- status badge -->
-              <div
-                class="absolute left-2.5 top-2.5 z-10 flex w-fit items-center gap-1 rounded-full bg-yellow-100/40 px-3 py-2 text-xs font-semibold text-yellow-500"
-                v-if="progress >= 100"
-              >
-                <CheckCircle2 :size="16" :stroke-width="2.5" />
-                Completed
-              </div>
-
-              <AspectRatio :ratio="7 / 3" class="rounded-3xl bg-muted">
-                <img
-                  :src="
-                    props.lesson.thumbnail ??
-                    'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
-                  "
-                  alt="Photo by Drew Beamer"
-                  class="h-full w-full rounded-t-3xl border-x border-t object-cover"
-                />
-                <div
-                  class="h-fit w-full border-l border-r"
-                  v-if="progress < 100 && progress > 0"
-                >
-                  <Progress :modelValue="progress" class="h-1 rounded-none" />
-                </div>
-              </AspectRatio>
-              <div
-                class="w-full space-y-8 rounded-b-3xl border-x border-b bg-card p-6"
-              >
-                <h3 class="line-clamp-2 text-wrap text-lg font-semibold">
-                  {{ props.lesson.title }}
-                </h3>
-                <p>{{ props.lesson.description }}</p>
-              </div>
-            </div>
+            <LessonOverview
+              :lesson="props.lesson"
+              :modules="props.modules"
+              :progress="progress"
+            />
           </div>
         </div>
       </div>
       <div class="flex w-full flex-col gap-4">
-        <Link
-          :href="
-            route('modules.show', {
-              lesson: props.lesson.uri,
-              module: module.uri,
-            })
-          "
-          v-for="module in props.modules"
-          :class="
-            cn(
-              'flex h-20 items-center justify-between rounded-2xl border bg-card px-8 shadow-taper',
-              module.completed &&
-                'bg-border-4 border-primary bg-yellow-50 text-primary shadow-lg shadow-primary',
-            )
-          "
-        >
-          <div class="flex items-center gap-4">
-            <BrainCircuit />
-            <h3 class="font-medium">{{ module.title }}</h3>
-          </div>
-          <CheckCircle2
-            :size="32"
-            :class="module.completed ? 'text-primary' : 'text-gray-300'"
-          />
-        </Link>
+        <LessonAllModules :lesson="lesson" :modules="props.modules" />
       </div>
     </main>
   </MaxWidthWrapper>
