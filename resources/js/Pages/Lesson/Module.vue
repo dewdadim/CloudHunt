@@ -48,23 +48,25 @@ const progressText = computed(() => {
   <div
     class="fixed left-0 right-0 top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
   >
-    <div class="flex h-16 items-center gap-4 px-4 md:px-56">
-      <Link
-        :href="route('lessons.show', { lesson: lesson.uri })"
-        method="get"
-        as="button"
-        class="rounded-lg p-1 hover:bg-muted"
-      >
-        <X :size="24" />
-      </Link>
+    <MaxWidthWrapper>
+      <div class="flex h-16 items-center gap-4">
+        <Link
+          :href="route('lessons.show', { lesson: lesson.uri })"
+          method="get"
+          as="button"
+          class="rounded-lg p-1 hover:bg-muted"
+        >
+          <X :size="24" />
+        </Link>
 
-      <div class="flex grow items-center gap-3">
-        <Progress v-model="progress" class="h-2.5 grow" />
-        <span class="text-sm font-medium">
-          {{ progressText }}
-        </span>
+        <div class="flex grow items-center gap-3">
+          <Progress v-model="progress" class="h-2.5 grow" />
+          <span class="text-sm font-medium">
+            {{ progressText }}
+          </span>
+        </div>
       </div>
-    </div>
+    </MaxWidthWrapper>
   </div>
   <MaxWidthWrapper class="pt-20 md:max-w-screen-md">
     <main>
