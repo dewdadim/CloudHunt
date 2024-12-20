@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FormInput from '../FormInput.vue'
-import type { FormErrors } from '@/Pages/Onboard.vue' // Import the FormData type
+import type { FormErrors } from '@/Pages/Onboard/Onboard.vue' // Import the FormData type
 
 // Define props with the FormData interface and errors type
 defineProps<{

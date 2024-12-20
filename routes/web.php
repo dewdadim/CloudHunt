@@ -27,27 +27,30 @@ Route::middleware('guest')->group(function () {
     Route::get('/signup/google/redirect', [AuthController::class, 'googleRedirect'])->name('auth.google.redirect');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::middleware('onboarded')->group(function () {
+Route::middleware(['auth', 'onboarded'])->group(function () {
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-        Route::get('/lessons', [LessonController::class, 'index'])->name('lessons');
-        Route::get('/lessons/{lesson:uri}',  [LessonController::class, 'show'])->name('lessons.show');
-
-        Route::get('/lessons/{lesson:uri}/{module:uri}',  [ModuleController::class, 'show'])->name('modules.show');
-        Route::patch('/lessons/{lesson:uri}/{module:uri}',  [ModuleController::class, 'completeModule'])->name('modules.complete');
-
-    });
-
-    Route::inertia('/onboard', 'Onboard', ['data' => function(){
+    Route::inertia('/onboard', 'Onboard/Onboard', ['data' => function(){
         $user = Auth::id();
         $user = User::findOrFail($user);
-
         return $user;
     }])->name('onboard');
-
     Route::post('/onboard', [UserController::class, 'onboard']);
+    Route::inertia('/onboard-complete', 'Onboard/OnboardComplete')->name('onboard.complete');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/lessons', [LessonController::class, 'index'])->name('lessons');
+    Route::get('/lessons/{lesson:uri}',  [LessonController::class, 'show'])->name('lessons.show');
+
+    Route::get('/lessons/{lesson:uri}/{module:uri}',  [ModuleController::class, 'show'])->name('modules.show');
+    Route::patch('/lessons/{lesson:uri}/{module:uri}',  [ModuleController::class, 'completeModule'])->name('modules.complete');
+
+    Route::group(['prefix' => 'settings', 'as' => 'settings'], function () {
+        Route::get('/', function () {
+            return to_route('settings.profile');
+        });
+        Route::inertia('/profile', 'Setting/Profile')->name('.profile');
+    });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

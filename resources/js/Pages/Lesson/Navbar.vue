@@ -18,7 +18,7 @@ const { lesson } = defineProps<{
 </script>
 
 <template>
-  <nav class="sticky top-0 z-10 w-full">
+  <nav class="sticky top-0 z-10 w-full bg-background/95 backdrop-blur">
     <MaxWidthWrapper
       class="flex items-center justify-between py-4 md:max-w-screen-2xl"
     >
@@ -42,9 +42,9 @@ const { lesson } = defineProps<{
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbPage class="max-w-48 truncate md:max-w-full">{{
-                lesson.title
-              }}</BreadcrumbPage>
+              <BreadcrumbPage class="max-w-48 truncate md:max-w-full">
+                {{ lesson.title }}
+              </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

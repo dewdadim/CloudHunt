@@ -38,7 +38,7 @@ class UserController extends Controller
         // Save user to database
         $user->save();
 
-        return;
+        return to_route('onboard.complete');
     }
 
     public function createUsername(Request $request) {

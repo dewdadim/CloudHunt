@@ -2,23 +2,22 @@ import './bootstrap'
 import '../css/app.css'
 import '../css/noise.css'
 
-import { createApp, DefineComponent, h } from 'vue'
+import { createApp, h } from 'vue'
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
-import Layout from './Layouts/Layout.vue'
+import LayoutDefault from './Layouts/LayoutDefault.vue'
 
 createInertiaApp({
   resolve: (name) => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
     let page: any = pages[`./Pages/${name}.vue`]
     page.default.layout =
-      name.startsWith('Onboard') ||
+      name.startsWith('Onboard/') ||
       name.startsWith('Lesson/') ||
       name.startsWith('Auth/')
         ? undefined
-        : Layout
+        : LayoutDefault
     return page
   },
   setup({ el, App, props, plugin }) {

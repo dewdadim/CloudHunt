@@ -25,10 +25,11 @@ defineProps<{
     </CardHeader>
     <CardContent>
       <div class="flex">
-        <ScrollArea className="w-1 flex-1" :scroll-hide-delay="100">
+        <ScrollArea class="w-1 flex-1" :scroll-hide-delay="100">
           <div class="flex w-max space-x-4">
             <div v-for="lesson in lessons">
               <LessonCard
+                :lesson="lesson"
                 class="w-60"
                 :key="lesson.id"
                 :title="lesson.title!"

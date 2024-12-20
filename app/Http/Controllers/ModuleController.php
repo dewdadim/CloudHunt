@@ -7,7 +7,6 @@ use App\Models\Module;
 use App\Models\Lesson;
 use App\Models\Progress;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +23,6 @@ class ModuleController extends Controller
                 'user_id' => $userId,
                 'module_id' => $i->id
             ],[
-                'lesson_id' => $lesson->id,
                 'completed' => false
             ]);
         };
@@ -39,8 +37,19 @@ class ModuleController extends Controller
         $userId = Auth::id();
         $user = User::findOrFail($userId);
 
+        // Get existing progress
+        $progress = Progress::where('user_id', $userId)
+            ->where('module_id', $module->id)
+            ->first();
+
+        // Only set completed_at if it's null (first time completion)
+        $attributes = [
+            'completed' => true,
+            'completed_at' => $progress && $progress->completed_at ? $progress->completed_at : now(),
+        ];
+
         $user->progresses()->syncWithoutDetaching([
-            $module->id => ['completed' => true]
+            $module->id => $attributes
         ]);
 
         return response()->json(['message' => 'Module completed!'], 200);

@@ -24,7 +24,7 @@ const progress = ref(progressPercentage ?? 0)
 </script>
 
 <template>
-  <div :className="cn('w-72 rounded-3xl shadow-taper relative', props.class)">
+  <div :class="cn('relative w-72 rounded-3xl shadow-taper', props.class)">
     <Link :href="route('lessons.show', { lesson: props.lesson?.uri })">
       <!-- status badge -->
       <div
@@ -37,7 +37,10 @@ const progress = ref(progressPercentage ?? 0)
 
       <AspectRatio :ratio="7 / 3" class="rounded-3xl bg-muted">
         <img
-          src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
+          :src="
+            props.lesson.thumbnail ??
+            'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
+          "
           alt="Photo by Drew Beamer"
           class="h-full w-full rounded-t-3xl border-x border-t object-cover"
         />

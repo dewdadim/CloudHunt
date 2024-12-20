@@ -1,22 +1,13 @@
 <script setup lang="ts">
-import {
-  Bell,
-  HelpCircle,
-  Inbox,
-  LogOut,
-  Search,
-  Settings,
-  User,
-} from 'lucide-vue-next'
+import { Bell, HelpCircle, LogOut, Settings, User } from 'lucide-vue-next'
 import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import MaxWidthWrapper from './MaxWidthWrapper.vue'
 import { Separator } from './ui/separator'
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
-  avatar: string
-  prefer_name: string
-  username: string
+  authUser: AuthUser
 }>()
 </script>
 
@@ -59,26 +50,32 @@ const props = defineProps<{
         </Button>
         <Popover>
           <PopoverTrigger class="cursor-pointer" as-child>
-            <img :src="props.avatar" alt="avatar" class="size-10 rounded-xl" />
+            <img
+              :src="props.authUser.avatar"
+              alt="avatar"
+              class="size-10 rounded-xl"
+            />
           </PopoverTrigger>
           <PopoverContent class="w-auto min-w-60 max-w-64" align="end">
             <div class="flex flex-col gap-2">
               <div class="flex items-center gap-4 py-4">
                 <img
-                  :src="props.avatar"
+                  :src="props.authUser.avatar"
                   alt="avatar"
                   class="size-16 rounded-xl border"
                 />
                 <div>
-                  <h3 class="font-semibold">{{ props.prefer_name }}</h3>
-                  <p class="text-xs">@{{ props.username }}</p>
+                  <h3 class="font-semibold">
+                    {{ props.authUser.prefer_name }}
+                  </h3>
+                  <p class="text-xs">@{{ props.authUser.username }}</p>
                 </div>
               </div>
 
               <Separator />
 
               <Link
-                :href="route('users.show', { id: props.username })"
+                :href="route('users.show', { id: props.authUser.username })"
                 class="flex items-center justify-start gap-2 rounded-md p-2 hover:bg-accent"
               >
                 <User :size="20" />
@@ -95,7 +92,7 @@ const props = defineProps<{
                 Help & Supports
               </Link>
               <Link
-                :href="'#'"
+                :href="route('settings')"
                 class="flex cursor-pointer items-center justify-start gap-2 rounded-md p-2 hover:bg-accent"
               >
                 <Settings :size="20" />

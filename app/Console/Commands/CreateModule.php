@@ -32,16 +32,6 @@ class CreateModule extends Command
     protected $type = 'Vue template';
 
     /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    private function getStub()
-    {
-        return __DIR__ . '/../Stubs/module.stub';
-    }
-
-    /**
      * Get the destination class path.
      *
      * @param  string  $lesson The title of the lesson
@@ -53,7 +43,7 @@ class CreateModule extends Command
         $name = class_basename(str_replace('\\', '/', $name));
         $lesson = Str::kebab($lesson);
 
-        return "{$this->laravel['path']}/../resources/js/components/lessons/{$lesson}/{$name}.vue";
+        return "{$this->laravel['path']}/../resources/js/components/lessons/{$lesson}/{$name}";
     }
 
     /**
@@ -66,30 +56,60 @@ class CreateModule extends Command
     private function generateModuleFile($lessonTitle, $title, $path)
     {
         $filesystem = new Filesystem();
-        $stub = $filesystem->get($this->getStub());
-
-        $name = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
-        $name = Str::kebab($name);
-
-        // Replace placeholders in the stub
-        $stub = str_replace('{{ title }}', $title, $stub);
-        $stub = str_replace('{{ path }}', $path, $stub);
-        $stub = str_replace('{{ lesson }}', $lessonTitle, $stub);
-
-
-        // Create the directory if it doesn't exist
-        if (!$filesystem->isDirectory(dirname($path))) {
-            $filesystem->makeDirectory(dirname($path), 0755, true);
+        
+        if (!$filesystem->isDirectory($path)) {
+            $filesystem->makeDirectory($path, 0755, true);
         }
 
-        // Check if the Module already exist
-        if(file_exists($path)){
-            $this->error("Module {$name} already exist!");
-            return 1;
-        }
+        // Generate index.vue
+        $indexStub = $filesystem->get(__DIR__ . '/../Stubs/Module.stub');
+        $indexStub = str_replace(
+            ['{{ title }}', '{{ path }}', '{{ lesson }}'],
+            [$title, $path, $lessonTitle],
+            $indexStub
+        );
+        $filesystem->put($path . '/index.vue', $indexStub);
 
-        // Write the Vue file
-        return $filesystem->put($path, $stub);
+        // Generate TaskExample.vue in the tasks directory
+        $taskStub = $filesystem->get(__DIR__ . '/../Stubs/Task.stub');
+        $filesystem->put($path . '/TaskExample.vue', $taskStub);
+
+        return true;
+    }
+
+    /**
+     * Update the ModuleSeeder.php file in project
+     *
+     * @param  array  $moduleData The data of the module
+     * @return void
+     */
+    protected function updateSeeder($moduleData)
+    {
+        $seederPath = database_path('seeders/ModuleSeeder.php');
+        $content = file_get_contents($seederPath);
+        
+        // Find the position where we want to insert the new module
+        $insertPosition = strpos($content, 'public function run(): void');
+        $insertPosition = strpos($content, '{', $insertPosition) + 1;
+        
+        // Get the module's ID from the database
+        $moduleId = Module::where('uri', $moduleData['uri'])->first()->id;
+        
+        // Prepare the new module code
+        $newModule = "\n        \\App\\Models\\Module::firstOrCreate(\n" .
+            "            ['id' => '" . addslashes($moduleId) . "'],\n" .
+            "            [\n" .
+            "                'id' => '" . addslashes($moduleId) . "',\n" .
+            "                'uri' => '" . addslashes($moduleData['uri']) . "',\n" .
+            "                'title' => '" . addslashes($moduleData['title']) . "',\n" .
+            "                'description' => '" . addslashes($moduleData['description']) . "',\n" .
+            "                'lesson_id' => '" . addslashes($moduleData['lesson_id']) . "',\n" .
+            "                'category' => '" . addslashes($moduleData['category']) . "',\n" .
+            "                'difficulty' => '" . addslashes($moduleData['difficulty']) . "'\n" .
+            "            ]\n" .
+            "        );\n";
+        
+        file_put_contents($seederPath, substr_replace($content, $newModule, $insertPosition, 0));
     }
 
     /**
@@ -97,43 +117,50 @@ class CreateModule extends Command
      */
     public function handle()
     {
-
         $lessons = Lesson::all();
         $lesson = $this->choice('Which lesson this module belongs to?', array_column(json_decode($lessons), 'title'));
         $lessonId = Lesson::where('title', $lesson)->pluck('id')->first();
 
         $title = $this->ask('What is the title for this module?');
-
         $description = $this->ask('Description for this module', null);
 
         $uri = preg_replace('/[^a-zA-Z0-9_ -]/s',' ',$title); // Remove symbols from title
         $uri = Str::kebab($uri);
 
-        $path = $this->getPath($lesson, $uri);
-        
         $category = $this->choice('How difficult this module is?', ['Learn', 'Test']);
-        
         $difficulty = $this->choice('How difficult this module is?', ['Easy', 'Moderate', 'Hard']);
 
-        // Save into database
-        Module::create([
+        $path = $this->getPath($lesson, $uri);
+
+        // Collect all data in one array
+        $moduleData = [
             'uri' => $uri,
             'title' => $title,
             'description' => $description,
             'lesson_id' => $lessonId,
             'category' => $category,
-            'difficulty' => $difficulty
-        ]);
+            'difficulty' => $difficulty,
+            'lesson_title' => $lesson,
+            'path' => $path
+        ];
 
-        $this->generateModuleFile($lesson, $title, $path); // Generate .vue file
+        // Save into database
+        Module::create($moduleData);
+
+        // Generate .vue file
+        $this->generateModuleFile($moduleData['lesson_title'], $moduleData['title'], $moduleData['path']); 
+
+        // Update the seeder
+        $this->updateSeeder($moduleData);
 
         // Success message
-        $this->info("Vue component {$uri}.vue created successfully! Located at: {$path}");
-        $this->info("Module '{$title}' for '{$lesson}' created successfully!");
+        $this->info("Vue component {$moduleData['uri']}.vue created successfully! Located at: {$moduleData['path']}");
+        $this->info("Module '{$moduleData['title']}' for '{$moduleData['lesson_title']}' created successfully!");
         $this->table(
-            ['id', 'title'],
-            Module::select('id', 'title', 'description')->where('lesson_id', $lessonId)->get()
+            ['id', 'title', 'uri', 'lesson_id', 'category', 'difficulty'],
+            Module::select('id', 'title', 'uri', 'lesson_id', 'category', 'difficulty')
+                ->where('lesson_id', $moduleData['lesson_id'])
+                ->get()
         );
-
     }
 }

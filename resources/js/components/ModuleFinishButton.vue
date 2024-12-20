@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Button>
+  <Button size="lg">
     <Link
       :href="
         route('modules.complete', {
@@ -19,7 +19,7 @@ const props = defineProps<{
       "
       method="patch"
     >
-      Finish
+      Finish Lesson!
     </Link>
   </Button>
 </template>

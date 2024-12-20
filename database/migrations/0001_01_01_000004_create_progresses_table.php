@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('progresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('lesson_id')->constrained('lessons');
-            $table->foreignId('module_id')->constrained('modules');
+            $table->foreignUuid('module_id')->constrained('modules');
             $table->boolean('completed')->default(false);
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }

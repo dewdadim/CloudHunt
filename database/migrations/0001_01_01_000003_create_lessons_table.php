@@ -12,19 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lessons', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('uri');
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 
         Schema::create('modules', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('uri');
             $table->string('title');
-            $table->string('description')->nullable();
-            $table->foreignId('lesson_id')->constrained('lessons');
+            $table->text('description')->nullable();
+            $table->foreignUuid('lesson_id')->constrained('lessons');
             $table->enum('category', ['learn', 'test']);
             $table->enum('difficulty', ['easy', 'moderate', 'hard']);
             $table->timestamps();
@@ -39,7 +39,7 @@ return new class extends Migration
 
         Schema::create('lessons_tags', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lesson_id')->constrained('lessons');
+            $table->foreignUuid('lesson_id')->constrained('lessons');
             $table->foreignId('tag_id')->constrained('tags');
             $table->timestamps();
         });
@@ -50,8 +50,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
         Schema::dropIfExists('modules');
+        Schema::dropIfExists('lessons');
         Schema::dropIfExists('tags');
         Schema::dropIfExists('lessons_tags');
     }

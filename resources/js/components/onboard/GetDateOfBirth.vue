@@ -9,7 +9,7 @@ import {
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { Calendar2 } from '@/components/ui/calendar'
 
-import type { FormErrors } from '@/Pages/Onboard.vue'
+import type { FormErrors } from '@/Pages/Onboard/Onboard.vue'
 import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
 import { cn } from '@/lib/utils'
 
