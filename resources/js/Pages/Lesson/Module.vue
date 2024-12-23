@@ -3,32 +3,49 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Progress } from '@/components/ui/progress'
 import { Link } from '@inertiajs/vue3'
 import { X } from 'lucide-vue-next'
-import { computed, defineAsyncComponent, ref, shallowRef } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import ModuleFinishButton from '@/components/ModuleFinishButton.vue'
+import { Button } from '@/components/ui/button'
 
-const { lesson, module } = defineProps<{
+const props = defineProps<{
   lesson: Lesson
   module: Module
 }>()
 
 const currentTask = ref(1)
 const totalTasks = ref(0)
+const visibleTasks = ref(1)
+const tasks = ref<any[]>([])
 
-const handleProgressUpdate = (current: number, total: number) => {
-  currentTask.value = current
-  totalTasks.value = total
-}
+// Load both the main component and tasks dynamically
+onMounted(async () => {
+  try {
+    const basePath = `../../components/lessons/${props.lesson.uri}/${props.module.uri}`
 
-const component = shallowRef<ReturnType<typeof defineAsyncComponent> | null>(
-  null,
-)
+    // Load tasks from index.ts
+    const taskModules = await import(`${basePath}/index`)
+    tasks.value = Object.values(taskModules)
 
-try {
-  component.value = defineAsyncComponent(
-    () =>
-      import(`../../components/lessons/${lesson.uri}/${module.uri}/index.vue`),
-  )
-} catch (error) {
-  console.error('Error loading component: ', error)
+    // Update progress
+    totalTasks.value = tasks.value.length
+    currentTask.value = 1
+  } catch (error) {
+    console.error('Error loading tasks:', error)
+    tasks.value = []
+  }
+})
+
+const handleTaskComplete = () => {
+  if (visibleTasks.value < tasks.value.length) {
+    visibleTasks.value++
+    currentTask.value++
+
+    setTimeout(() => {
+      const sections = document.querySelectorAll('#task-container')
+      const lastSection = sections[sections.length - 1]
+      lastSection?.scrollIntoView({ behavior: 'smooth' })
+    }, 0)
+  }
 }
 
 // Calculate the progress percentage based on the current step
@@ -70,13 +87,32 @@ const progressText = computed(() => {
   </div>
   <MaxWidthWrapper class="pt-20 md:max-w-screen-md">
     <main>
-      <component
-        :is="component"
-        v-if="component"
-        v-bind="{ lesson, module }"
-        @update-progress="handleProgressUpdate"
-      />
-      <p v-else>Component not found</p>
+      <div v-if="tasks.length" class="space-y-10">
+        <section
+          id="task-container"
+          v-for="(task, index) in tasks.slice(0, visibleTasks)"
+          :key="index"
+          class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-20"
+        >
+          <component :is="task" />
+          <div class="mt-6 flex gap-4">
+            <ModuleFinishButton
+              v-if="index === visibleTasks - 1 && index === tasks.length - 1"
+              :lesson="lesson"
+              :module="module"
+            />
+            <Button
+              variant="secondary"
+              size="lg"
+              v-if="index === visibleTasks - 1 && currentTask < totalTasks"
+              @click="handleTaskComplete"
+            >
+              Next Task
+            </Button>
+          </div>
+        </section>
+      </div>
+      <p v-else>No tasks found</p>
     </main>
   </MaxWidthWrapper>
 </template>

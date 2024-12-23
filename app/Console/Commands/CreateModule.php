@@ -61,14 +61,9 @@ class CreateModule extends Command
             $filesystem->makeDirectory($path, 0755, true);
         }
 
-        // Generate index.vue
+        // Generate index.ts
         $indexStub = $filesystem->get(__DIR__ . '/../Stubs/Module.stub');
-        $indexStub = str_replace(
-            ['{{ title }}', '{{ path }}', '{{ lesson }}'],
-            [$title, $path, $lessonTitle],
-            $indexStub
-        );
-        $filesystem->put($path . '/index.vue', $indexStub);
+        $filesystem->put($path . '/index.ts', $indexStub);
 
         // Generate TaskExample.vue in the tasks directory
         $taskStub = $filesystem->get(__DIR__ . '/../Stubs/Task.stub');
