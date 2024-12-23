@@ -24,14 +24,13 @@ interface Module {
 }
 
 interface Progress {
-  // id: string
-  // user_id: number
-  // lesson_id: number
-  // module_id: number
-  // completed: boolean
-  // created_at: Date
-  // updated_at: Date
   [key: number]: {
     completed: boolean
   }
+}
+
+interface Task {
+  title: string
+  module_id: number
+  content: any
 }
