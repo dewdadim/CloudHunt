@@ -20,10 +20,10 @@ const tasks = ref<any[]>([])
 // Load both the main component and tasks dynamically
 onMounted(async () => {
   try {
-    const basePath = `../../components/lessons/${props.lesson.uri}/${props.module.uri}`
-
     // Load tasks from index.ts
-    const taskModules = await import(`${basePath}/index`)
+    const taskModules = await import(
+      `../../components/lessons/${props.lesson.uri}/${props.module.uri}/index.ts`
+    )
     tasks.value = Object.values(taskModules)
 
     // Update progress
