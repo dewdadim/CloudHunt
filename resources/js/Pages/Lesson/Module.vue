@@ -78,14 +78,14 @@ const progressText = computed(() => {
 
         <div class="flex grow items-center gap-3">
           <Progress v-model="progress" class="h-2.5 grow" />
-          <span class="text-sm font-medium">
+          <!-- <span class="text-sm font-medium">
             {{ progressText }}
-          </span>
+          </span> -->
         </div>
       </div>
     </MaxWidthWrapper>
   </div>
-  <MaxWidthWrapper class="pt-20 md:max-w-screen-md">
+  <MaxWidthWrapper class="pt-20 md:max-w-[850px]">
     <main>
       <div v-if="tasks.length" class="space-y-10">
         <section
