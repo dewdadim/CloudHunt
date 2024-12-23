@@ -7,14 +7,19 @@ import '@xterm/xterm/css/xterm.css'
 import { useTerminalCommands } from '../composables/useTerminalCommands'
 import { useTerminalHistory } from '../composables/useTerminalHistory'
 import { useAutoComplete } from '../composables/useAutoComplete'
+import { usePage } from '@inertiajs/vue3'
 
+const props = defineProps<{
+  dissableHelpCommand?: boolean
+}>()
+
+const user = usePage().props.auth.user
 const terminalRef = ref<HTMLElement | null>(null)
 const terminal = ref<Terminal | null>(null)
 const currentPath = ref('/home/user')
 const currentCommand = ref('')
-const cursorPosition = ref(0)
 
-const { executeCommand } = useTerminalCommands()
+const { executeCommand } = useTerminalCommands(props.dissableHelpCommand)
 const { addToHistory, getPreviousCommand, getNextCommand } =
   useTerminalHistory()
 const { completeCommand, getCompletions } = useAutoComplete()
@@ -43,7 +48,8 @@ onMounted(() => {
       background: '#1e1e1e',
       foreground: '#ffffff',
     },
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: 'bold',
     fontFamily: 'Menlo, Monaco, "Courier New", monospace',
   })
 
@@ -120,7 +126,7 @@ onMounted(() => {
 })
 
 const getPrompt = () => {
-  return `\x1b[32muser@localhost\x1b[0m:\x1b[34m${currentPath.value}\x1b[0m$ `
+  return `\x1b[32m${user.prefer_name ?? 'user'}@cloudhunt\x1b[0m:\x1b[34m${currentPath.value}\x1b[0m$ `
 }
 
 const writePrompt = () => {
@@ -129,7 +135,19 @@ const writePrompt = () => {
 </script>
 
 <template>
-  <div class="h-60 w-full rounded-2xl bg-[#1e1e1e] p-4">
-    <div ref="terminalRef" class="h-full w-full"></div>
+  <div class="rounded-2xl border bg-card p-0.5 shadow-taper">
+    <div class="relative flex items-center p-3">
+      <div class="flex gap-2">
+        <div class="size-3 rounded-full bg-red-500"></div>
+        <div class="size-3 rounded-full bg-emerald-500"></div>
+        <div class="size-3 rounded-full bg-yellow-500"></div>
+      </div>
+      <div class="absolute flex w-full items-center justify-center px-3">
+        <p>Terminal - {{ user.prefer_name }}</p>
+      </div>
+    </div>
+    <div class="h-96 w-full rounded-2xl rounded-t-none bg-[#1e1e1e] p-4">
+      <div ref="terminalRef" class="h-full w-full"></div>
+    </div>
   </div>
 </template>
