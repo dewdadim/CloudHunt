@@ -8,6 +8,7 @@ import { useTerminalCommands } from '../composables/useTerminalCommands'
 import { useTerminalHistory } from '../composables/useTerminalHistory'
 import { useAutoComplete } from '../composables/useAutoComplete'
 import { usePage } from '@inertiajs/vue3'
+import { ZoomIn, ZoomOut } from 'lucide-vue-next'
 
 const props = defineProps<{
   dissableHelpCommand?: boolean
@@ -18,6 +19,7 @@ const terminalRef = ref<HTMLElement | null>(null)
 const terminal = ref<Terminal | null>(null)
 const currentPath = ref('/home/user')
 const currentCommand = ref('')
+const fontSize = ref(15)
 
 const { executeCommand } = useTerminalCommands(props.dissableHelpCommand)
 const { addToHistory, getPreviousCommand, getNextCommand } =
@@ -45,11 +47,11 @@ onMounted(() => {
   terminal.value = new Terminal({
     cursorBlink: true,
     theme: {
-      background: '#1e1e1e',
+      background: '#242424',
       foreground: '#ffffff',
     },
     lineHeight: 1.2,
-    fontSize: 15,
+    fontSize: fontSize.value,
     fontWeight: '500',
     fontFamily: 'Menlo, Monaco, "Courier New", monospace',
   })
@@ -137,7 +139,7 @@ const writePrompt = () => {
 
 <template>
   <div class="rounded-2xl border bg-card p-0.5 shadow-taper">
-    <div class="relative flex items-center p-3">
+    <div class="relative flex items-center justify-between p-3">
       <div class="flex gap-2">
         <div class="size-3 rounded-full bg-red-500"></div>
         <div class="size-3 rounded-full bg-emerald-500"></div>
@@ -146,9 +148,37 @@ const writePrompt = () => {
       <div class="absolute flex w-full items-center justify-center px-3">
         <p>Terminal - {{ user.prefer_name }}</p>
       </div>
+      <div class="absolute right-5 top-12 z-10 flex gap-1">
+        <button
+          @click="
+            () => {
+              if (terminal) {
+                terminal.options.fontSize = fontSize -= 1
+              }
+            }
+          "
+          class="rounded-md bg-white/30 p-1 hover:bg-white/50"
+        >
+          <ZoomOut :size="20" />
+        </button>
+        <button
+          @click="
+            () => {
+              if (terminal) {
+                terminal.options.fontSize = fontSize += 1
+              }
+            }
+          "
+          class="rounded-md bg-white/30 p-1 hover:bg-white/50"
+        >
+          <ZoomIn :size="20" />
+        </button>
+      </div>
     </div>
-    <div class="h-96 w-full rounded-2xl rounded-t-none bg-[#1e1e1e] p-4">
-      <div ref="terminalRef" class="h-full w-full"></div>
+    <div
+      class="h-96 w-full rounded-2xl rounded-t-none bg-[#242424] p-2 pb-4 pr-0"
+    >
+      <div ref="terminalRef" class="h-full w-full overflow-hidden"></div>
     </div>
   </div>
 </template>
