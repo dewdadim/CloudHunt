@@ -2,7 +2,8 @@ import { useFileSystem } from './useFileSystem'
 import { resolvePath } from '../utils/pathUtils'
 
 export function useTerminalCommands(dissableHelpCommand: boolean = false) {
-  const { getNodeAtPath, isValidPath } = useFileSystem()
+  const { getNodeAtPath, isValidPath, createDirectory, createFile } =
+    useFileSystem()
 
   const executeCommand = (
     command: string,
@@ -21,6 +22,10 @@ export function useTerminalCommands(dissableHelpCommand: boolean = false) {
         return { output: args.join(' ') }
       case 'cat':
         return { output: handleCat(args[0], currentPath) }
+      case 'mkdir':
+        return handleMkdir(args[0], currentPath)
+      case 'touch':
+        return handleTouch(args[0], currentPath)
       case 'clear':
         return { output: '\x1bc' }
       case 'help':
@@ -30,6 +35,39 @@ export function useTerminalCommands(dissableHelpCommand: boolean = false) {
       default:
         return { output: `Command not found: ${cmd}` }
     }
+  }
+
+  const handleTouch = (
+    fileName: string,
+    currentPath: string,
+  ): CommandResult => {
+    if (!fileName) {
+      return { output: 'touch: missing operand' }
+    }
+
+    const success = createFile(currentPath, fileName)
+    if (!success) {
+      return {
+        output: `touch: cannot create directory '${fileName}': File exists or invalid path`,
+      }
+    }
+
+    return { output: '' }
+  }
+
+  const handleMkdir = (dirName: string, currentPath: string): CommandResult => {
+    if (!dirName) {
+      return { output: 'mkdir: missing operand' }
+    }
+
+    const success = createDirectory(currentPath, dirName)
+    if (!success) {
+      return {
+        output: `mkdir: cannot create directory '${dirName}': File exists or invalid path`,
+      }
+    }
+
+    return { output: '' }
   }
 
   const handleCd = (path: string, currentPath: string): CommandResult => {
@@ -57,7 +95,7 @@ export function useTerminalCommands(dissableHelpCommand: boolean = false) {
         }
         return name
       })
-      .join('\n')
+      .join('\t')
   }
 
   const handleCat = (filename: string, path: string): string => {
@@ -73,13 +111,13 @@ export function useTerminalCommands(dissableHelpCommand: boolean = false) {
 
   const getHelpText = (): string => {
     return `Available commands:
-  cd [path] - Change directory
-  ls - List directory contents
-  pwd - Print working directory
-  echo - Display a message
-  cat - Display file contents
-  clear - Clear the terminal screen
-  help - Show this help message`
+  \r cd [path] - Change directory
+  \r ls - List directory contents
+  \r pwd - Print working directory
+  \r echo - Display a message
+  \r cat - Display file contents
+  \r clear - Clear the terminal screen
+  \r help - Show this help message`
   }
 
   return {

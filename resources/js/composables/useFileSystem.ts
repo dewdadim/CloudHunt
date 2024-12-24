@@ -1,29 +1,10 @@
+import { defaultFileSystem } from '@/data/defaultFileSystem'
 import { ref } from 'vue'
 
 export function useFileSystem() {
-  const fileSystem = ref<FileSystem>({
-    home: {
-      type: 'directory',
-      children: {
-        user: {
-          type: 'directory',
-          children: {
-            documents: {
-              type: 'directory',
-              children: {
-                'hello.txt': {
-                  type: 'file',
-                  content: 'Hello, World!',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  })
+  const fileSystem = ref<DummyFileSystem>(defaultFileSystem)
 
-  const getNodeAtPath = (path: string): FileSystem | null => {
+  const getNodeAtPath = (path: string): DummyFileSystem | null => {
     const parts = path.split('/').filter(Boolean)
     let current = fileSystem.value
 
@@ -37,13 +18,45 @@ export function useFileSystem() {
     return current
   }
 
+  const createDirectory = (path: string, dirName: string): boolean => {
+    const node = getNodeAtPath(path)
+    if (!node) return false
+
+    if (node[dirName]) {
+      return false // Directory already exists
+    }
+
+    node[dirName] = {
+      type: 'directory',
+      children: {},
+    }
+
+    return true
+  }
+
   const isValidPath = (path: string): boolean => {
     return getNodeAtPath(path) !== null
+  }
+
+  const createFile = (path: string, fileName: string): boolean => {
+    const node = getNodeAtPath(path)
+    if (!node) return false
+
+    if (node[fileName]) return false
+
+    node[fileName] = {
+      type: 'file',
+      content: '',
+    }
+
+    return true
   }
 
   return {
     fileSystem,
     getNodeAtPath,
     isValidPath,
+    createDirectory,
+    createFile,
   }
 }

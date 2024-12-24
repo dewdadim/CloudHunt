@@ -48,8 +48,9 @@ onMounted(() => {
       background: '#1e1e1e',
       foreground: '#ffffff',
     },
+    lineHeight: 1.2,
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: '500',
     fontFamily: 'Menlo, Monaco, "Courier New", monospace',
   })
 

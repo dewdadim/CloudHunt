@@ -1,8 +1,8 @@
-interface FileSystem {
+interface DummyFileSystem {
   [key: string]: {
     type: 'file' | 'directory'
     content?: string
-    children?: FileSystem[] | FileSystem | undefined
+    children?: DummyFileSystem
   }
 }
 

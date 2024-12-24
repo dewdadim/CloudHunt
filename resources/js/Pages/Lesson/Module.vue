@@ -87,12 +87,12 @@ const progressText = computed(() => {
   </div>
   <MaxWidthWrapper class="pt-20 md:max-w-[850px]">
     <main>
-      <div v-if="tasks.length" class="space-y-10">
+      <div v-if="tasks.length" class="space-y-4">
         <section
           id="task-container"
           v-for="(task, index) in tasks.slice(0, visibleTasks)"
           :key="index"
-          class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-20"
+          class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-12"
         >
           <component :is="task" />
           <div class="mt-6 flex gap-4">
