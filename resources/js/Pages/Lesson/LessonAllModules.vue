@@ -19,9 +19,10 @@ const props = defineProps<{
     v-for="module in props.modules"
     :class="
       cn(
-        'flex h-20 items-center justify-between rounded-2xl border bg-card px-8 shadow-taper',
-        module.completed &&
-          'bg-border-4 border-primary bg-yellow-50 text-primary shadow-[-1px_3px_4px_0px_rgba(249,191,57,1)]',
+        'flex h-20 items-center justify-between rounded-2xl px-8',
+        module.completed
+          ? 'border-2 border-primary bg-yellow-50 text-primary shadow-[-1px_3px_4px_0px_rgba(249,191,57,1)]'
+          : 'border bg-card shadow-taper',
       )
     "
   >

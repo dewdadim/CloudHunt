@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
+import XTerm from '@/components/XTerm.vue'
 
 defineProps<{
   onComplete: () => void
@@ -21,5 +22,6 @@ defineProps<{
         over the internet!
       </p>
     </div>
+    <XTerm />
   </div>
 </template>

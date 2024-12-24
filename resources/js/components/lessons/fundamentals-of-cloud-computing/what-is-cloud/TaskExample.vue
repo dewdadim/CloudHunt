@@ -19,8 +19,5 @@ defineProps<{
         over the internet!
       </p>
     </div>
-    <Button @click="onComplete" variant="secondary" size="lg">
-      Now I understand
-    </Button>
   </div>
 </template>

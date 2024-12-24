@@ -13,6 +13,45 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Module::firstOrCreate(
+            ['id' => '9dcc66cf-d71f-4710-806a-0e5623b081fc'],
+            [
+                'id' => '9dcc66cf-d71f-4710-806a-0e5623b081fc',
+                'uri' => 'test-module2',
+                'title' => 'Test Module 2',
+                'description' => '',
+                'lesson_id' => '9dc4d34c-d514-410a-b372-951ba9158df2',
+                'category' => 'Test',
+                'difficulty' => 'Hard'
+            ]
+        );
+
+        \App\Models\Module::firstOrCreate(
+            ['id' => '9dc4ccc7-00dd-42e1-89d5-8469bc771ebd'],
+            [
+                'id' => '9dc4ccc7-00dd-42e1-89d5-8469bc771ebd',
+                'uri' => 'test-module',
+                'title' => 'Test Module',
+                'description' => '',
+                'lesson_id' => '9dc4d34c-d514-410a-b372-951ba9158df2',
+                'category' => 'Learn',
+                'difficulty' => 'Easy'
+            ]
+        );
+
+        \App\Models\Module::firstOrCreate(
+            ['id' => '9dc4ccc7-00dd-42e1-89d5-8469bc771ebd'],
+            [
+                'id' => '9dc4ccc7-00dd-42e1-89d5-8469bc771ebd',
+                'uri' => 'test-module',
+                'title' => 'Test Module',
+                'description' => 'This is for test',
+                'lesson_id' => '9dc0cdf3-abd6-4113-8361-3a72b5bcd327',
+                'category' => 'Test',
+                'difficulty' => 'Easy'
+            ]
+        );
+
+        \App\Models\Module::firstOrCreate(
             ['id' => '9dc0d27c-3f79-441d-a65d-b2eec53e6e2d'],
             [
                 'id' => '9dc0d27c-3f79-441d-a65d-b2eec53e6e2d',
