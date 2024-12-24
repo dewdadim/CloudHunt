@@ -116,6 +116,8 @@ export function useTerminalCommands(dissableHelpCommand: boolean = false) {
   \r pwd - Print working directory
   \r echo - Display a message
   \r cat - Display file contents
+  \r mkdir - Create new directory
+  \r touch - Create new file
   \r clear - Clear the terminal screen
   \r help - Show this help message`
   }
