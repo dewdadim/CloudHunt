@@ -14,6 +14,8 @@ const props = defineProps<{
   dissableHelpCommand?: boolean
 }>()
 
+const emit = defineEmits(['command-input'])
+
 const user = usePage().props.auth.user
 const terminalRef = ref<HTMLElement | null>(null)
 const terminal = ref<Terminal | null>(null)
@@ -75,6 +77,7 @@ onMounted(() => {
       if (currentCommand.value.trim()) {
         addToHistory(currentCommand.value)
         const result = executeCommand(currentCommand.value, currentPath.value)
+        emit('command-input', currentPath.value, currentCommand.value)
         if (result.output) {
           terminal.value?.writeln(result.output)
         }
