@@ -52,6 +52,9 @@ class ModuleController extends Controller
             $module->id => $attributes
         ]);
 
-        return response()->json(['message' => 'Module completed!'], 200);
+        return Inertia::render('Lesson/LessonComplete', [
+            'lesson' => $lesson,
+            'module' => $module
+        ]);
     }
 }
