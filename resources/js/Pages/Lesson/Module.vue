@@ -24,7 +24,7 @@ onMounted(async () => {
     const taskModules = await import(
       `../../components/lessons/${props.lesson.uri}/${props.module.uri}/index.ts`
     )
-    tasks.value = Object.values(taskModules)
+    tasks.value = taskModules.tasks || Object.values(taskModules)
 
     // Update progress
     totalTasks.value = tasks.value.length
@@ -94,7 +94,7 @@ const progressText = computed(() => {
           :key="index"
           class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-12"
         >
-          <component :is="task" />
+          <component :is="task" :onComplete="handleTaskComplete" />
           <div class="mt-6 flex gap-4">
             <ModuleFinishButton
               v-if="index === visibleTasks - 1 && index === tasks.length - 1"
@@ -106,6 +106,7 @@ const progressText = computed(() => {
               size="lg"
               v-if="index === visibleTasks - 1 && currentTask < totalTasks"
               @click="handleTaskComplete"
+              enableSound
             >
               Next Task
             </Button>

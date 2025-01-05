@@ -13,6 +13,19 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Module::firstOrCreate(
+            ['id' => '9ddac21b-b089-4040-8f8c-ad4ca7a00e7e'],
+            [
+                'id' => '9ddac21b-b089-4040-8f8c-ad4ca7a00e7e',
+                'uri' => 'introduction-to-the-linux-terminal',
+                'title' => 'Introduction to the Linux Terminal',
+                'description' => 'Understand what the Linux terminal is, its history, and why it\'s important.',
+                'lesson_id' => '9ddac052-83ec-4ce4-aa16-86a30dba9ece',
+                'category' => 'Learn',
+                'difficulty' => 'Easy'
+            ]
+        );
+
+        \App\Models\Module::firstOrCreate(
             ['id' => '9dcc66cf-d71f-4710-806a-0e5623b081fc'],
             [
                 'id' => '9dcc66cf-d71f-4710-806a-0e5623b081fc',
