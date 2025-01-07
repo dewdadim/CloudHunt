@@ -8,9 +8,23 @@ import { onMounted } from 'vue'
 const props = defineProps<{
   lesson: Lesson
   module: Module
+  time_spent: number
 }>()
 
 const user = usePage().props.auth.user
+
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+
+  if (minutes === 0) {
+    return `${remainingSeconds} seconds`
+  } else if (minutes === 1) {
+    return `${minutes} minute ${remainingSeconds} seconds`
+  } else {
+    return `${minutes} minutes ${remainingSeconds} seconds`
+  }
+}
 
 onMounted(() => {
   const audio = new Audio('/sounds/level-passed.mp3')
@@ -31,6 +45,9 @@ onMounted(() => {
       <p class="text-lg font-medium">
         Great progress {{ user?.prefer_name }}! Keep the momentum to keep
         improving.
+      </p>
+      <p class="text-md text-muted-foreground">
+        Completed in {{ formatTime(props.time_spent) }}
       </p>
       <Link
         :href="

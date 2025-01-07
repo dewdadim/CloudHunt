@@ -12,6 +12,7 @@ import { ZoomIn, ZoomOut } from 'lucide-vue-next'
 
 const props = defineProps<{
   dissableHelpCommand?: boolean
+  disabled?: boolean
 }>()
 
 const emit = defineEmits(['command-input'])
@@ -70,6 +71,8 @@ onMounted(() => {
   writePrompt()
 
   terminal.value.onKey(({ key, domEvent }) => {
+    if (props.disabled) return
+
     const ev = domEvent as KeyboardEvent
 
     if (ev.key === 'Enter') {

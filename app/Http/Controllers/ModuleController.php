@@ -9,6 +9,7 @@ use App\Models\Progress;
 use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
@@ -33,9 +34,13 @@ class ModuleController extends Controller
         ]);
     }
 
-    public function completeModule(Lesson $lesson, Module $module){
+    public function completeModule(Lesson $lesson, Module $module, Request $request){
         $userId = Auth::id();
         $user = User::findOrFail($userId);
+
+        $data = $request->validate([
+            'time_spent' => 'required|integer'
+        ]);
 
         // Get existing progress
         $progress = Progress::where('user_id', $userId)
@@ -54,7 +59,8 @@ class ModuleController extends Controller
 
         return Inertia::render('Lesson/LessonComplete', [
             'lesson' => $lesson,
-            'module' => $module
+            'module' => $module,
+            'time_spent' => $data['time_spent']
         ]);
     }
 }

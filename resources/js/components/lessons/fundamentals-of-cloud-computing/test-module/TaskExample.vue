@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 
-defineProps<{
-  onComplete: () => void
+const emit = defineEmits<{
+  (e: 'response', data: TaskResponse): void
 }>()
+
+emit('response', {
+  canMoveNext: true,
+})
 </script>
 
 <template>
