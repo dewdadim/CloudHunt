@@ -70,7 +70,7 @@ const handleTaskResponse = (data: TaskResponse) => {
 
 const handleTaskComplete = () => {
   // Guard clause: prevent proceeding without an answer
-  if (!taskResponse.value) {
+  if (isTestModule.value && !taskResponse.value) {
     return
   }
 
@@ -221,7 +221,7 @@ const progressText = computed(() => {
             size="lg"
             @click="handleTaskComplete"
             enableSound
-            :disabled="!taskResponse"
+            :disabled="isTestModule && !taskResponse"
             :class="
               cn(
                 taskResponse?.isCorrectAnswer === true
