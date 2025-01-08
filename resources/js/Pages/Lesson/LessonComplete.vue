@@ -2,7 +2,7 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper.vue'
 import { Button } from '@/components/ui/button'
 import { Link, usePage } from '@inertiajs/vue3'
-import { CheckCircle2, Clock, Crosshair, Stars, Timer } from 'lucide-vue-next'
+import { CheckCircle2, Clock, Crosshair, Stars } from 'lucide-vue-next'
 import { onMounted } from 'vue'
 
 const props = defineProps<{
@@ -54,7 +54,7 @@ onMounted(() => {
           improving.
         </p>
       </div>
-      <div class="flex gap-4">
+      <div class="flex flex-wrap items-center justify-center gap-4">
         <div
           v-if="props.xp_earned"
           class="flex flex-col gap-2 rounded-xl bg-accent/60 p-4"
