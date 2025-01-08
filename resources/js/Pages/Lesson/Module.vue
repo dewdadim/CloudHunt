@@ -23,9 +23,15 @@ const visibleTasks = ref(1)
 const tasks = ref<any[]>([])
 const taskCompleted = ref(false)
 const taskResponse = ref<TaskResponse>()
-const xp = ref(0)
+const totalCmdInput = ref<number>(0)
 const startTime = ref<number>(0)
 const endTime = ref<number>(0)
+
+// Add these new refs for tracking attempts
+const attempts = reactive({
+  correct: 0,
+  incorrect: 0,
+})
 
 // Add this computed property to check if it's a test module
 const isTestModule = computed(() => props.module.category === 'test')
@@ -52,6 +58,15 @@ onMounted(async () => {
 })
 
 const handleTaskResponse = (data: TaskResponse) => {
+  totalCmdInput.value++
+
+  // Track attempts
+  if (data.isCorrectAnswer) {
+    attempts.correct++
+  } else {
+    attempts.incorrect++
+  }
+
   // Only store task response for test modules
   if (isTestModule.value) {
     // Only play correct sound immediately
@@ -94,14 +109,20 @@ const handleTaskComplete = () => {
   // Check if we're at the last task
   if (visibleTasks.value == tasks.value.length) {
     endTime.value = Date.now()
-    const timeSpent = Math.floor((endTime.value - startTime.value) / 1000) // Convert to seconds
+    const timeSpent = Math.floor((endTime.value - startTime.value) / 1000)
+    const accuracy = calculateAccuracy()
+    const xp = calculateXP(timeSpent)
 
     router.patch(
       route('modules.complete', {
         lesson: props.lesson.uri,
         module: props.module.uri,
       }),
-      { time_spent: timeSpent },
+      {
+        time_spent: timeSpent,
+        accuracy: accuracy,
+        xp_earned: xp,
+      },
     )
     return
   }
@@ -139,6 +160,44 @@ const progressPercentage = computed(() => {
   return Math.min((currentTask.value / totalTasks.value) * 100, 100)
 })
 const progress = computed(() => progressPercentage.value)
+
+// xp calculator
+const calculateXP = (timeSpent: number) => {
+  const MAX_XP = 30 // Maximum possible XP
+  const TIME_SCALING_FACTOR = tasks.value.length * 30
+
+  // Get accuracy as a decimal (0-1)
+  const accuracyFactor = calculateAccuracy() / 100
+
+  // Calculate time factor (inversely proportional to time)
+  const timeFactor = Math.min(1, TIME_SCALING_FACTOR / timeSpent)
+
+  // Calculate final XP
+  const earnedXP = Math.round(MAX_XP * (accuracyFactor * timeFactor))
+
+  // Ensure XP stays within reasonable bounds (1-30)
+  return Math.min(Math.max(earnedXP, 1), MAX_XP)
+}
+
+// accuracy calculator
+const calculateAccuracy = () => {
+  const totalAttempts = attempts.correct + attempts.incorrect
+  if (totalAttempts === 0) return 100 // Perfect score if no attempts (edge case)
+
+  // Calculate accuracy as percentage of correct attempts
+  const accuracy = (attempts.correct / totalTasks.value) * 100
+
+  // Apply penalty for excessive incorrect attempts
+  const penaltyPerWrongAttempt = 5 // 5% penalty per wrong attempt
+  const maxPenalty = 50 // Maximum 50% penalty
+  const penalty = Math.min(
+    (attempts.incorrect / totalTasks.value) * penaltyPerWrongAttempt,
+    maxPenalty,
+  )
+
+  // Final accuracy with penalty, minimum 0%
+  return Math.max(Math.round(accuracy - penalty), 0)
+}
 
 // Update progress text computation
 const progressText = computed(() => {
@@ -190,7 +249,7 @@ const progressText = computed(() => {
     <div
       :class="
         cn(
-          'fixed bottom-0 left-0 right-0 w-full border-t bg-card px-4 py-6',
+          'fixed bottom-0 left-0 right-0 w-full border-t bg-card px-0 py-6 md:px-4',
           taskResponse?.isCorrectAnswer === true
             ? 'bg-green-100'
             : taskResponse?.isCorrectAnswer === false && 'bg-red-100',
@@ -198,22 +257,24 @@ const progressText = computed(() => {
       "
     >
       <MaxWidthWrapper class="flex w-full items-center justify-between">
-        <div class="text-2xl font-semibold">
+        <div class="text-lg font-semibold sm:text-2xl">
           <div
             v-if="taskResponse?.isCorrectAnswer === true"
             class="flex items-center gap-3 text-green-700"
           >
-            <CheckCircle2 class="size-10" />
-            <p>Correct!</p>
+            <CheckCircle2 class="hidden size-8 md:inline-flex md:size-10" />
+            <p>Nice! You got it</p>
           </div>
           <div
             v-else-if="taskResponse?.isCorrectAnswer === false"
             class="flex items-center gap-3 text-red-700"
           >
-            <XCircle class="size-10" />
+            <XCircle class="hidden size-8 md:inline-flex md:size-10" />
             <p>Wrong! Try again</p>
           </div>
-          <p v-else>Question {{ currentTask }}</p>
+          <p v-else>
+            {{ isTestModule ? 'Question' : 'Task' }} {{ currentTask }}
+          </p>
         </div>
         <div>
           <Button
@@ -232,7 +293,7 @@ const progressText = computed(() => {
             "
           >
             {{ visibleTasks == tasks.length ? 'Finish' : 'Next' }}
-            {{ props.module.category === 'learn' ? 'Task' : 'Question' }}
+            {{ isTestModule ? 'Question' : 'Task' }}
           </Button>
         </div>
       </MaxWidthWrapper>

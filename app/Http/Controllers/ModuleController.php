@@ -39,7 +39,9 @@ class ModuleController extends Controller
         $user = User::findOrFail($userId);
 
         $data = $request->validate([
-            'time_spent' => 'required|integer'
+            'time_spent' => 'required|integer',
+            'accuracy' => 'integer',
+            'xp_earned' => 'required|integer'
         ]);
 
         // Get existing progress
@@ -60,7 +62,9 @@ class ModuleController extends Controller
         return Inertia::render('Lesson/LessonComplete', [
             'lesson' => $lesson,
             'module' => $module,
-            'time_spent' => $data['time_spent']
+            'time_spent' => $data['time_spent'],
+            'accuracy' => $data['accuracy'],
+            'xp_earned' => $data['xp_earned']
         ]);
     }
 }
