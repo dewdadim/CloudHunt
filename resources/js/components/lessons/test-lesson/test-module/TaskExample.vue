@@ -1,9 +1,30 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button'
 import XTerm from '@/components/XTerm.vue'
+import { ref, toRefs } from 'vue'
 
-defineProps<{
-  onComplete: () => void
+const emit = defineEmits<{
+  (e: 'response', data: TaskResponse): void
 }>()
+
+const correct = ref(false)
+const isDisabled = ref(false)
+
+const handleCommandInput = (path: string, command: string) => {
+  if (path && command === 'ls') {
+    isDisabled.value = true
+    emit('response', {
+      canMoveNext: true,
+      isCorrectAnswer: true,
+    })
+    return
+  }
+  emit('response', {
+    canMoveNext: false,
+    isCorrectAnswer: false,
+  })
+  return
+}
 </script>
 
 <template>
@@ -11,6 +32,13 @@ defineProps<{
     <p class="text-xl font-semibold">
       Try to list all files and directories using terminal.
     </p>
-    <XTerm dissable-help-command />
+    <XTerm
+      :disabled="isDisabled"
+      dissable-help-command
+      @command-input="handleCommandInput"
+    />
+    <div v-if="correct">
+      <h3>Correct!</h3>
+    </div>
   </div>
 </template>

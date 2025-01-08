@@ -12,7 +12,10 @@ import { ZoomIn, ZoomOut } from 'lucide-vue-next'
 
 const props = defineProps<{
   dissableHelpCommand?: boolean
+  disabled?: boolean
 }>()
+
+const emit = defineEmits(['command-input'])
 
 const user = usePage().props.auth.user
 const terminalRef = ref<HTMLElement | null>(null)
@@ -68,6 +71,8 @@ onMounted(() => {
   writePrompt()
 
   terminal.value.onKey(({ key, domEvent }) => {
+    if (props.disabled) return
+
     const ev = domEvent as KeyboardEvent
 
     if (ev.key === 'Enter') {
@@ -75,6 +80,7 @@ onMounted(() => {
       if (currentCommand.value.trim()) {
         addToHistory(currentCommand.value)
         const result = executeCommand(currentCommand.value, currentPath.value)
+        emit('command-input', currentPath.value, currentCommand.value)
         if (result.output) {
           terminal.value?.writeln(result.output)
         }

@@ -34,3 +34,10 @@ interface Task {
   module_id: number
   content: any
 }
+
+interface TaskResponse {
+  canMoveNext: boolean
+  isCorrectAnswer?: boolean
+  title?: string
+  text?: string
+}

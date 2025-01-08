@@ -1,3 +1,5 @@
-export { default as TaskExample } from './TaskExample.vue'
-export { default as TaskTestIfworking } from './TaskTestIfworking.vue'
-export { default as TaskTestTwo } from './TaskTestTwo.vue'
+import TaskExample from './TaskExample.vue'
+import TaskTestIfworking from './TaskTestIfworking.vue'
+import TaskTestTwo from './TaskTestTwo.vue'
+
+export const tasks = [TaskExample, TaskTestTwo, TaskTestIfworking]

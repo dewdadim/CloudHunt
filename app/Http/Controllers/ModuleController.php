@@ -9,6 +9,7 @@ use App\Models\Progress;
 use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
@@ -33,9 +34,15 @@ class ModuleController extends Controller
         ]);
     }
 
-    public function completeModule(Lesson $lesson, Module $module){
+    public function completeModule(Lesson $lesson, Module $module, Request $request){
         $userId = Auth::id();
         $user = User::findOrFail($userId);
+
+        $data = $request->validate([
+            'time_spent' => 'required|integer',
+            'accuracy' => 'integer',
+            'xp_earned' => 'required|integer'
+        ]);
 
         // Get existing progress
         $progress = Progress::where('user_id', $userId)
@@ -46,12 +53,24 @@ class ModuleController extends Controller
         $attributes = [
             'completed' => true,
             'completed_at' => $progress && $progress->completed_at ? $progress->completed_at : now(),
+            'xp_earned' => $data['xp_earned'],
+            'time_spent' => $data['time_spent'],
+            'accuracy' => $data['accuracy'],
         ];
 
         $user->progresses()->syncWithoutDetaching([
             $module->id => $attributes
         ]);
 
-        return response()->json(['message' => 'Module completed!'], 200);
+        // Update user's total XP
+        $user->increment('xp', $data['xp_earned']);
+
+        return Inertia::render('Lesson/LessonComplete', [
+            'lesson' => $lesson,
+            'module' => $module,
+            'time_spent' => $data['time_spent'],
+            'accuracy' => $data['accuracy'],
+            'xp_earned' => $data['xp_earned']
+        ]);
     }
 }

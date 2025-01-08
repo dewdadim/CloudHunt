@@ -1,1 +1,3 @@
-export { default as TaskExample } from './TaskExample.vue'
+import TaskExample from './TaskExample.vue'
+
+export const tasks = [TaskExample.vue]

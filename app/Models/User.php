@@ -28,6 +28,7 @@ class User extends Authenticatable
         'interest',
         'email',
         'password',
+        'xp'
     ];
 
     /**

@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { StarsIcon } from 'lucide-vue-next'
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import MiniCloudHuntChallenge from '@/components/dashboard/MiniCloudHuntChallenge.vue'
 import News from '@/components/dashboard/News.vue'
 import CourseSuggestion from '@/components/dashboard/CourseSuggestion.vue'
@@ -13,16 +13,11 @@ import { ref } from 'vue'
 import LessonCard from '@/components/LessonCard.vue'
 import JumpBackIn from '@/components/dashboard/JumpBackIn.vue'
 
-const { auth, lessons } = defineProps<{
-  auth: {
-    user: {
-      username: string
-      prefer_name: string
-      avatar: string
-    }
-  }
+const props = defineProps<{
   lessons: Lesson[]
 }>()
+
+const user = usePage().props.auth.user
 
 const xp = ref(70)
 </script>
@@ -34,7 +29,7 @@ const xp = ref(70)
     <div class="min-w-full md:min-w-[350px]">
       <div class="sticky top-28 w-full md:w-[350px]">
         <h2 class="mb-4 text-xl font-semibold">
-          Welcome, {{ auth.user.prefer_name }} 👋
+          Welcome, {{ user.prefer_name }} 👋
         </h2>
 
         <Card class="w-full">
@@ -43,7 +38,7 @@ const xp = ref(70)
               <h3 class="font-semibold">Your XP</h3>
               <p class="flex items-center gap-2 text-3xl font-semibold">
                 <StarsIcon fill="#F9BF3B" class="text-primary" />
-                {{ xp }}
+                {{ user.xp }}
               </p>
             </div>
             <div class="flex flex-col gap-2">
@@ -61,7 +56,7 @@ const xp = ref(70)
           <CardFooter>
             <Link
               class="w-full"
-              :href="route('users.show', { id: auth.user.username })"
+              :href="route('users.show', { id: user.username })"
             >
               <Button class="mt-4 w-full" variant="outline" size="lg">
                 View Profile
@@ -79,13 +74,13 @@ const xp = ref(70)
         :uri="courses[0].uri"
         class="w-full shadow-taper"
       /> -->
-      <JumpBackIn :lesson="lessons[0]" v-if="lessons.length" />
+      <JumpBackIn :lesson="props.lessons[0]" v-if="props.lessons.length" />
       <!-- <div class="space-y-4">
         <h3 class="text-xl font-semibold">Jump back in!</h3>
         <LessonCard :lesson="lessons[0]" class="w-full" />
       </div> -->
       <MiniCloudHuntChallenge />
-      <ContinueLesson :lessons="lessons" v-if="lessons.length" />
+      <ContinueLesson :lessons="props.lessons" v-if="props.lessons.length" />
       <!-- <CourseSuggestion :lessons="lessons" /> -->
     </div>
   </main>
