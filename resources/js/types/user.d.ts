@@ -16,6 +16,7 @@ interface AuthUser {
   username: string
   prefer_name: string
   avatar: string
+  xp: number
 }
 
 interface Onboard {

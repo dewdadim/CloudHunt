@@ -53,11 +53,17 @@ class ModuleController extends Controller
         $attributes = [
             'completed' => true,
             'completed_at' => $progress && $progress->completed_at ? $progress->completed_at : now(),
+            'xp_earned' => $data['xp_earned'],
+            'time_spent' => $data['time_spent'],
+            'accuracy' => $data['accuracy'],
         ];
 
         $user->progresses()->syncWithoutDetaching([
             $module->id => $attributes
         ]);
+
+        // Update user's total XP
+        $user->increment('xp', $data['xp_earned']);
 
         return Inertia::render('Lesson/LessonComplete', [
             'lesson' => $lesson,

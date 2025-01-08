@@ -10,11 +10,13 @@ import {
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 
 const { lesson } = defineProps<{
   lesson: Lesson
 }>()
+
+const user = usePage().props.auth.user
 </script>
 
 <template>
@@ -55,7 +57,7 @@ const { lesson } = defineProps<{
           class="flex items-center gap-2 text-lg font-semibold"
         >
           <StarsIcon fill="#F9BF3B" class="text-primary" />
-          200
+          {{ user.xp }}
         </Button>
         <Button variant="ghost" size="icon">
           <HelpCircle />
