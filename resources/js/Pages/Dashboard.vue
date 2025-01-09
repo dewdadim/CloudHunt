@@ -53,7 +53,7 @@ const xp = ref(70)
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <!-- <CardFooter>
             <Link
               class="w-full"
               :href="route('users.show', { id: user.username })"
@@ -62,7 +62,7 @@ const xp = ref(70)
                 View Profile
               </Button>
             </Link>
-          </CardFooter>
+          </CardFooter> -->
         </Card>
       </div>
     </div>

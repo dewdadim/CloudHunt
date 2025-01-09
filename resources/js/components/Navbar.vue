@@ -4,11 +4,12 @@ import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import MaxWidthWrapper from './MaxWidthWrapper.vue'
 import { Separator } from './ui/separator'
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 
-const props = defineProps<{
-  authUser: AuthUser
-}>()
+const page = usePage()
+const user = page.props.auth.user
+
+console.log(user)
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const props = defineProps<{
           <li>
             <Link
               :href="route('dashboard')"
-              :class="$page.url == '/dashboard' ? 'border-b-2 font-bold' : ''"
+              :class="page.url == '/dashboard' ? 'border-b-2 font-bold' : ''"
             >
               Dashboard
             </Link>
@@ -34,7 +35,7 @@ const props = defineProps<{
           <li>
             <Link
               :href="route('lessons')"
-              :class="$page.url == '/lessons' ? 'border-b-2 font-bold' : ''"
+              :class="page.url == '/lessons' ? 'border-b-2 font-bold' : ''"
             >
               Lessons
             </Link>
@@ -50,37 +51,33 @@ const props = defineProps<{
         </Button>
         <Popover>
           <PopoverTrigger class="cursor-pointer" as-child>
-            <img
-              :src="props.authUser.avatar"
-              alt="avatar"
-              class="size-10 rounded-xl"
-            />
+            <img :src="user.avatar" alt="avatar" class="size-10 rounded-xl" />
           </PopoverTrigger>
           <PopoverContent class="w-auto min-w-60 max-w-64" align="end">
             <div class="flex flex-col gap-2">
               <div class="flex items-center gap-4 py-4">
                 <img
-                  :src="props.authUser.avatar"
+                  :src="user.avatar"
                   alt="avatar"
                   class="size-16 rounded-xl border"
                 />
                 <div>
                   <h3 class="font-semibold">
-                    {{ props.authUser.prefer_name }}
+                    {{ user.prefer_name }}
                   </h3>
-                  <p class="text-xs">@{{ props.authUser.username }}</p>
+                  <p class="text-xs">@{{ user.username }}</p>
                 </div>
               </div>
 
-              <Separator />
+              <!-- <Separator />
 
               <Link
-                :href="route('users.show', { id: props.authUser.username })"
+                :href="route('users.show', { id: user.username })"
                 class="flex items-center justify-start gap-2 rounded-md p-2 hover:bg-accent"
               >
                 <User :size="20" />
                 Profile
-              </Link>
+              </Link> -->
 
               <Separator />
 
