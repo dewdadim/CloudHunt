@@ -163,7 +163,7 @@ const progress = computed(() => progressPercentage.value)
 
 // xp calculator
 const calculateXP = (timeSpent: number) => {
-  const MAX_XP = 30 // Maximum possible XP
+  const MAX_XP = isTestModule.value ? 30 : 15
   const TIME_SCALING_FACTOR = tasks.value.length * 30
 
   // Get accuracy as a decimal (0-1)
@@ -173,7 +173,7 @@ const calculateXP = (timeSpent: number) => {
   const timeFactor = Math.min(1, TIME_SCALING_FACTOR / timeSpent)
 
   // Calculate final XP
-  const earnedXP = Math.round(MAX_XP * (accuracyFactor * timeFactor))
+  let earnedXP = Math.round(MAX_XP * (accuracyFactor * timeFactor))
 
   // Ensure XP stays within reasonable bounds (1-30)
   return Math.min(Math.max(earnedXP, 1), MAX_XP)
