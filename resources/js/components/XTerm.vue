@@ -154,7 +154,7 @@ const writePrompt = () => {
       <div class="absolute flex w-full items-center justify-center px-3">
         <p>Terminal - {{ user.prefer_name }}</p>
       </div>
-      <div class="absolute right-5 top-12 z-10 flex gap-1">
+      <!-- <div class="absolute right-5 top-12 z-10 flex gap-1">
         <button
           @click="
             () => {
@@ -179,7 +179,7 @@ const writePrompt = () => {
         >
           <ZoomIn :size="20" />
         </button>
-      </div>
+      </div> -->
     </div>
     <div
       class="h-96 w-full rounded-2xl rounded-t-none bg-[#242424] p-2 pb-4 pr-0"
