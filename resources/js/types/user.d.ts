@@ -9,6 +9,7 @@ interface User {
   interest: string
   date_of_birth: Date
   created_at: Date
+  xp: number
 }
 
 interface AuthUser {

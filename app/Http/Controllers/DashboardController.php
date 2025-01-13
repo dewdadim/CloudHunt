@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Lesson;
 use App\Models\Progress;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -33,8 +34,11 @@ class DashboardController extends Controller
             ];
         })->toArray();
 
+        $users = User::orderBy('xp', 'DESC')->get();
+
         return Inertia::render('Dashboard', [
-            'lessons' => $lessons
+            'lessons' => $lessons,
+            'user_ranking' => $users
         ]);
     }
 }

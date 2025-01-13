@@ -15,11 +15,10 @@ import JumpBackIn from '@/components/dashboard/JumpBackIn.vue'
 
 const props = defineProps<{
   lessons: Lesson[]
+  user_ranking: User[]
 }>()
 
 const user = usePage().props.auth.user
-
-const xp = ref(70)
 </script>
 
 <template>
@@ -79,7 +78,7 @@ const xp = ref(70)
         <h3 class="text-xl font-semibold">Jump back in!</h3>
         <LessonCard :lesson="lessons[0]" class="w-full" />
       </div> -->
-      <MiniCloudHuntChallenge />
+      <MiniCloudHuntChallenge :user_ranking="props.user_ranking" />
       <ContinueLesson :lessons="props.lessons" v-if="props.lessons.length" />
       <!-- <CourseSuggestion :lessons="lessons" /> -->
     </div>
