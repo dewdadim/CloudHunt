@@ -61,4 +61,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Module::class, 'progresses')->withPivot('completed')->withTimestamps();
     }
+
+    public static function getAllUsersByRank(){
+        return User::orderBy('xp', 'DESC')->get();
+    }
 }

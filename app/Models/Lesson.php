@@ -47,4 +47,41 @@ class Lesson extends Model
     {
         return $this->hasMany(LessonTag::class);
     }
+
+    public static function getLessonsWithUserProgress($user)
+    {
+        return static::with(['modules' => function($query) use ($user) {
+            $query->select('modules.*')
+                  ->selectRaw('COALESCE(progresses.completed, false) as completed')
+                  ->leftJoin('progresses', function($join) use ($user) {
+                      $join->on('modules.id', '=', 'progresses.module_id')
+                           ->where('progresses.user_id', '=', $user->id);
+                  });
+        }])
+        ->whereHas('modules.progresses', function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->get()
+        ->map(function($lesson) {
+            $completedModules = collect($lesson->modules)->where('completed', true)->count();
+            $totalModules = $lesson->modules->count();
+            $completed = $totalModules > 0 && $completedModules === $totalModules;
+
+            return [
+                'id' => $lesson->id,
+                'title' => $lesson->title, 
+                'uri' => $lesson->uri,
+                'modules' => $lesson->modules->toArray(),
+                'completed' => $completed
+            ];
+        })
+        ->reject(function($lesson) {
+            return $lesson['modules'][0]['completed'] === true;
+        })
+        ->sortByDesc(function($lesson) {
+            return collect($lesson['modules'])->where('completed', false)->count();
+        })
+        ->values()
+        ->toArray();
+    }
 }
