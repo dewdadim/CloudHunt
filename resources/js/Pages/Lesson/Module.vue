@@ -238,7 +238,7 @@ const progressText = computed(() => {
             ? [tasks[currentTask - 1]].filter(Boolean)
             : tasks.slice(0, visibleTasks)"
           :key="index"
-          class="flex min-h-[calc(100vh-80px)] flex-col justify-start py-12"
+          class="flex min-h-[calc(100vh-80px)] flex-col justify-start pb-20 pt-4 md:pt-12"
           v-auto-animate
         >
           <component :is="task" @response="handleTaskResponse" />

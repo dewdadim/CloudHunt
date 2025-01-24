@@ -1,44 +1,35 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import XTerm from '@/components/XTerm.vue'
-import { ref, toRefs } from 'vue'
+import { ref } from 'vue'
 
 const emit = defineEmits<{
   (e: 'response', data: TaskResponse): void
 }>()
 
-const correct = ref(false)
-const isDisabled = ref(false)
-
 const handleCommandInput = (path: string, command: string) => {
-  if (path && command === 'ls') {
-    isDisabled.value = true
-    emit('response', {
+  if (path === '/home/user/documents' && command === 'cat hello.txt') {
+    return emit('response', {
       canMoveNext: true,
       isCorrectAnswer: true,
     })
-    return
   }
-  emit('response', {
+
+  return emit('response', {
     canMoveNext: false,
     isCorrectAnswer: false,
   })
-  return
 }
 </script>
-
 <template>
   <div class="space-y-10">
     <p class="text-xl font-semibold">
-      Try to list all files and directories using terminal.
+      Now try to find
+      <code class="rounded-lg bg-card/60 p-2 text-base font-normal"
+        >Hello.txt</code
+      >
+      and show the content in terminal
     </p>
-    <XTerm
-      :disabled="isDisabled"
-      dissable-help-command
-      @command-input="handleCommandInput"
-    />
-    <div v-if="correct">
-      <h3>Correct!</h3>
-    </div>
+    <XTerm dissable-help-command @command-input="handleCommandInput" />
   </div>
 </template>
