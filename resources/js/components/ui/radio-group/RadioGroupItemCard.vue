@@ -2,6 +2,7 @@
 import { cn } from '@/lib/utils'
 import RadioGroupItem from './RadioGroupItem.vue'
 import { type HTMLAttributes } from 'vue'
+import { Label } from '@/components/ui/label'
 
 const props = defineProps<{
   id: string
@@ -14,7 +15,7 @@ const props = defineProps<{
     :for="props.id"
     :class="
       cn(
-        'flex cursor-pointer gap-4 rounded-xl border px-6 py-4 shadow-taper transition-colors [&:has(:checked)]:border-primary [&:has(:checked)]:bg-primary/10',
+        'flex cursor-pointer gap-4 rounded-xl border bg-card px-6 py-4 shadow-taper transition-colors [&:has(:checked)]:border-primary [&:has(:checked)]:bg-primary/10',
         props.class,
       )
     "
