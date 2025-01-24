@@ -11,6 +11,7 @@ const props = defineProps<{
   time_spent: number
   accuracy: number
   xp_earned: number
+  content: string
 }>()
 
 const user = usePage().props.auth.user
@@ -106,4 +107,14 @@ onMounted(() => {
       </div>
     </div>
   </MaxWidthWrapper>
+  <div v-html="props.content" class="prose px-4 lg:prose-lg"></div>
+  <div>{{ props.content }}</div>
 </template>
+
+<style lang="css" scoped>
+callout {
+  padding: 10px;
+  width: fit-content;
+  background-color: aqua !important;
+}
+</style>
