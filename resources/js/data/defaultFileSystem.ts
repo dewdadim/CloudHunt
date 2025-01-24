@@ -18,7 +18,7 @@ export const defaultFileSystem: DummyFileSystem = {
                   'todo.txt': {
                     type: 'file',
                     content:
-                      '1. Learn TypeScript\n2. Master Vue.js\n3. Build awesome projects',
+                      '1. Learn TypeScript\r\n2. Master Vue.js\r\n3. Build awesome projects',
                   },
                 },
               },
@@ -41,7 +41,7 @@ export const defaultFileSystem: DummyFileSystem = {
                 children: {
                   'README.md': {
                     type: 'file',
-                    content: '# API Project\nThis is a sample API project.',
+                    content: '# API Project\r\nThis is a sample API project.',
                   },
                 },
               },
