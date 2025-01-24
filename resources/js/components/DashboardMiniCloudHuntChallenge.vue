@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Timer } from 'lucide-vue-next'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
 import {
   Card,
   CardHeader,
@@ -8,7 +8,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from '../ui/card'
+} from './ui/card'
 import { Link } from '@inertiajs/vue3'
 import { cn } from '@/lib/utils'
 

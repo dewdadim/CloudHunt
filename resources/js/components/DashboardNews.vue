@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ArrowRight } from 'lucide-vue-next'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 
 const props = defineProps<{

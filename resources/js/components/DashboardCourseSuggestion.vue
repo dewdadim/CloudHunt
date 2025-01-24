@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import LessonCard from '../LessonCard.vue'
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../ui/card'
-import { ScrollArea, ScrollBar } from '../ui/scroll-area'
+import LessonCard from './LessonCard.vue'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
 import { ArrowRight } from 'lucide-vue-next'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
 
 defineProps<{
   class?: string

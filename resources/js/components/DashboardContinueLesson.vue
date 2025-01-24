@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import LessonCard from '../LessonCard.vue'
+import LessonCard from './LessonCard.vue'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import { HTMLAttributes, ref } from 'vue'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
 import { ChevronDown } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 

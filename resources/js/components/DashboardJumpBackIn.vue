@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, HTMLAttributes, ref } from 'vue'
-import { AspectRatio } from '../ui/aspect-ratio'
+import { AspectRatio } from './ui/aspect-ratio'
 import { cn } from '@/lib/utils'
 import { Link } from '@inertiajs/vue3'
-import { Progress } from '../ui/progress'
+import { Progress } from './ui/progress'
 import { Brain, CheckCheck, CheckCircle2, Pencil } from 'lucide-vue-next'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
