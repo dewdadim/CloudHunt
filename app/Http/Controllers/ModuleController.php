@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Softonic\GraphQL\ClientBuilder;
 
 class ModuleController extends Controller
 {
@@ -66,10 +67,25 @@ class ModuleController extends Controller
 
         // Update user's total XP
         $user->increment('xp', $data['xp_earned']);
-        $response = Http::get(env('GRAPHQL_API_URL'))->json();
-        $content = Str::markdown($response[0]['content']);
+        $client = ClientBuilder::build(env('GRAPHQL_API_URL'));
+        $response = $client->query('query NewQuery {
+  posts {
+    edges {
+      cursor
+      node {
+        authorDatabaseId
+        authorId
+        content
+        databaseId
+        date
+        contentTypeName
+        slug
+      }
+    }
+  }
+}');
 
-        dd($response[0]);
+        dd($response);
 
 
         return Inertia::render('Lesson/LessonComplete', [
