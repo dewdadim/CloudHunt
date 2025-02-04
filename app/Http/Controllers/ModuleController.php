@@ -66,32 +66,32 @@ class ModuleController extends Controller
         ]);
 
         // Update user's total XP
-        $user->increment('xp', $data['xp_earned']);
-        $client = ClientBuilder::build(env('GRAPHQL_API_URL'));
-        $response = $client->query('query NewQuery {
-  posts {
-    edges {
-      cursor
-      node {
-        authorDatabaseId
-        authorId
-        content
-        databaseId
-        date
-        contentTypeName
-        slug
-      }
-    }
-  }
-}');
+//         $user->increment('xp', $data['xp_earned']);
+//         $client = ClientBuilder::build(env('GRAPHQL_API_URL'));
+//         $response = $client->query('query NewQuery {
+//   posts {
+//     edges {
+//       cursor
+//       node {
+//         authorDatabaseId
+//         authorId
+//         content
+//         databaseId
+//         date
+//         contentTypeName
+//         slug
+//       }
+//     }
+//   }
+// }');
 
-        dd($response);
+        // dd($response);
 
 
         return Inertia::render('Lesson/LessonComplete', [
             'lesson' => $lesson,
             'module' => $module,
-            'content' => $content,
+            // 'content' => $response,
             'time_spent' => $data['time_spent'],
             'accuracy' => $data['accuracy'],
             'xp_earned' => $data['xp_earned']

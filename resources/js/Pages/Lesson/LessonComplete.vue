@@ -107,14 +107,4 @@ onMounted(() => {
       </div>
     </div>
   </MaxWidthWrapper>
-  <div v-html="props.content" class="prose px-4 lg:prose-lg"></div>
-  <div>{{ props.content }}</div>
 </template>
-
-<style lang="css" scoped>
-callout {
-  padding: 10px;
-  width: fit-content;
-  background-color: aqua !important;
-}
-</style>

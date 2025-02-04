@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function show(User $user){
 
-        abort(404);
+        // abort(404);
         return Inertia::render('Profile', ['user' => $user]);
     }
 
