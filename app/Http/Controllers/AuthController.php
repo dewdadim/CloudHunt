@@ -25,8 +25,7 @@ class AuthController extends Controller
     public function signup(Request $request){
         //validate request
         $fields = $request->validate([
-            // 'username' => ['required', 'min:4', 'max:20', 'unique:users'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'email', 'max:255', 'unique:users', 'regex:/@runcloud\.io$|@runcloud\.education$/'],
             'password' => ['required', 'min:8', 'confirmed'],
         ]);
 
