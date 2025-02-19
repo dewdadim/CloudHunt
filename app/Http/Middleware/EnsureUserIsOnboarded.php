@@ -33,8 +33,8 @@ class EnsureUserIsOnboarded
         }
 
         // Restrict access to other routes until onboarding is complete
-        if ($requiresOnboarding && !$request->routeIs('onboard') && $request->isMethod('GET')) {
-            return to_route('onboard');
+        if ($requiresOnboarding && !$request->routeIs('onboard.index') && $request->isMethod('GET')) {
+            return to_route('onboard.index');
         }
 
         return $next($request);

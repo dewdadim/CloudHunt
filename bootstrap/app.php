@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'onboarded' => EnsureUserIsOnboarded::class,
+            'ensure-user-onboarded' => EnsureUserIsOnboarded::class,
             'prevent-back-history' => PreventBackHistory::class
         ]);
         $middleware->web(append: [

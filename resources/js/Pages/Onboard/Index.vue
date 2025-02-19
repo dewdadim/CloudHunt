@@ -23,10 +23,8 @@ import Complete from '@/components/onboard/Complete.vue'
 
 export type FormErrors = Partial<Record<keyof Onboard, string | string[]>>
 
-const { data } = defineProps<{
-  data: {
-    full_name: string
-  }
+const props = defineProps<{
+  user: User
 }>()
 
 const currentStep = ref(0)
@@ -38,7 +36,7 @@ const progressPercentage = computed(() => {
 const progress = ref(progressPercentage)
 
 const form = useForm<Onboard>({
-  full_name: data.full_name ?? undefined,
+  full_name: props.user.full_name ?? undefined,
   prefer_name: undefined,
   // username: undefined,
   date_of_birth: undefined,
@@ -140,7 +138,7 @@ onBeforeUnmount(() => {
 
 const submit = () => {
   form.date_of_birth = new Date(form.date_of_birth).toISOString().split('T')[0]
-  form.post(route('onboard'), {
+  form.post(route('onboard.index'), {
     replace: true,
     onSuccess: () => {
       currentStep.value++

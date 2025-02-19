@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind('Course', function () {
+            return new \App\Modules\Course\Main;
+        });
     }
 }

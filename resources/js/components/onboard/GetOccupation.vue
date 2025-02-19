@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormErrors } from '@/Pages/Onboard/Onboard.vue'
+import type { FormErrors } from '@/Pages/Onboard/Index.vue'
 import { RadioGroup, RadioGroupItemCard } from '@/components/ui/radio-group'
 
 // Define props with the FormData interface and errors type

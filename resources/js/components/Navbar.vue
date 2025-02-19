@@ -5,17 +5,35 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import MaxWidthWrapper from './MaxWidthWrapper.vue'
 import { Separator } from './ui/separator'
 import { Link, usePage } from '@inertiajs/vue3'
+import { useRoute } from '@/composables/useRoute'
 
 const page = usePage()
 const user = page.props.auth.user
 
-console.log(user)
+const navMenus = [
+  {
+    title: 'Dashboard',
+    href: useRoute('dashboard'),
+  },
+  {
+    title: 'Courses',
+    href: useRoute('courses.index'),
+  },
+  {
+    title: 'Challenge',
+    href: useRoute('challenges.index'),
+  },
+  {
+    title: 'Lessons',
+    href: useRoute('lessons'),
+  },
+]
 </script>
 
 <template>
   <nav class="sticky top-0 z-10 w-full border-b bg-background">
     <MaxWidthWrapper class="flex justify-between py-3 md:max-w-screen-xl">
-      <div class="flex items-center gap-8">
+      <div class="flex items-center gap-10">
         <Link
           :href="route('dashboard')"
           class="hidden text-xl font-extrabold md:inline-flex"
@@ -24,20 +42,13 @@ console.log(user)
           CloudHunt
         </Link>
         <ul class="flex items-center gap-6">
-          <li>
+          <li v-for="menu in navMenus">
             <Link
-              :href="route('dashboard')"
-              :class="page.url == '/dashboard' ? 'border-b-2 font-bold' : ''"
+              v-if="menu.href"
+              :href="menu.href?.fullURL!"
+              :class="page.url == menu.href?.uri && 'border-b-2 font-bold'"
             >
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link
-              :href="route('lessons')"
-              :class="page.url == '/lessons' ? 'border-b-2 font-bold' : ''"
-            >
-              Lessons
+              {{ menu.title }}
             </Link>
           </li>
         </ul>
